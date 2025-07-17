@@ -1,0 +1,49 @@
+## Build folders
+**/bin/
+**/obj/
+**/publish/
+**/TestResults/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+## IDEs and tooling
+.vs/
+.vscode/
+.idea/
+
+## OS-specific files
+.DS_Store
+Thumbs.db
+
+## Logs and cache
+*.log
+*.pidb
+*.cache
+
+## Backup and temp files
+*.bak
+*.tmp
+*.temp
+*~
+
+## Coverage and test artifacts
+*.coverage
+*.coverlet.*
+coverage*.json
+coverage*.xml
+coverage*.info
+lcov.info
+
+## NuGet packages
+*.nupkg
+*.snupkg
+packages/
+
+## Rider-specific
+.idea/
+*.sln.iml
