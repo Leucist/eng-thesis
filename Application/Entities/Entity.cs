@@ -1,4 +1,4 @@
-namespace Application
+namespace Application.Entities
 {
     public readonly struct Entity(int id)
     {

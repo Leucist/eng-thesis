@@ -1,3 +1,5 @@
+using Application.Entities;
+
 namespace Application.Tests;
 
 public class EntityManagerTests
