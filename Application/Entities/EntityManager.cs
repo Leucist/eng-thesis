@@ -4,7 +4,7 @@ namespace Application.Entities
 {
     public class EntityManager
     {
-        private static EntityManager _instance = new();
+        private static EntityManager? _instance = null;
         private static readonly object _lock = new();   // Lock object for thread-safe singleton instantiation
 
         private int _lastID;
@@ -25,7 +25,7 @@ namespace Application.Entities
                 {
                     lock (_lock)
                     {
-                        _instance ??= new EntityManager();
+                        _instance = new EntityManager();
                     }
                 }
                 return _instance;
