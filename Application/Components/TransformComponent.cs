@@ -19,5 +19,10 @@ namespace Application.Components
             _width = width;
             _height = height;
         }
+
+        public void Move(float x, float y) {
+            _x += x;
+            _y += y;
+        }
     }
 }
