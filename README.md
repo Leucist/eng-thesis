@@ -1,3 +1,5 @@
+<img width="1024" height="1536" alt="ninja_standing_one_leg_skeleton_bear" src="https://github.com/user-attachments/assets/ba4ba472-c29d-4912-9fc2-63008bb67011" />
+
 # Echo of Memory *(working title)*
 
 > A narrative 2D side-view stealth-action game about memory, decay, and a hero with a quiet past.  
