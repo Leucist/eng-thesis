@@ -1,22 +1,44 @@
 using Application.Components;
+using SFML.System;
 
 namespace Application.Tests
 {
     public class PhysicsComponentTests
     {
         [Fact]
-        public void PhysicsComponent_ShouldHaveDefaults() {
-        // public void PhysicsComponent_ShouldInitParamsCorrectly() {
-            // Probably won't use defaults for long, so test may be changed to just cheking if params set correctly
-            float mass = 20;
-            var component = new PhysicsComponent(mass);
+        public void PhysicsComponent_ShouldInitParamsCorrectly() {
+            Vector2f customVelocity = Vector2f.Zero;
+            Vector2f customAcceleration = Vector2f.Zero;
+            float mass = 20,
+                customFriction = 5,
+                customMaxSpeed = 35;
+            var component = new PhysicsComponent(mass, customFriction, customMaxSpeed, customVelocity, customAcceleration);
 
-            Assert.Equal(component.Velocity, PhysicsComponent.DefaultVelocity);             // <- Vector2 or Vector2f
-            Assert.Equal(component.Acceleration, PhysicsComponent.DefaultAcceleration);     // <- *same*
+            Assert.Equal(component.Velocity, customVelocity);
+            Assert.Equal(component.Acceleration, customAcceleration);
             Assert.Equal(component.Mass, mass);
             // TODO – So use frictionModifier maybe? :P
-            Assert.Equal(component.Friction, PhysicsComponent.DefaultFriction);         // may be modified depending on surroundings
-            Assert.Equal(component.MaxSpeed, PhysicsComponent.DefaultMaxSpeed);
+            Assert.Equal(component.Friction, customFriction);         // may be modified depending on surroundings
+            Assert.Equal(component.MaxSpeed, customMaxSpeed);
+        }
+
+        [Fact]
+        public void PhysicsComponent_ShouldHaveDefaultSpeedAndAccelerationAsZero() {
+            Vector2f defaultVelocity = Vector2f.Zero;
+            Vector2f defaultAcceleration = Vector2f.Zero;
+            float mass = 13.6f;
+            var component = new PhysicsComponent(mass);
+
+            Assert.Equal(component.Velocity, defaultVelocity);
+            Assert.Equal(component.Acceleration, defaultAcceleration);
+        }
+
+        [Theory]
+        [InlineData(-1f)]
+        [InlineData(-85.2f)]
+        [InlineData(-0.001f)]
+        public void PhysicsComponent_ShouldNotAcceptNegativeMass(float mass) {
+            Assert.Throws<ArgumentOutOfRangeException>(() => new PhysicsComponent(mass));
         }
     }
 }
