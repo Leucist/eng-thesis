@@ -12,6 +12,7 @@ namespace Application
         private static readonly object _lock = new();
 
         private World? _world;
+        private WorldFactory _worldFactory = new WorldFactory();
         private bool _isRunning = false;
 
         public static Game Instance {
@@ -30,7 +31,7 @@ namespace Application
 
             // Start Main Menu
             _isRunning = true;
-            _world = new World();
+            _world = _worldFactory.InitialWorld;
 
             while (_isRunning) {
                 _world = UpdateWorld();
@@ -42,7 +43,10 @@ namespace Application
             while (_world!.IsAlive) {
                 _world.Update();
             }
-            return _world; // TODO: TEMP \\
+
+            throw new NotImplementedException();
+            
+            return _world;
         }
     }
 }
