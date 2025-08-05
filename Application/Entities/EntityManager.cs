@@ -69,5 +69,12 @@ namespace Application.Entities
             var component = _entities[entity].FirstOrDefault(c => c is T) ?? throw new Exception($"Component of type {typeof(T)} does not exist for the entity.");
             return (T)component;
         }
+
+        public Entity GetMainMenuPlayer() {
+            // May load data from some json prefab and return object
+            throw new NotImplementedException();
+
+            return CreateEntity();
+        }
     }
 }

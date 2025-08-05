@@ -1,3 +1,5 @@
+using Application.Entities;
+
 namespace Application
 {
     public class WorldFactory
@@ -6,7 +8,7 @@ namespace Application
 
         public World GetMainMenuWorld() {
             throw new NotImplementedException();
-            return new World();
+            return new World(EntityManager.Instance.GetMainMenuPlayer());
         }
     }
 }
