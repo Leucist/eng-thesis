@@ -34,5 +34,19 @@ namespace Application.Tests
             Assert.Equal(component.Width, width);
             Assert.Equal(component.Height, height);
         }
+
+        [Fact]
+        public void TransformComponent_Resize_ShouldChangeWidthAndHeight() {
+            float width = 100,
+                height = 80,
+                newWidth = 112,
+                newHeight = 50;
+            var component = new TransformComponent(0f, 0f, width, height);
+
+            component.Resize(newWidth, newHeight);
+
+            Assert.Equal(component.Width, newWidth);
+            Assert.Equal(component.Height, newHeight);
+        }
     }
 }
