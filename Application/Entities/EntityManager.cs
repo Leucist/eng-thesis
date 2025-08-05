@@ -71,10 +71,24 @@ namespace Application.Entities
         }
 
         public Entity GetMainMenuPlayer() {
-            // May load data from some json prefab and return object
-            throw new NotImplementedException();
+            // TODO May load data from some json prefab and return object
+            var player = CreateEntity();
 
-            return CreateEntity();
+            List<IComponent> componentsToAdd = [];
+
+            componentsToAdd.Add(new TransformComponent(
+                10f, 10f, 10f, 10f  // - values to be changed
+            ));
+
+            // componentsToAdd.Add(new PhysicsComponent);
+            // componentsToAdd.Add(new CombatComponent);
+            // componentsToAdd.Add(new InputComponent);
+
+            foreach (IComponent component in componentsToAdd) {
+                AddComponent(player, component);
+            }
+
+            return player;
         }
     }
 }

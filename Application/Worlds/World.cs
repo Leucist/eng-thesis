@@ -6,8 +6,8 @@ namespace Application
     public class World
     {
         private List<ISystem> _systems;
-        private bool _isAlive;
         private Entity _player;
+        private bool _isAlive;
 
         public bool IsAlive  => _isAlive;
         public Entity Player => _player;

@@ -7,7 +7,6 @@ namespace Application
         public World InitialWorld => GetMainMenuWorld();
 
         public World GetMainMenuWorld() {
-            throw new NotImplementedException();
             return new World(EntityManager.Instance.GetMainMenuPlayer());
         }
     }
