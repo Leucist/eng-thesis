@@ -9,7 +9,10 @@ namespace Application
         // ..and Game is for World + Menu + Cutscenes, etc.
 
         private static Game? _instance = null;
-        private static object _lock = new();
+        private static readonly object _lock = new();
+
+        private World? _world;
+        private bool _isRunning = false;
 
         public static Game Instance {
             get {
@@ -22,6 +25,24 @@ namespace Application
             }
         }
         
-        public void Start() {}
+        public void Start() {
+            // [?] reset values
+
+            // Start Main Menu
+            _isRunning = true;
+            _world = new World();
+
+            while (_isRunning) {
+                _world = UpdateWorld();
+            }
+            // Update MM and handle further actions (e.g. load or create world and pass ctrl)
+        }
+
+        private World UpdateWorld() {
+            while (_world!.IsAlive) {
+                _world.Update();
+            }
+            return _world; // TODO: TEMP \\
+        }
     }
 }
