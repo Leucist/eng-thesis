@@ -2,7 +2,7 @@ using Application.Components;
 
 namespace Application.Tests
 {
-    public class ComponentsTests
+    public class TransformComponentTests
     {
         [Fact]
         public void TransformComponent_ShouldHave_X_Y_Width_Height() {
