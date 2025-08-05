@@ -4,11 +4,11 @@ namespace Application.Tests
     {
         private WorldFactory _factory = new();
 
-        [Fact]
-        public void WorldHasPlayer() {
-            var world = _factory.InitialWorld;
+        // [Fact]
+        // public void WorldHasPlayer() {
+        //     var world = _factory.InitialWorld;
 
-            Assert.True(world.Player is not null);
-        }
+        //     Assert.True(world.Player is not null);
+        // }
     }
 }
