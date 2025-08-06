@@ -7,8 +7,8 @@ namespace Application.Tests
     {
         [Fact]
         public void PhysicsComponent_ShouldInitParamsCorrectly() {
-            Vector2f customVelocity = Vector2f.Zero;
-            Vector2f customAcceleration = Vector2f.Zero;
+            Vector2f customVelocity = new(100f, 2.5f);
+            Vector2f customAcceleration = new(250f, -3f);
             float mass = 20,
                 customFriction = 5,
                 customMaxSpeed = 35;
@@ -24,8 +24,8 @@ namespace Application.Tests
 
         [Fact]
         public void PhysicsComponent_ShouldHaveDefaultSpeedAndAccelerationAsZero() {
-            Vector2f defaultVelocity = Vector2f.Zero;
-            Vector2f defaultAcceleration = Vector2f.Zero;
+            Vector2f defaultVelocity = new(0f, 0f);
+            Vector2f defaultAcceleration = new(0f, 0f);
             float mass = 13.6f;
             var component = new PhysicsComponent(mass);
 
