@@ -1,30 +1,73 @@
-using SFML.System;
+using System.Numerics;
+using Application.Enums;
 
 namespace Application.Components
 {
     public class PhysicsComponent : IComponent
     {
-        private readonly Vector2f _velocity, _acceleration;
-        private float _mass, _friction, _maxSpeed;
-        
-        private static Vector2f DEFAULT_VELOCITY     = new(0, 0);
-        private static Vector2f DEFAULT_ACCELERATION = new(0, 0);
+        private Vector2 _velocity;              // vector to store value + angle of the force
+        private Vector2 _appliedForce, _weight;
+        private float _mass, _maxSpeed;
 
-        // * Pretty Getters ✨ *
-        public float Mass               => _mass;
-        public float Friction           => _friction;
-        public float MaxSpeed           => _maxSpeed;
-        public Vector2f Velocity        => _velocity;
-        public Vector2f Acceleration    => _acceleration;
+        private bool _massWasChanged = false;   // flag for getting cached P = m * g
+        private bool _isFalling;
+
+        public bool IsFalling {
+            get { return _isFalling; }
+            set { _isFalling = value; } // may be extended as separate func for counting fall damage
+        }
+        
+        private Vector2 Acceleration => CountAcceleration();
+        private Vector2 Weight => GetWeight();
         // **
 
-        public PhysicsComponent(float mass, float friction=0f, float maxSpeed=30f, 
-                                Vector2f? velocity=null, Vector2f? acceleration=null) {
+        public PhysicsComponent(float mass, float maxSpeed) {
             _mass = mass >= 0 ? mass : throw new ArgumentOutOfRangeException(nameof(mass), "Mass value can not be negative.");
-            _friction = friction;
             _maxSpeed = maxSpeed;
-            _velocity = velocity ?? DEFAULT_VELOCITY;
-            _acceleration = acceleration ?? DEFAULT_ACCELERATION;
+
+            _appliedForce   = Vector2.Zero;
+            _velocity       = Vector2.Zero;
+
+            _weight.Y = (float) AngleDirections.Down;
+
+            _massWasChanged = true;
+            _isFalling      = false;
+        }
+
+        private Vector2 GetWeight() {
+            if (_massWasChanged) {
+                _weight.X = _mass * 9.8f;   // 9.8f stands for 'g' in "P = mg"
+                _massWasChanged = false;
+            }
+            return _weight;
+        }
+
+        private Vector2 CountResultingForce() {
+            Vector2 resultingForce = Vector2.Zero;
+
+            resultingForce += _appliedForce;    // counts applied force in final resulting force vector
+            _appliedForce.X /= 2;               // reduces applied force value for decreasing inertia
+            if (_appliedForce.X < 1) _appliedForce.X = 0;
+
+            if (_isFalling) {                   // if body is airborne, the weight is applied
+                resultingForce += Weight;
+            }
+
+            return resultingForce;
+        }
+
+        private Vector2 CountAcceleration() {
+            Vector2 acceleration = CountResultingForce();
+            acceleration.X /= _mass;
+
+            return acceleration;
+        }
+        
+        public Vector2 CountVelocity(float deltatime) {
+            _velocity += Acceleration * deltatime;
+            if (_velocity.X > _maxSpeed) _velocity.X = _maxSpeed;
+
+            return _velocity;
         }
     }
 }
