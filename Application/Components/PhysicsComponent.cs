@@ -19,7 +19,6 @@ namespace Application.Components
         
         private Vector2 Acceleration => CountAcceleration();
         private Vector2 Weight => GetWeight();
-        // **
 
         public PhysicsComponent(float mass, float maxSpeed) {
             _mass = mass >= 0 ? mass : throw new ArgumentOutOfRangeException(nameof(mass), "Mass value can not be negative.");
