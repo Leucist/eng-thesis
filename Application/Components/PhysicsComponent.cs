@@ -61,12 +61,19 @@ namespace Application.Components
 
             return acceleration;
         }
+
         
         public Vector2 CountVelocity(float deltatime) {
-            _velocity += Acceleration * deltatime;
+            _velocity += new Vector2(Acceleration.X * deltatime, Acceleration.Y);
+            
             if (_velocity.X > _maxSpeed) _velocity.X = _maxSpeed;
+            if (_velocity.X < 0) _velocity = Vector2.Zero;          // resets velocity if it crosses zero in value
 
             return _velocity;
+        }
+
+        public void AddAppliedForce(Vector2 force) {
+            _appliedForce += force;
         }
     }
 }
