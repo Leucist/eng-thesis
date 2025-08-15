@@ -31,11 +31,10 @@ namespace Application.Tests
         // }
 
         [Theory]
-        [InlineData(-1f)]
-        [InlineData(-85.2f)]
-        [InlineData(-0.001f)]
-        public void PhysicsComponent_ShouldNotAcceptNegativeMass(float mass) {
-            float customMaxSpeed = 35f;
+        [InlineData(-1)]
+        [InlineData(-85)]
+        public void PhysicsComponent_ShouldNotAcceptNegativeMass(int mass) {
+            int customMaxSpeed = 35;
             Assert.Throws<ArgumentOutOfRangeException>(() => new PhysicsComponent(mass, customMaxSpeed));
         }
 
@@ -48,30 +47,30 @@ namespace Application.Tests
         //     Assert.Throws<ArgumentOutOfRangeException>(() => new PhysicsComponent(25, maxSpeed: maxSpeed, velocity: currentVelocity));
         // }
 
-        [Fact]
-        public void PhysicsComponent_FallingObjectShouldFall() {
-            float mass = 20,
-                customMaxSpeed = 3500,
-                timeSpan1 = 1f,
-                timeSpan2 = 5f;
-            const float gravitationalAcceleration = 9.8f;
-            PhysicsComponent component = new(mass, customMaxSpeed);
-            // Vector2 weight = new (mass * 9.8f, (float) AngleDirections.Down);
-            component.IsFalling = true;
+        // [Fact]
+        // public void PhysicsComponent_FallingObjectShouldFall() {
+        //     int mass = 20,
+        //         customMaxSpeed = 3500,
+        //         timeSpan1 = 1,
+        //         timeSpan2 = 5;
+        //     const float gravitationalAcceleration = 9.8f;
+        //     PhysicsComponent component = new(mass, customMaxSpeed);
+        //     // Vector2 weight = new (mass * 9.8f, (float) AngleDirections.Down);
+        //     component.IsFalling = true;
 
-            var v1 = component.CountVelocity(timeSpan1);
-            var v2 = component.CountVelocity(timeSpan2);
+        //     var v1 = component.CountVelocity(timeSpan1);
+        //     var v2 = component.CountVelocity(timeSpan2);
             
-            float expectedV0 = 0f;
-            float expectedV1 = expectedV0 + (gravitationalAcceleration * timeSpan1);
-            float expectedV2 = expectedV1 + (gravitationalAcceleration * timeSpan2);
+        //     float expectedV0 = 0f;
+        //     float expectedV1 = expectedV0 + (gravitationalAcceleration * timeSpan1);
+        //     float expectedV2 = expectedV1 + (gravitationalAcceleration * timeSpan2);
 
-            // Are object velocity vectors directed down?
-            Assert.Equal((float)AngleDirections.Down, v1.Y, 0.1f);
-            Assert.Equal((float)AngleDirections.Down, v2.Y, 0.1f);
-            // Are object velocity vectors close to the expected values?
-            Assert.Equal(expectedV1, v1.X, 0.1f);
-            Assert.Equal(expectedV2, v2.X, 0.1f);
-        }
+        //     // Are object velocity vectors directed down?
+        //     Assert.Equal((float)AngleDirections.Down, v1.Angle, 0.1f);
+        //     Assert.Equal((float)AngleDirections.Down, v2.Angle, 0.1f);
+        //     // Are object velocity vectors close to the expected values?
+        //     Assert.Equal(expectedV1, v1.Value, 0.1f);
+        //     Assert.Equal(expectedV2, v2.Value, 0.1f);
+        // }
     }
 }

@@ -1,13 +1,12 @@
-using System.Numerics;
 using Application.Enums;
 
 namespace Application.Components
 {
     public class PhysicsComponent : IComponent
     {
-        private Vector2 _velocity;              // vector to store value + angle of the force
-        private Vector2 _appliedForce, _weight;
-        private float _mass, _maxSpeed;
+        private ForceVector _velocity;              // vector to store value + angle of the force
+        private ForceVector _appliedForce, _weight;
+        private int _mass, _maxSpeed;
 
         private bool _massWasChanged = false;   // flag for getting cached P = m * g
         private bool _isFalling;
@@ -17,62 +16,61 @@ namespace Application.Components
             set { _isFalling = value; } // may be extended as separate func for counting fall damage
         }
         
-        private Vector2 Acceleration => CountAcceleration();
-        private Vector2 Weight => GetWeight();
+        private ForceVector Acceleration => CountAcceleration();
+        private ForceVector Weight => GetWeight();
 
-        public PhysicsComponent(float mass, float maxSpeed) {
+        public PhysicsComponent(int mass, int maxSpeed) {
             _mass = mass >= 0 ? mass : throw new ArgumentOutOfRangeException(nameof(mass), "Mass value can not be negative.");
             _maxSpeed = maxSpeed;
 
-            _appliedForce   = Vector2.Zero;
-            _velocity       = Vector2.Zero;
+            _appliedForce   = ForceVector.Zero;
+            _velocity       = ForceVector.Zero;
 
-            _weight.Y = (float) AngleDirections.Down;
+            _weight.Angle   = (float) AngleDirections.Down * MathF.PI / 180f;
 
             _massWasChanged = true;
             _isFalling      = false;
         }
 
-        private Vector2 GetWeight() {
+        private ForceVector GetWeight() {
             if (_massWasChanged) {
-                _weight.X = _mass * 9.8f;   // 9.8f stands for 'g' in "P = mg"
+                _weight.Value = (int) (_mass * 9.8f);   // 9.8f stands for 'g' in "P = mg"
                 _massWasChanged = false;
             }
             return _weight;
         }
 
-        private Vector2 CountResultingForce() {
-            Vector2 resultingForce = Vector2.Zero;
+        private ForceVector CountResultingForce() {
+            ForceVector resultingForce = ForceVector.Zero;
 
-            resultingForce += _appliedForce;    // counts applied force in final resulting force vector
-            _appliedForce.X /= 2;               // reduces applied force value for decreasing inertia
-            if (_appliedForce.X < 1) _appliedForce.X = 0;
+            resultingForce += _appliedForce;        // counts applied force in final resulting force vector
+            _appliedForce.Value /= 2;               // reduces applied force value for decreasing inertia
+            // if (_appliedForce.Value < 1) _appliedForce.Value = 0;
 
-            if (_isFalling) {                   // if body is airborne, the weight is applied
+            if (_isFalling) {                       // if body is airborne, the weight is applied
                 resultingForce += Weight;
             }
 
             return resultingForce;
         }
 
-        private Vector2 CountAcceleration() {
-            Vector2 acceleration = CountResultingForce();
-            acceleration.X /= _mass;
+        private ForceVector CountAcceleration() {
+            ForceVector acceleration = CountResultingForce();
+            acceleration /= _mass;
 
             return acceleration;
         }
 
         
-        public Vector2 CountVelocity(float deltatime) {
-            _velocity += new Vector2(Acceleration.X * deltatime, Acceleration.Y);
+        public ForceVector CountVelocity(int deltatime) {
+            _velocity += Acceleration * deltatime;
             
-            if (_velocity.X > _maxSpeed) _velocity.X = _maxSpeed;
-            if (_velocity.X < 0) _velocity = Vector2.Zero;          // resets velocity if it crosses zero in value
+            if (_velocity.Value > _maxSpeed) _velocity.Value = _maxSpeed;
 
             return _velocity;
         }
 
-        public void AddAppliedForce(Vector2 force) {
+        public void AddAppliedForce(ForceVector force) {
             _appliedForce += force;
         }
     }
