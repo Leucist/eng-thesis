@@ -26,7 +26,7 @@ namespace Application.Components
             _appliedForce   = ForceVector.Zero;
             _velocity       = ForceVector.Zero;
 
-            _weight.Angle   = (float) AngleDirections.Down * MathF.PI / 180f;
+            _weight.Angle   = MathCache.RadiansDownDirection;
 
             _massWasChanged = true;
             _isFalling      = false;

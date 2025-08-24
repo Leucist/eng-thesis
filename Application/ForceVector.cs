@@ -1,3 +1,5 @@
+using static Application.MathCache;
+
 namespace Application
 {
     /// <summary>
@@ -34,17 +36,17 @@ namespace Application
         public static ForceVector operator +(ForceVector A, ForceVector B) {
             float Rx, Ry;
 
-            float Ax = A.Value * MathF.Cos(A.Angle);
-            float Bx = B.Value * MathF.Cos(B.Angle);
+            float Ax = A.Value * GetCos(A.Angle);
+            float Bx = B.Value * GetCos(B.Angle);
             Rx = Ax + Bx;
 
-            float Ay = A.Value * MathF.Sin(A.Angle);
-            float By = B.Value * MathF.Sin(B.Angle);
+            float Ay = A.Value * GetSin(A.Angle);
+            float By = B.Value * GetSin(B.Angle);
             Ry = Ay + By;
 
             ForceVector R = Zero;
             R.Value = (int) MathF.Sqrt(Rx * Rx + Ry * Ry);
-            R.Angle = (int) MathF.Atan2(Ry, Rx);
+            R.Angle = (int) GetAtan2(Ry, Rx);
 
             return R;
         }
