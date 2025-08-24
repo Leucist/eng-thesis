@@ -9,12 +9,12 @@ namespace Application
         public const float RadiansDownDirection  = 4.71f;
         // -
 
-        private Dictionary<int, float> _degreeRadianPairs = [];
-        private Dictionary<float, float> _sinCache = new Dictionary<float, float>();
-        private Dictionary<float, float> _cosCache = new Dictionary<float, float>();
-        private Dictionary<(float, float), float> _atan2Cache = new Dictionary<(float, float), float>();
+        private static Dictionary<int, float> _degreeRadianPairs        = [];
+        private static Dictionary<float, float> _sinCache               = [];
+        private static Dictionary<float, float> _cosCache               = [];
+        private static Dictionary<(float, float), float> _atan2Cache    = [];
 
-        public float GetRadianValue(int degree) {
+        public static float GetRadianValue(int degree) {
             if (!_degreeRadianPairs.TryGetValue(degree, out var radian)) {
                 radian = degree.ToRadians();
                 _degreeRadianPairs[degree] = radian;
@@ -22,7 +22,7 @@ namespace Application
             return radian;
         }
 
-        public float GetSin(float angle)
+        public static float GetSin(float angle)
         {
             if (!_sinCache.TryGetValue(angle, out float sinValue))
             {
@@ -32,7 +32,7 @@ namespace Application
             return sinValue;
         }
 
-        public float GetCos(float angle)
+        public static float GetCos(float angle)
         {
             if (!_cosCache.TryGetValue(angle, out float cosValue))
             {
@@ -42,7 +42,7 @@ namespace Application
             return cosValue;
         }
 
-        public float GetAtan2(float y, float x)
+        public static float GetAtan2(float y, float x)
         {
             var key = (y, x);
             if (!_atan2Cache.TryGetValue(key, out float atan2Value))
