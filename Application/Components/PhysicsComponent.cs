@@ -1,4 +1,4 @@
-using Application.Enums;
+using Application.AppMath;
 
 namespace Application.Components
 {
@@ -45,7 +45,6 @@ namespace Application.Components
 
             resultingForce += _appliedForce;        // counts applied force in final resulting force vector
             _appliedForce.Value /= 2;               // reduces applied force value for decreasing inertia
-            // if (_appliedForce.Value < 1) _appliedForce.Value = 0;
 
             if (_isFalling) {                       // if body is airborne, the weight is applied
                 resultingForce += Weight;

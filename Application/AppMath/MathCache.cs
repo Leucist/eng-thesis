@@ -1,4 +1,4 @@
-namespace Application
+namespace Application.AppMath
 {
     public static class MathCache
     {

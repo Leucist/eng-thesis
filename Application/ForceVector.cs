@@ -1,4 +1,4 @@
-using static Application.MathCache;
+using static Application.AppMath.MathCache;
 
 namespace Application
 {
