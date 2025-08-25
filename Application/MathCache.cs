@@ -1,6 +1,6 @@
 namespace Application
 {
-    public class MathCache
+    public static class MathCache
     {
         // - Constants -
         public const float RadiansRightDirection = 0f;
