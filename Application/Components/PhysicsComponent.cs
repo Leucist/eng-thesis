@@ -26,7 +26,7 @@ namespace Application.Components
             _appliedForce   = ForceVector.Zero;
             _velocity       = ForceVector.Zero;
 
-            _weight.Angle   = MathCache.RadiansDownDirection;
+            _weight.Angle   = MathConstants.RadiansDownDirection;
 
             _massWasChanged = true;
             _isFalling      = false;
@@ -34,7 +34,7 @@ namespace Application.Components
 
         private ForceVector GetWeight() {
             if (_massWasChanged) {
-                _weight.Value = (int) (_mass * 9.8f);   // 9.8f stands for 'g' in "P = mg"
+                _weight.Value = (int) (_mass * MathConstants.GravitationalAcceleration);    // "P = mg"
                 _massWasChanged = false;
             }
             return _weight;

@@ -2,13 +2,6 @@ namespace Application.AppMath
 {
     public static class MathCache
     {
-        // - Constants -
-        public const float RadiansRightDirection = 0f;
-        public const float RadiansUpDirection    = 1.57f;
-        public const float RadiansLeftDirection  = 3.14f;
-        public const float RadiansDownDirection  = 4.71f;
-        // -
-
         private static Dictionary<int, float> _degreeRadianPairs        = [];
         private static Dictionary<float, float> _sinCache               = [];
         private static Dictionary<float, float> _cosCache               = [];
