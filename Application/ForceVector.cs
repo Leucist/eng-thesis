@@ -14,11 +14,6 @@ namespace Application
         public int Value = value;
         public float Angle = angle;
 
-        // public int DegreeAngle {
-        //     get Angle * ;
-        //     set;
-        // }
-
         /// <summary>
         /// Gets a ForceVector representing a zero vector (magnitude 0, angle 0).
         /// </summary>
@@ -34,6 +29,10 @@ namespace Application
         /// <param name="B">The second force vector.</param>
         /// <returns>A new ForceVector representing the resultant force vector.</returns>
         public static ForceVector operator +(ForceVector A, ForceVector B) {
+            return Add(A, B);
+        }
+
+        private static ForceVector Add(ForceVector A, ForceVector B, bool cacheOffset=false) {
             float Rx, Ry;
 
             float Ax = A.Value * GetCos(A.Angle);
@@ -44,11 +43,17 @@ namespace Application
             float By = B.Value * GetSin(B.Angle);
             Ry = Ay + By;
 
+            if (cacheOffset) CacheOffset(A, B, Rx, Ry);
+
             ForceVector R = Zero;
             R.Value = (int) MathF.Sqrt(Rx * Rx + Ry * Ry);
             R.Angle = (int) GetAtan2(Ry, Rx);
 
             return R;
+        }
+
+        public static ForceVector AddWithCaching(ForceVector A, ForceVector B) {
+            return Add(A, B, true);
         }
 
         /// <summary>

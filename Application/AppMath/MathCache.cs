@@ -2,11 +2,13 @@ namespace Application.AppMath
 {
     public static class MathCache
     {
-        private static Dictionary<int, float> _degreeRadianPairs        = [];
-        private static Dictionary<float, float> _sinCache               = [];
-        private static Dictionary<float, float> _cosCache               = [];
-        private static Dictionary<(float, float), float> _atan2Cache    = [];
+        private static readonly Dictionary<int, float> _degreeRadianPairs        = [];
+        private static readonly Dictionary<float, float> _sinCache               = [];
+        private static readonly Dictionary<float, float> _cosCache               = [];
+        private static readonly Dictionary<(float, float), float> _atan2Cache    = [];
 
+        private static readonly OffsetCache _offsetCache = new();
+        
         public static float GetRadianValue(int degree) {
             if (!_degreeRadianPairs.TryGetValue(degree, out var radian)) {
                 radian = degree.ToRadians();
@@ -44,6 +46,10 @@ namespace Application.AppMath
                 _atan2Cache[key] = atan2Value;
             }
             return atan2Value;
+        }
+
+        public static void CacheOffset(ForceVector forceA, ForceVector forceB, float offsetX, float offsetY) {
+            _offsetCache.AddToCache(forceA, forceB, offsetX, offsetY);
         }
     }
 }

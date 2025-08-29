@@ -62,7 +62,7 @@ namespace Application.Components
 
         
         public ForceVector CountVelocity(int deltatime) {
-            _velocity += Acceleration * deltatime;
+            _velocity = ForceVector.AddWithCaching(_velocity, Acceleration * deltatime);
             
             if (_velocity.Value > _maxSpeed) _velocity.Value = _maxSpeed;
 
