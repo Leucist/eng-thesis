@@ -48,8 +48,8 @@ namespace Application.AppMath
             return atan2Value;
         }
 
-        public static void CacheOffset(ForceVector forceA, ForceVector forceB, float offsetX, float offsetY) {
-            _offsetCache.AddToCache(forceA, forceB, offsetX, offsetY);
+        public static void CacheOffset(float offsetX, float offsetY) {
+            _offsetCache.AddToCache(offsetX, offsetY);
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Application
             float By = B.Value * GetSin(B.Angle);
             Ry = Ay + By;
 
-            if (cacheOffset) CacheOffset(A, B, Rx, Ry);
+            if (cacheOffset) CacheOffset(Rx, Ry);
 
             ForceVector R = Zero;
             R.Value = (int) MathF.Sqrt(Rx * Rx + Ry * Ry);
