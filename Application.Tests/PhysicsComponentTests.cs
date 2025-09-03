@@ -44,7 +44,6 @@ namespace Application.Tests
                 customMaxSpeed = 3500,
                 timeSpan1 = 1,
                 timeSpan2 = 5;
-            const float gravitationalAcceleration = 9.8f;
             PhysicsComponent component = new(mass, customMaxSpeed);
             // Vector2 weight = new (mass * 9.8f, (float) AngleDirections.Down);
             component.IsFalling = true;
@@ -53,15 +52,15 @@ namespace Application.Tests
             var v2 = component.CountVelocity(timeSpan2);
             
             float expectedV0 = 0f;
-            float expectedV1 = expectedV0 + (gravitationalAcceleration * timeSpan1);
-            float expectedV2 = expectedV1 + (gravitationalAcceleration * timeSpan2);
+            float expectedV1 = expectedV0 + (MathConstants.GravitationalAcceleration * timeSpan1);
+            float expectedV2 = expectedV1 + (MathConstants.GravitationalAcceleration * timeSpan2);
 
             // Are object velocity vectors directed down?
-            Assert.Equal(MathConstants.RadiansDownDirection, v1.Angle, 0.1f);
-            Assert.Equal(MathConstants.RadiansDownDirection, v2.Angle, 0.1f);
+            Assert.Equal(-MathConstants.RadiansUpDirection, v1.Angle, 0.1f);
+            Assert.Equal(-MathConstants.RadiansUpDirection, v2.Angle, 0.1f);
             // Are object velocity vectors close to the expected values?
-            Assert.Equal(expectedV1, v1.Value, 0.1f);
-            Assert.Equal(expectedV2, v2.Value, 0.1f);
+            Assert.Equal((int) expectedV1, v1.Value);
+            Assert.Equal((int) expectedV2, v2.Value, 5f);   // rather vague precision as ints are used instead of floats
         }
     }
 }

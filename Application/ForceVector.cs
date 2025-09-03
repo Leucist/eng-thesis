@@ -47,7 +47,7 @@ namespace Application
 
             ForceVector R = Zero;
             R.Value = (int) MathF.Sqrt(Rx * Rx + Ry * Ry);
-            R.Angle = (int) GetAtan2(Ry, Rx);
+            R.Angle = GetAtan2(Ry, Rx);
 
             return R;
         }
