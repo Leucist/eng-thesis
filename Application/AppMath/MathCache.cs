@@ -2,51 +2,36 @@ namespace Application.AppMath
 {
     public static class MathCache
     {
-        private static readonly Dictionary<int, float> _degreeRadianPairs        = [];
-        private static readonly Dictionary<float, float> _sinCache               = [];
-        private static readonly Dictionary<float, float> _cosCache               = [];
-        private static readonly Dictionary<(float, float), float> _atan2Cache    = [];
+        private const int CACHE_SIZE = 10;
+
+        private static readonly LRUCache<int, float>    _degreeRadianPairs  = new(CACHE_SIZE);
+        private static readonly LRUCache<float, float>  _sinCache           = new(CACHE_SIZE);
+        private static readonly LRUCache<float, float>  _cosCache           = new(CACHE_SIZE);
+        private static readonly LRUCache<(float, float), float> _atan2Cache = new(CACHE_SIZE);
 
         private static readonly OffsetCache _offsetCache = new();
         
-        public static float GetRadianValue(int degree) {
-            if (!_degreeRadianPairs.TryGetValue(degree, out var radian)) {
-                radian = degree.ToRadians();
-                _degreeRadianPairs[degree] = radian;
+        private static TValue GetCached<TKey, TValue>(
+            LRUCache<TKey, TValue> cache, 
+            TKey key, 
+            Func<TKey, TValue> valueFactory
+        ) where TKey : notnull {
+            try {
+                return cache.Get(key);
+            } catch (KeyNotFoundException) {
+                var value = valueFactory(key);
+                cache.Add(key, value);
+                return value;
             }
-            return radian;
         }
 
-        public static float GetSin(float angle)
-        {
-            if (!_sinCache.TryGetValue(angle, out float sinValue))
-            {
-                sinValue = MathF.Sin(angle);
-                _sinCache[angle] = sinValue;
-            }
-            return sinValue;
-        }
+        public static float GetRadianValue(int degree)  => GetCached(_degreeRadianPairs, degree, d => d.ToRadians());
 
-        public static float GetCos(float angle)
-        {
-            if (!_cosCache.TryGetValue(angle, out float cosValue))
-            {
-                cosValue = MathF.Cos(angle);
-                _cosCache[angle] = cosValue;
-            }
-            return cosValue;
-        }
+        public static float GetSin(float angle)         => GetCached(_sinCache, angle, MathF.Sin);
 
-        public static float GetAtan2(float y, float x)
-        {
-            var key = (y, x);
-            if (!_atan2Cache.TryGetValue(key, out float atan2Value))
-            {
-                atan2Value = MathF.Atan2(y, x);
-                _atan2Cache[key] = atan2Value;
-            }
-            return atan2Value;
-        }
+        public static float GetCos(float angle)         => GetCached(_cosCache, angle, MathF.Cos);
+
+        public static float GetAtan2(float y, float x)  => GetCached(_atan2Cache, (y, x), key => MathF.Atan2(key.Item1, key.Item2));
 
         public static void CacheOffset(float offsetX, float offsetY) {
             _offsetCache.AddToCache(offsetX, offsetY);
