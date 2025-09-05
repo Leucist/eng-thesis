@@ -10,6 +10,8 @@ namespace Application.AppMath
         private static readonly LRUCache<(float, float), float> _atan2Cache = new(CACHE_SIZE);
 
         private static readonly OffsetCache _offsetCache = new();
+
+        public static int Capacity => CACHE_SIZE;
         
         private static TValue GetCached<TKey, TValue>(
             LRUCache<TKey, TValue> cache, 

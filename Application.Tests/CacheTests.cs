@@ -49,5 +49,100 @@ namespace Application.Tests
             Assert.Equal(13, cache.Get(5));
             Assert.Throws<KeyNotFoundException>(() => cache.Get(1));
         }
+
+        [Fact]
+        public void MathCache_GetRadianValue_ShouldCacheValue()
+        {
+            // Arrange
+            int degree = 90;
+            float expectedRadian = degree.ToRadians();
+
+            // Act
+            float firstCall = MathCache.GetRadianValue(degree);
+            float secondCall = MathCache.GetRadianValue(degree);
+
+            // Assert
+            Assert.Equal(expectedRadian, firstCall);
+            Assert.Equal(firstCall, secondCall);
+        }
+
+        [Fact]
+        public void MathCache_GetSinAndCos_ShouldCacheValues()
+        {
+            // Arrange
+            float angle = MathF.PI / 4; // 45 degrees
+
+            // Act
+            float sinFirstCall  = MathCache.GetSin(angle);
+            float sinSecondCall = MathCache.GetSin(angle);
+
+            float cosFirstCall  = MathCache.GetCos(angle);
+            float cosSecondCall = MathCache.GetCos(angle);
+
+            // Assert
+            Assert.Equal(sinFirstCall, sinSecondCall);  // Ensure the same value is returned
+            Assert.Equal(cosFirstCall, cosSecondCall);  // Ensure the same value is returned
+        }
+
+
+
+        // * - - - MATH TESTS - - - * //
+
+        [Fact]
+        public void MathCache_GetRadianValue_ShouldReturnCorrectRadian()
+        {
+            // Arrange
+            int degree = 180;
+            float expectedRadian = MathF.PI;
+
+            // Act
+            float result = MathCache.GetRadianValue(degree);
+
+            // Assert
+            Assert.Equal(expectedRadian, result);
+        }
+
+        [Fact]
+        public void MathCache_GetSin_ShouldReturnCorrectValue()
+        {
+            // Arrange
+            float angle = MathF.PI / 2; // 90 degrees
+            float expectedSin = 1.0f;
+
+            // Act
+            float result = MathCache.GetSin(angle);
+
+            // Assert
+            Assert.Equal(expectedSin, result);
+        }
+
+        [Fact]
+        public void MathCache_GetCos_ShouldReturnCorrectValue()
+        {
+            // Arrange
+            float angle = 0;
+            float expectedCos = 1.0f;
+
+            // Act
+            float result = MathCache.GetCos(angle);
+
+            // Assert
+            Assert.Equal(expectedCos, result);
+        }
+
+        [Fact]
+        public void MathCache_GetAtan2_ShouldReturnCorrectValue()
+        {
+            // Arrange
+            float y = 1;
+            float x = 1;
+            float expectedAtan2 = MathF.Atan2(y, x); // Should be pi/4
+
+            // Act
+            float result = MathCache.GetAtan2(y, x);
+
+            // Assert
+            Assert.Equal(expectedAtan2, result);
+        }
     }
 }
