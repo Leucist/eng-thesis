@@ -4,7 +4,6 @@ namespace Application.Components
 {
     public class PhysicsComponent : IComponent
     {
-        private ForceVector _velocity;              // vector to store value + angle of the force
         private ForceVector _appliedForce, _weight;
         private int _mass, _maxSpeed;
 
@@ -24,7 +23,6 @@ namespace Application.Components
             _maxSpeed = maxSpeed;
 
             _appliedForce   = ForceVector.Zero;
-            _velocity       = ForceVector.Zero;
 
             _weight.Angle   = MathConstants.RadiansDownDirection;
 
@@ -54,19 +52,16 @@ namespace Application.Components
         }
 
         private ForceVector CountAcceleration() {
-            ForceVector acceleration = CountResultingForce();
-            acceleration /= _mass;
-
-            return acceleration;
+            return CountResultingForce() / _mass;
         }
 
         
         public ForceVector CountVelocity(int deltatime) {
-            _velocity = ForceVector.AddWithCaching(_velocity, Acceleration * deltatime);
+            ForceVector velocity = Acceleration * deltatime;
             
-            if (_velocity.Value > _maxSpeed) _velocity.Value = _maxSpeed;
+            if (velocity.Value > _maxSpeed) velocity.Value = _maxSpeed;
 
-            return _velocity;
+            return velocity;
         }
 
         public void AddAppliedForce(ForceVector force) {

@@ -89,7 +89,7 @@ namespace Application.Tests
             int mass = 10;
             int maxSpeed = 100;
             PhysicsComponent physicsComponent = new (mass, maxSpeed);
-            ForceVector appliedForce = new (10, 0);
+            ForceVector appliedForce = new (20, 0);
             int deltaTime = 1;
 
             // - Act
@@ -97,15 +97,11 @@ namespace Application.Tests
 
             var v1 = physicsComponent.CountVelocity(deltaTime); // Count velocity
             var v2 = physicsComponent.CountVelocity(deltaTime); // Count velocity again to check fading
-
-            for (int i = 0; i < 10; i++) {                      // Let velocity fade and applied force drop down to zero
-                physicsComponent.CountVelocity(deltaTime);
-            }
             var v3 = physicsComponent.CountVelocity(deltaTime); // Count velocity to ensure it's zero
 
             // - Assert
             Assert.True(v1.Value > v2.Value, "Velocity should decrease over time when no new force is applied.");
-            Assert.Equal(v3, ForceVector.Zero);
+            Assert.Equal(ForceVector.Zero, v3);
         }
 
         [Fact]
