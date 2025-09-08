@@ -52,7 +52,7 @@ namespace Application
             return R;
         }
 
-        public static ForceVector AddWithCaching(ForceVector A, ForceVector B) {
+        public static ForceVector AddWithCachingOffset(ForceVector A, ForceVector B) {
             return Add(A, B, true);
         }
 
