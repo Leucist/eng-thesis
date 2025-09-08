@@ -69,5 +69,26 @@ namespace Application.Entities
             var component = _entities[entity].FirstOrDefault(c => c is T) ?? throw new Exception($"Component of type {typeof(T)} does not exist for the entity.");
             return (T)component;
         }
+
+        public Entity GetMainMenuPlayer() {
+            // TODO May load data from some json prefab and return object
+            var player = CreateEntity();
+
+            List<IComponent> componentsToAdd = [];
+
+            componentsToAdd.Add(new TransformComponent(
+                10f, 10f, 10f, 10f  // - values to be changed
+            ));
+
+            // componentsToAdd.Add(new PhysicsComponent);
+            // componentsToAdd.Add(new CombatComponent);
+            // componentsToAdd.Add(new InputComponent);
+
+            foreach (IComponent component in componentsToAdd) {
+                AddComponent(player, component);
+            }
+
+            return player;
+        }
     }
 }

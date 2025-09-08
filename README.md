@@ -35,12 +35,18 @@ Custom License – See `LICENSE` for details.
 
 ## 🚧 Roadmap Highlights (early thoughts)
 
+- [ ] Game init and the main loop created
+- [ ] Basic components and systems created
+- [ ] Basic rendering and animation
 - [ ] Custom level editor
-- [ ] Component-system separation with ECS
-- [ ] Basic rendering and animation layers
+- [ ] Entity creation from mockups (prefabs)
 - [ ] Light and shadow simulation
-- [ ] Music and ambiance layering
+- [ ] Music and ambiance layering (custom sound engine)
 - [ ] Save/load system with narrative triggers
+- [ ] Cutscenes
+- [ ] Multilingual Support
+- [ ] Finishing all the sprites, animations
+- [ ] Adding custom music 
 
 ## 🌱 Status
 

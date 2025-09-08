@@ -24,5 +24,10 @@ namespace Application.Components
             _x += x;
             _y += y;
         }
+
+        public void Resize(float width, float height) {
+            _width = width;
+            _height = height;
+        }
     }
 }
