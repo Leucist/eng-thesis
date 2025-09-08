@@ -51,7 +51,14 @@ namespace Application.Components
             return ResultingForce / _mass;
         }
 
-        
+        private void ReduceAppliedForce(int deltatime) {
+            _appliedForce /= (int) MathF.Pow(2, deltatime);
+        }
+
+        public void AddAppliedForce(ForceVector force) {
+            _appliedForce += force;
+        }
+
         public ForceVector CountVelocity(int deltatime) {
             ForceVector velocity = Acceleration * deltatime;
 
@@ -64,17 +71,11 @@ namespace Application.Components
             return velocity;
         }
 
-        private void Ground() {
+        public void Ground() {
             _isFalling = false;
-            _appliedForce = ForceVector.Zero;
+            Stop();
         }
 
-        private void ReduceAppliedForce(int deltatime) {
-            _appliedForce /= (int) MathF.Pow(2, deltatime);
-        }
-
-        public void AddAppliedForce(ForceVector force) {
-            _appliedForce += force;
-        }
+        public void Stop() => _appliedForce = ForceVector.Zero;
     }
 }
