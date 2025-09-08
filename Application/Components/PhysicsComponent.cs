@@ -7,16 +7,17 @@ namespace Application.Components
         private ForceVector _appliedForce, _weight;
         private int _mass, _maxSpeed;
 
-        private bool _massWasChanged = false;   // flag for getting cached P = m * g
+        private bool _massWasChanged;   // flag for getting cached P = m * g
         private bool _isFalling;
 
         public bool IsFalling {
             get { return _isFalling; }
-            set { _isFalling = value; } // may be extended as separate func for counting fall damage
+            set { _isFalling = value; }
         }
         
-        private ForceVector Acceleration => CountAcceleration();
-        private ForceVector Weight => GetWeight();
+        private ForceVector Weight          => GetWeight();
+        private ForceVector ResultingForce  => CountResultingForce();
+        private ForceVector Acceleration    => CountAcceleration();
 
         public PhysicsComponent(int mass, int maxSpeed) {
             _mass = mass >= 0 ? mass : throw new ArgumentOutOfRangeException(nameof(mass), "Mass value can not be negative.");
@@ -38,30 +39,38 @@ namespace Application.Components
             return _weight;
         }
 
-        private ForceVector CountResultingForce() {
-            ForceVector resultingForce = ForceVector.Zero;
-
-            resultingForce += _appliedForce;        // counts applied force in final resulting force vector
-            _appliedForce.Value /= 2;               // reduces applied force value for decreasing inertia
-
-            if (_isFalling) {                       // if body is airborne, the weight is applied
-                resultingForce += Weight;
+        private ForceVector CountResultingForce() { // Resets the aF by adding Weight to it if the body is airborne
+            if (_isFalling) {
+                _appliedForce += Weight;
             }
 
-            return resultingForce;
+            return _appliedForce;
         }
 
         private ForceVector CountAcceleration() {
-            return CountResultingForce() / _mass;
+            return ResultingForce / _mass;
         }
 
         
         public ForceVector CountVelocity(int deltatime) {
             ForceVector velocity = Acceleration * deltatime;
+
+            // Reduces applied force value for decreasing inertia
+            ReduceAppliedForce(deltatime);
             
+            // Ensures speed does not exceed the upper limit
             if (velocity.Value > _maxSpeed) velocity.Value = _maxSpeed;
 
             return velocity;
+        }
+
+        private void Ground() {
+            _isFalling = false;
+            _appliedForce = ForceVector.Zero;
+        }
+
+        private void ReduceAppliedForce(int deltatime) {
+            _appliedForce /= (int) MathF.Pow(2, deltatime);
         }
 
         public void AddAppliedForce(ForceVector force) {
