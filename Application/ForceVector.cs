@@ -8,7 +8,7 @@ namespace Application
     /// </summary>
     /// <param name="value">The magnitude of the force vector, representing its strength.</param>
     /// <param name="angle">The direction of the force vector, specified in radians.</param>
-    public struct ForceVector(int value, int angle)
+    public struct ForceVector(int value, float angle)
     {
         // - Maybe would be reasonable to try integers, I hardly need any floats here.
         public int Value = value;
