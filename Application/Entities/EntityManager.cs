@@ -5,22 +5,23 @@ namespace Application.Entities
     public class EntityManager
     {
         private static EntityManager? _instance = null;
-        private static readonly object _lock = new();   // Lock object for thread-safe singleton instantiation
+        private static readonly object _lock = new();   // Lock object for thread-safe creating of the singleton instance
 
-        private int _lastID;
-        private readonly Dictionary<Entity, List<IComponent>> _entities;
+        private uint _lastID;
+        private readonly Dictionary<ComponentBitset, Dictionary<Entity, List<Component>>> _entities;
 
         private EntityManager()
         {
             _lastID = 0;
             _entities = [];
+            _entities.Add(new(), []);   // adds group for new entities with no components yet (bitmask 0)
         }
 
         public static EntityManager Instance
         {
             get
             {
-                // Double-check locking for thread safety
+                // locking for thread safety
                 if (_instance == null)
                 {
                     lock (_lock)
@@ -34,47 +35,77 @@ namespace Application.Entities
 
         public Entity CreateEntity()
         {
-            var entity = new Entity(_lastID++);
-            _entities.Add(entity, []);
+            Entity entity = new(_lastID++);
+
+            _entities[entity.Bitmask].Add(entity, []);
+
             return entity;
         }
 
-        public bool EntityExists(Entity entity)
+        public List<List<Component>> GetComponentsOfType(List<ComponentType> types) {
+            List<List<Component>> result = [];
+
+            foreach(var group in _entities) {
+                if (group.Key.HasAll(types)) result.AddRange(group.Value.Values);
+            }
+
+            return result;
+        }
+
+        private List<Component> GetEntityComponents(Entity entity)
         {
-            return _entities.ContainsKey(entity);
+            return _entities[entity.Bitmask][entity];
         }
 
-        public void AddComponent(Entity entity, IComponent component) {
-            if (!EntityExists(entity)) throw new Exception("Entity does not exist.");
-            _entities[entity].Add(component);
-        }
-
-        public void RemoveComponent<T>(Entity entity) where T : IComponent {
-            if (!EntityExists(entity)) throw new Exception("Entity does not exist.");
-
-            var componentToRemove = _entities[entity].FirstOrDefault(c => c is T);
-    
-            if (componentToRemove != null) {
-                _entities[entity].Remove(componentToRemove);
+        private void RemoveEntityFromTheCurrentGroup(Entity entity) {
+            _entities[entity.Bitmask].Remove(entity);
+            if (_entities[entity.Bitmask].Count == 0) {
+                _entities.Remove(entity.Bitmask);   // Removes the group if it became empty
             }
         }
 
-        public bool HasComponent<T>(Entity entity) {
-            if (!EntityExists(entity)) throw new Exception("Entity does not exist.");
-            return _entities[entity].Any(c => c is T);
+        private void PlaceEntityInGroup(Entity entity, List<Component> components) {
+            if (!_entities.ContainsKey(entity.Bitmask)) {
+                _entities.Add(entity.Bitmask, []);  // Adds new empty group dictionary if there was none
+            }
+            _entities[entity.Bitmask].Add(entity, components);
         }
 
-        public T GetComponent<T>(Entity entity) {
-            if (!EntityExists(entity)) throw new Exception("Entity does not exist.");
-            var component = _entities[entity].FirstOrDefault(c => c is T) ?? throw new Exception($"Component of type {typeof(T)} does not exist for the entity.");
-            return (T)component;
+        public void AddComponent(Entity entity, Component component) {
+            // Retrieve components and remove entity from the group
+            var components = GetEntityComponents(entity);
+            RemoveEntityFromTheCurrentGroup(entity);
+            
+            // Add component to the entity
+            components.Add(component);
+            entity.Bitmask.Add(component.Type);
+            
+            // Place entity and its components into appropriate group
+            PlaceEntityInGroup(entity, components);
+        }
+
+        public void RemoveComponent(Entity entity, ComponentType componentType) {
+            // Retrieve components and check if component is contained
+            var components = GetEntityComponents(entity);
+            var component = components.FirstOrDefault(c => c.Type == componentType);
+            if (component is null) return;  // exit if there's nothing to delete
+
+            // Remove entity from the group
+            RemoveEntityFromTheCurrentGroup(entity);
+            
+            // Remove component from the entity
+            components.Remove(component);
+            entity.Bitmask.Remove(component.Type);
+            
+            // Place entity and its components into appropriate group
+            PlaceEntityInGroup(entity, components);
         }
 
         public Entity GetMainMenuPlayer() {
             // TODO May load data from some json prefab and return object
             var player = CreateEntity();
 
-            List<IComponent> componentsToAdd = [];
+            List<Component> componentsToAdd = [];
 
             componentsToAdd.Add(new TransformComponent(
                 10f, 10f, 10f, 10f  // - values to be changed
@@ -84,7 +115,7 @@ namespace Application.Entities
             // componentsToAdd.Add(new CombatComponent);
             // componentsToAdd.Add(new InputComponent);
 
-            foreach (IComponent component in componentsToAdd) {
+            foreach (Component component in componentsToAdd) {
                 AddComponent(player, component);
             }
 

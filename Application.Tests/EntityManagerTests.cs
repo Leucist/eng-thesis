@@ -6,42 +6,50 @@ namespace Application.Tests;
 public class EntityManagerTests
 {
     private readonly EntityManager _entityManager = EntityManager.Instance;
-    private readonly Entity _entity = EntityManager.Instance.CreateEntity();
 
     [Fact]
     public void CreateEntity_ShouldReturnUniqueIds()
     {
+        var entity1 = _entityManager.CreateEntity();
         var entity2 = _entityManager.CreateEntity();
         
-        Assert.NotEqual(_entity, entity2);
+        Assert.NotEqual(entity1.Id, entity2.Id);
     }
 
     [Fact]
-    public void CreateEntity_EntitiesShouldBeContained()
+    public void AddAndRemoveComponent_ShouldChangeEntityBitmask()
     {
-        var entity2 = _entityManager.CreateEntity();
-        
-        Assert.True(_entityManager.EntityExists(_entity));
-        Assert.True(_entityManager.EntityExists(entity2));
-    }
-
-    [Fact]
-    public void AddComponent_ShouldStoreAndRetrieveComponent()
-    {
+        var entity = _entityManager.CreateEntity();
         var transform = new TransformComponent(10f, 20f, 30f, 40f);
         
-        _entityManager.AddComponent(_entity, transform);
-        var retrieved = _entityManager.GetComponent<TransformComponent>(_entity);
+        _entityManager.AddComponent(entity, transform);
+        Assert.True(entity.Bitmask.Has(ComponentType.Transform));
+        _entityManager.RemoveComponent(entity, ComponentType.Transform);
+        Assert.False(entity.Bitmask.Has(ComponentType.Transform));
+    }
+
+    // - Related tests, but not on EntityManager directly
+    [Fact]
+    public void ComponentBitset_ShouldIndicatePresenceOfAddedComponents()
+    {
+        ComponentBitset mask = new();
+
+        mask.Add(ComponentType.Transform);
+        mask.Add(ComponentType.Physics);
         
-        Assert.Equal(transform, retrieved);
-        Assert.True(_entityManager.HasComponent<TransformComponent>(_entity));
+        Assert.True(mask.Has(ComponentType.Transform));
+        Assert.True(mask.Has(ComponentType.Physics));
     }
 
     [Fact]
-    public void RemoveComponent_ShouldRemoveComponent()
-    {        
-        _entityManager.RemoveComponent<TransformComponent>(_entity);
+    public void Entity_BitmaskShouldIndicatePresenceOfAddedComponents()
+    {
+        Entity entity = new(0);
+
+        entity.Bitmask.Add(ComponentType.Transform);
+        entity.Bitmask.Add(ComponentType.Physics);
         
-        Assert.False(_entityManager.HasComponent<TransformComponent>(_entity));
+        Assert.True(entity.Bitmask.Has(ComponentType.Transform));
+        Assert.True(entity.Bitmask.Has(ComponentType.Physics));
     }
 }
