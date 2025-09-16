@@ -1,8 +1,10 @@
 namespace Application.Components
 {
-    public class ComponentBitset
+    public class ComponentBitset(uint bits=0)
     {
-        private uint _bits;
+        private uint _bits = bits;
+
+        public ComponentBitset Copy => new(_bits);
 
         public void Add(ComponentType component)
         {

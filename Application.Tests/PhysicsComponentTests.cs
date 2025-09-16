@@ -1,9 +1,9 @@
-using System.Numerics;
 using Application.Components;
 using Application.AppMath;
 
 namespace Application.Tests
 {
+    [Collection("UsingMathCache")]  // trying "Collection" for sequential performing of the tests, as MathCache is not explicitly thread-safe at the moment
     public class PhysicsComponentTests
     {
         [Theory]
@@ -24,20 +24,15 @@ namespace Application.Tests
             PhysicsComponent component = new(mass, customMaxSpeed);
             component.IsFalling = true;
 
-            float expectedV0 = 0f;
-            float expectedV1 = expectedV0 + (MathConstants.GravitationalAcceleration * timeSpan1);
+            float expectedOffset = -(MathConstants.GravitationalAcceleration * timeSpan1);
 
             // - Act
-            var v1 = component.CountVelocity(timeSpan1);
-            var v2 = component.CountVelocity(timeSpan2);
+            var mo1 = component.GetMovementOffset(timeSpan1);
+            var mo2 = component.GetMovementOffset(timeSpan2);
 
             // - Assert
-            // Are object velocity vectors directed down?
-            Assert.Equal(-MathConstants.RadiansUpDirection, v1.Angle, 0.1f);
-            Assert.Equal(-MathConstants.RadiansUpDirection, v2.Angle, 0.1f);
-        
-            Assert.Equal((int) expectedV1, v1.Value);   // Is object velocity vector close to the expected value?
-            Assert.True(v2.Value > v1.Value);           // Check that the velocity is increasing
+            Assert.Equal(expectedOffset, mo1.Y, 1f);    // Is offset of the falling object close to the expected value?
+            Assert.True(mo2.Y < mo1.Y);                 // Check that the velocity is increasing
         }
 
         [Fact]
@@ -48,17 +43,17 @@ namespace Application.Tests
                 timeSpan1 = 1,
                 timeSpan2 = 5;
             PhysicsComponent component = new(mass, customMaxSpeed);
-            int expectedV = 0;
 
             // - Act
-            var v1 = component.CountVelocity(timeSpan1);
-            var v2 = component.CountVelocity(timeSpan2);
+            var mo1 = component.GetMovementOffset(timeSpan1);
+            var mo2 = component.GetMovementOffset(timeSpan2);
 
             // - Assert
-            Assert.Equal(0f, v1.Angle);
-            Assert.Equal(0f, v2.Angle);
-            Assert.Equal(expectedV, v1.Value);
-            Assert.Equal(expectedV, v2.Value);
+            Assert.Equal(0f, mo1.X);
+            Assert.Equal(0f, mo1.Y);
+
+            Assert.Equal(0f, mo2.X);
+            Assert.Equal(0f, mo2.Y);
         }
 
         [Fact]
@@ -70,15 +65,15 @@ namespace Application.Tests
             PhysicsComponent physicsComponent = new (mass, maxSpeed);
             ForceVector appliedForce = new (50, 0);   // Force directed to the right
             int deltaTime = 1;
-            int instantSpeed = appliedForce.Value / mass;
+            float instantSpeed = appliedForce.Value / mass;
 
             // - Act
             physicsComponent.AddAppliedForce(appliedForce);
-            ForceVector newVelocity = physicsComponent.CountVelocity(deltaTime);
+            OffsetEntry movementOffset = physicsComponent.GetMovementOffset(deltaTime);
 
             // - Assert
-            Assert.True(newVelocity.Value > 0, "Velocity should be greater than 0 when force is applied.");
-            Assert.Equal(instantSpeed, newVelocity.Value);  // Check that the velocity corresponds to the acceleration.
+            Assert.True(movementOffset.X > 0, "X offset should be greater than 0 when horizontal force is applied.");
+            Assert.Equal(instantSpeed, movementOffset.X, 0.1f);  // Check that the velocity corresponds to the acceleration.
         }
 
         [Fact]
@@ -94,13 +89,13 @@ namespace Application.Tests
             // - Act
             physicsComponent.AddAppliedForce(appliedForce);     // Apply force
 
-            var v1 = physicsComponent.CountVelocity(deltaTime); // Count velocity
-            var v2 = physicsComponent.CountVelocity(deltaTime); // Count velocity again to check fading
-            var v3 = physicsComponent.CountVelocity(deltaTime); // Count velocity to ensure it's zero
+            var mo1 = physicsComponent.GetMovementOffset(deltaTime); // Count velocity
+            var mo2 = physicsComponent.GetMovementOffset(deltaTime); // Count velocity again to check fading
+            var mo3 = physicsComponent.GetMovementOffset(deltaTime); // Count velocity to ensure it's zero
 
             // - Assert
-            Assert.True(v1.Value > v2.Value, "Velocity should decrease over time when no new force is applied.");
-            Assert.Equal(ForceVector.Zero, v3);
+            Assert.True(mo1.X > mo2.X, "Velocity should decrease over time when no new force is applied.");
+            Assert.Equal((0, 0), (mo3.X, mo3.Y));
         }
 
         [Fact]
@@ -115,13 +110,13 @@ namespace Application.Tests
             int instantSpeed = appliedForce.Value / mass;
 
             // - Act
-            physicsComponent.AddAppliedForce(appliedForce);     // Apply force
-            var v1 = physicsComponent.CountVelocity(deltaTime);
+            physicsComponent.AddAppliedForce(appliedForce);         // Apply force
+            var mo1 = physicsComponent.GetMovementOffset(deltaTime);
 
             // - Assert
             Assert.True(instantSpeed > maxSpeed, "[Test Requirement] Applied force should be enough to potentially make instant speed higher than the 'maxSpeed'.");
-            Assert.True(v1.Value < instantSpeed, "Actual velocity should be lower than it potentially could be based on formula.");
-            Assert.Equal(maxSpeed, v1.Value);   // as velovity would be reduced to match the max allowed value
+            Assert.True(mo1.X < instantSpeed, "Actual velocity should be lower than it potentially could be based on formula.");
+            Assert.Equal(maxSpeed, mo1.X);   // as velovity would be reduced to match the max allowed value
         }
     }
 }

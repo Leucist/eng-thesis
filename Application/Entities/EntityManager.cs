@@ -4,40 +4,20 @@ namespace Application.Entities
 {
     public class EntityManager
     {
-        private static EntityManager? _instance = null;
-        private static readonly object _lock = new();   // Lock object for thread-safe creating of the singleton instance
-
         private uint _lastID;
         private readonly Dictionary<ComponentBitset, Dictionary<Entity, List<Component>>> _entities;
 
-        private EntityManager()
+        public EntityManager()
         {
             _lastID = 0;
             _entities = [];
-            _entities.Add(new(), []);   // adds group for new entities with no components yet (bitmask 0)
-        }
-
-        public static EntityManager Instance
-        {
-            get
-            {
-                // locking for thread safety
-                if (_instance == null)
-                {
-                    lock (_lock)
-                    {
-                        _instance = new EntityManager();
-                    }
-                }
-                return _instance;
-            }
         }
 
         public Entity CreateEntity()
         {
             Entity entity = new(_lastID++);
 
-            _entities[entity.Bitmask].Add(entity, []);
+            PlaceEntityInGroup(entity, []);
 
             return entity;
         }
@@ -66,7 +46,8 @@ namespace Application.Entities
 
         private void PlaceEntityInGroup(Entity entity, List<Component> components) {
             if (!_entities.ContainsKey(entity.Bitmask)) {
-                _entities.Add(entity.Bitmask, []);  // Adds new empty group dictionary if there was none
+                _entities.Add(entity.Bitmask.Copy, []);  // Adds new empty group dictionary if there was none
+                // ^ used Copy to ensure the object will not be modified later by mistake 
             }
             _entities[entity.Bitmask].Add(entity, components);
         }

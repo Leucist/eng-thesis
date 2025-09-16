@@ -9,9 +9,9 @@ namespace Application.Tests
     {
         [Fact]
         public void EntityShouldBeAbleToMove() {
-            EntityManager entityManager = EntityManager.Instance;
+            EntityManager entityManager = new();
             Entity entity = entityManager.CreateEntity();
-            MovementSystem system = new();
+            MovementSystem system = new(entityManager);
             float x = 10, y = 20;
             TransformComponent  transformComponent  = new(x, y, 10, 20);
             PhysicsComponent    physicsComponent    = new(10, 120);
@@ -27,9 +27,9 @@ namespace Application.Tests
 
         [Fact]
         public void EntityShouldBeAbleToJump() {
-            EntityManager entityManager = EntityManager.Instance;
+            EntityManager entityManager = new();
             Entity entity = entityManager.CreateEntity();
-            MovementSystem system = new();
+            MovementSystem system = new(entityManager);
             float x = 10, y = 20;
             TransformComponent  transformComponent  = new(x, y, 10, 20);
             PhysicsComponent    physicsComponent    = new(10, 120);

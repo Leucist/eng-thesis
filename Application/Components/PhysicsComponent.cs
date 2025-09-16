@@ -59,7 +59,7 @@ namespace Application.Components
             _appliedForce += force;
         }
 
-        public ForceVector CountVelocity(int deltatime) {
+        private ForceVector CountVelocity(int deltatime) {
             ForceVector velocity = Acceleration * deltatime;
 
             // Reduces applied force value for decreasing inertia
@@ -69,6 +69,10 @@ namespace Application.Components
             if (velocity.Value > _maxSpeed) velocity.Value = _maxSpeed;
 
             return velocity;
+        }
+
+        public OffsetEntry GetMovementOffset(int deltatime) {
+            return CountVelocity(deltatime).GetOffset();
         }
 
         public void Ground() {

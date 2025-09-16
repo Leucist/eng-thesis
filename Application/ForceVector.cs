@@ -1,3 +1,4 @@
+using Application.AppMath;
 using static Application.AppMath.MathCache;
 
 namespace Application
@@ -10,7 +11,6 @@ namespace Application
     /// <param name="angle">The direction of the force vector, specified in radians.</param>
     public struct ForceVector(int value, float angle)
     {
-        // - Maybe would be reasonable to try integers, I hardly need any floats here.
         public int Value = value;
         public float Angle = angle;
 
@@ -29,10 +29,6 @@ namespace Application
         /// <param name="B">The second force vector.</param>
         /// <returns>A new ForceVector representing the resultant force vector.</returns>
         public static ForceVector operator +(ForceVector A, ForceVector B) {
-            return Add(A, B);
-        }
-
-        private static ForceVector Add(ForceVector A, ForceVector B, bool cacheOffset=false) {
             float Rx, Ry;
 
             float Ax = A.Value * GetCos(A.Angle);
@@ -43,8 +39,6 @@ namespace Application
             float By = B.Value * GetSin(B.Angle);
             Ry = Ay + By;
 
-            if (cacheOffset) CacheOffset(Rx, Ry);
-
             ForceVector R = Zero;
             R.Value = (int) MathF.Sqrt(Rx * Rx + Ry * Ry);
             R.Angle = GetAtan2(Ry, Rx);
@@ -52,8 +46,12 @@ namespace Application
             return R;
         }
 
-        public static ForceVector AddWithCachingOffset(ForceVector A, ForceVector B) {
-            return Add(A, B, true);
+        /// <summary>
+        /// Calculates the Cartesian coordinates (offset) of the force vector based on its magnitude and angle.
+        /// </summary>
+        /// <returns>An OffsetEntry containing the offset relative to the X and Y axes for the given force.</returns>
+        public readonly OffsetEntry GetOffset() {
+            return new(Value * GetCos(Angle), Value * GetSin(Angle));
         }
 
         /// <summary>

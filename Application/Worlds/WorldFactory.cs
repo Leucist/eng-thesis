@@ -7,7 +7,7 @@ namespace Application
         public World InitialWorld => GetMainMenuWorld();
 
         public World GetMainMenuWorld() {
-            return new World(EntityManager.Instance.GetMainMenuPlayer());
+            return new World(/*EntityManager.Instance.GetMainMenuPlayer()*/);
         }
     }
 }
