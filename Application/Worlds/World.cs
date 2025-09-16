@@ -1,22 +1,16 @@
+using Application.Components;
 using Application.Entities;
-using Application.Systems;
 
 namespace Application
 {
-    public class World
+    public class World(/*List<Component> playerComponents*/)
     {
-        private List<ISystem> _systems;
-        private Entity _player;
-        private bool _isAlive;
+        private readonly List<Systems.System> _systems = [];
+        // private readonly Entity _player = player;
+        private bool _isAlive = true;
 
         public bool IsAlive  => _isAlive;
-        public Entity Player => _player;
-
-        public World(Entity player) {
-            _systems = [];
-            _isAlive = true;
-            _player = player;
-        }
+        // public Entity Player => _player;
 
         public void Update() {
             foreach (var system in _systems) {

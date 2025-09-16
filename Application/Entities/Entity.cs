@@ -1,10 +1,13 @@
+using Application.Components;
+
 namespace Application.Entities
 {
-    public readonly struct Entity(int id)
+    public class Entity(uint id)
     {
-        // Entity may be deprecated to typedef of int if not expanded further
-        private readonly int _id = id;
+        private readonly uint _id = id;
+        private readonly ComponentBitset _bitmask = new();
 
-        public int Id => _id;
+        public uint Id => _id;
+        public ComponentBitset Bitmask => _bitmask;
     }
 }

@@ -2,7 +2,7 @@ using Application.AppMath;
 
 namespace Application.Components
 {
-    public class PhysicsComponent : IComponent
+    public class PhysicsComponent : Component
     {
         private ForceVector _appliedForce, _weight;
         private int _mass, _maxSpeed;
@@ -19,7 +19,7 @@ namespace Application.Components
         private ForceVector ResultingForce  => CountResultingForce();
         private ForceVector Acceleration    => CountAcceleration();
 
-        public PhysicsComponent(int mass, int maxSpeed) {
+        public PhysicsComponent(int mass, int maxSpeed) : base(ComponentType.Physics) {
             _mass = mass >= 0 ? mass : throw new ArgumentOutOfRangeException(nameof(mass), "Mass value can not be negative.");
             _maxSpeed = maxSpeed;
 
@@ -59,7 +59,7 @@ namespace Application.Components
             _appliedForce += force;
         }
 
-        public ForceVector CountVelocity(int deltatime) {
+        private ForceVector CountVelocity(int deltatime) {
             ForceVector velocity = Acceleration * deltatime;
 
             // Reduces applied force value for decreasing inertia
@@ -69,6 +69,10 @@ namespace Application.Components
             if (velocity.Value > _maxSpeed) velocity.Value = _maxSpeed;
 
             return velocity;
+        }
+
+        public OffsetEntry GetMovementOffset(int deltatime) {
+            return CountVelocity(deltatime).GetOffset();
         }
 
         public void Ground() {
