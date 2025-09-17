@@ -3,10 +3,17 @@ using Application.Entities;
 
 namespace Application.Systems
 {
-    public abstract class System(EntityManager entityManager)
+    public abstract class System
     {
-        protected readonly EntityManager _entityManager = entityManager;
-        protected readonly List<ComponentType> _requiredComponents = [];
+        // TODO: [Note] System initialisation becomes repetative, a lot feels redundant.
+
+        protected readonly EntityManager _entityManager;
+        protected readonly List<ComponentType> _requiredComponents;
+
+        protected System(EntityManager entityManager, List<ComponentType> requiredComponents) {
+            _entityManager = entityManager;
+            _requiredComponents = requiredComponents;
+        }
 
         protected virtual List<List<Component>> GatherComponents() {
             return _entityManager.GetComponentsOfType(_requiredComponents);
