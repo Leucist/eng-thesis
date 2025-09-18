@@ -5,8 +5,6 @@ namespace Application.Systems
 {
     public abstract class System
     {
-        // TODO: [Note] System initialisation becomes repetative, a lot feels redundant.
-
         protected readonly EntityManager _entityManager;
         protected readonly List<ComponentType> _requiredComponents;
 
