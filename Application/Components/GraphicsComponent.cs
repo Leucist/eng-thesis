@@ -8,7 +8,7 @@ namespace Application.Components
         public Sprite   Sprite  { get; private set; }
 
         public void SetTexture(string pathToImage) {
-            Texture = new Texture(PathFinder.GetTextureFilePath(pathToImage));
+            Texture = new Texture(Pathfinder.GetFullTextureFilePath(pathToImage));
         }
     }
 }

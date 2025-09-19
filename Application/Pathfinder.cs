@@ -24,9 +24,16 @@ namespace Application
             throw new DirectoryNotFoundException("Solution root was not found.");
         }
 
+        public static string GetGameProjectDirectory() => Path.Combine(FindSolutionDirectory(), "Application");
+
         public static string GetGraphicsTexturesFolder() {
-            return Path.Combine(FindSolutionDirectory(), "Application", "Textures");
+            return Path.Combine(GetGameProjectDirectory(), "Textures");
         }
+
+        public static string GetFullTextureFilePath(string pathToImage) {
+            throw new NotImplementedException("Declare relative path when the texture folder exists.");
+        }
+
         // public static string GetGraphicsFontsFolder() {
         //     return Path.Combine(FindSolutionDirectory(), "Application", "fonts/Cinzel");
         // }
