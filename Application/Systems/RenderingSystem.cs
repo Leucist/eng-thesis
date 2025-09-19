@@ -7,7 +7,7 @@ namespace Application.Systems
 {
     public class RenderingSystem : System
     {
-        // - May be moved to some app constants class or json
+        // TODO (?) - May be moved to some app constants class or json
         private const string TITLE  = "APPLICATION";
         private const int WIDTH     = 1920;
         private const int HEIGHT    = 1080;
