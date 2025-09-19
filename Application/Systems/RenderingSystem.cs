@@ -1,16 +1,34 @@
 using Application.Components;
 using Application.Entities;
+using SFML.Graphics;
+using SFML.Window;
 
 namespace Application.Systems
 {
-    public class RenderingSystem(EntityManager entityManager)
-        : System(
-            entityManager,
-            [ComponentType.Graphics]
-        )
+    public class RenderingSystem : System
     {
-        public override void Update() {
-            var componentBundles = GatherComponents();
+        // - May be moved to some app constants class or json
+        private const string TITLE  = "APPLICATION";
+        private const int WIDTH     = 1920;
+        private const int HEIGHT    = 1080;
+
+        private RenderWindow _renderWindow;
+
+        public RenderingSystem(EntityManager entityManager)
+            : base(
+                entityManager,
+                [
+                    ComponentType.Graphics,
+                    ComponentType.Transform,
+                ]
+            ) 
+        {
+            VideoMode videoMode = new(WIDTH, HEIGHT);
+            _renderWindow = new(videoMode, TITLE);
+        }
+
+        protected override void PerformSystemAction(Dictionary<ComponentType, Component> entityComponents) {
+            throw new NotImplementedException();
         }
     }
 }
