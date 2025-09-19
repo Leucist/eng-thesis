@@ -27,7 +27,18 @@ namespace Application.Systems
             _renderWindow = new(videoMode, TITLE);
         }
 
+        public override void Update() {
+            // * Some general actions related to the game window *
+            throw new NotImplementedException(); // - a gentle reminder
+
+            // Calling the base Update method to invoke PerformSystemAction
+            base.Update();
+        }
+
         protected override void PerformSystemAction(Dictionary<ComponentType, Component> entityComponents) {
+            var transformComponent  = (TransformComponent)  entityComponents[ComponentType.Transform];
+            var graphicsComponent   = (GraphicsComponent)   entityComponents[ComponentType.Graphics];
+
             throw new NotImplementedException();
         }
     }
