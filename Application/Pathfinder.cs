@@ -31,6 +31,7 @@ namespace Application
         }
 
         public static string GetFullTextureFilePath(string pathToImage) {
+            // TODO:
             throw new NotImplementedException("Declare relative path when the texture folder exists.");
         }
 

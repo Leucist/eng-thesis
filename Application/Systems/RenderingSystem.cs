@@ -1,6 +1,7 @@
 using Application.Components;
 using Application.Entities;
 using SFML.Graphics;
+using SFML.System;
 using SFML.Window;
 
 namespace Application.Systems
@@ -8,11 +9,16 @@ namespace Application.Systems
     public class RenderingSystem : System
     {
         // TODO (?) - May be moved to some app constants class or json
-        private const string TITLE  = "APPLICATION";
-        private const int WIDTH     = 1920;
-        private const int HEIGHT    = 1080;
+        private const string TITLE = "APPLICATION";
+        private const int WIDTH             = 1920;
+        private const int HEIGHT            = 1080;
+        private const int CANVAS_WIDTH      = 384;
+        private const int CANVAS_HEIGHT     = 216;
+        private const int CANVAS_MULTIPLIER = 5;
 
-        private RenderWindow _renderWindow;
+        private readonly RenderWindow _renderWindow;
+        private readonly RenderTexture _canvas;
+        private readonly Sprite _canvasSprite;
 
         public RenderingSystem(EntityManager entityManager)
             : base(
@@ -24,22 +30,37 @@ namespace Application.Systems
             ) 
         {
             VideoMode videoMode = new(WIDTH, HEIGHT);
-            _renderWindow = new(videoMode, TITLE);
+            _renderWindow       = new(videoMode, TITLE);
+            _canvas             = new(CANVAS_WIDTH, CANVAS_HEIGHT);
+            _canvasSprite       = new(_canvas.Texture);
+            _canvasSprite.Scale = new Vector2f(CANVAS_MULTIPLIER, CANVAS_MULTIPLIER);
         }
 
         public override void Update() {
-            // * Some general actions related to the game window *
-            throw new NotImplementedException(); // - a gentle reminder
+            // TODO: Update rendering so only the modified parts get redrawn, not the whole canvas - IF not built-in already
+            _renderWindow.DispatchEvents();
+            // Clearing the canvas before redrawing entities
+            _canvas.Clear();
 
             // Calling the base Update method to invoke PerformSystemAction
             base.Update();
+
+            // Eventually displaying the updated content
+            _canvas.Display();
+            _renderWindow.Clear();
+            _renderWindow.Draw(_canvasSprite);
+            _renderWindow.Display();
         }
 
         protected override void PerformSystemAction(Dictionary<ComponentType, Component> entityComponents) {
             var transformComponent  = (TransformComponent)  entityComponents[ComponentType.Transform];
             var graphicsComponent   = (GraphicsComponent)   entityComponents[ComponentType.Graphics];
 
-            throw new NotImplementedException();
+            // Update the GC position according to the TC
+            graphicsComponent.Sprite.Position = transformComponent.SFMLPosition;
+            
+            // Draw the entity on the canvas
+            _canvas.Draw(graphicsComponent.Sprite);
         }
     }
 }
