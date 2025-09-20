@@ -1,3 +1,5 @@
+using SFML.System;
+
 namespace Application.Components
 {
     public class TransformComponent(float x, float y, float width, float height) : Component(ComponentType.Transform)
@@ -11,6 +13,11 @@ namespace Application.Components
         public float Y => _y;
         public float Width => _width;
         public float Height => _height;
+
+        /// <summary>
+        /// Special for convenient interacting with the SFML via utilizing its type
+        /// </summary>
+        public Vector2f SFMLPosition => new(_x, _y);
 
         public void Move(float x, float y) {
             _x += x;
