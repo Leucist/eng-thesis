@@ -56,8 +56,12 @@ namespace Application.Systems
             var transformComponent  = (TransformComponent)  entityComponents[ComponentType.Transform];
             var graphicsComponent   = (GraphicsComponent)   entityComponents[ComponentType.Graphics];
 
-            // Update the GC position according to the TC
-            graphicsComponent.Sprite.Position = transformComponent.SFMLPosition;
+            // Update the GC position and orientation according to the TC
+            Vector2f sfmlPosition   = new(transformComponent.X, transformComponent.Y);
+            Vector2f sfmlDirection  = new(transformComponent.Direction, 1); // Direction states whether the sprite has to be reflected
+            
+            graphicsComponent.Sprite.Position   = sfmlPosition;
+            graphicsComponent.Sprite.Scale      = sfmlDirection;
             
             // Draw the entity on the canvas
             _canvas.Draw(graphicsComponent.Sprite);
