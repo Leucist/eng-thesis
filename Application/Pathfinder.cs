@@ -24,41 +24,14 @@ namespace Application
             throw new DirectoryNotFoundException("Solution root was not found.");
         }
 
-        public static string GetGameProjectDirectory() => Path.Combine(FindSolutionDirectory(), "Application");
+        public static string GetSourceFolder() => Path.Combine(FindSolutionDirectory(), "Application", "Source");
 
-        public static string GetGraphicsTexturesFolder() {
-            return Path.Combine(GetGameProjectDirectory(), "Textures");
-        }
+        public static string GetAudioFolder() => Path.Combine(GetSourceFolder(), "Audio");
 
-        public static string GetFullTextureFilePath(string pathToImage) {
-            // TODO:
-            throw new NotImplementedException("Declare relative path when the texture folder exists.");
-        }
+        public static string GetGraphicsFolder() => Path.Combine(GetSourceFolder(), "Graphics");
 
-        // public static string GetGraphicsFontsFolder() {
-        //     return Path.Combine(FindSolutionDirectory(), "Application", "fonts/Cinzel");
-        // }
+        public static string GetTexturesFolder() => Path.Combine(GetGraphicsFolder(), "Textures");
 
-        // public static string GetIconPath() {
-        //     return Path.Combine(FindSolutionDirectory(), "Application", "images", "icon.png");
-        // }
-
-
-        // public static string GetCutsceneFolderPath(CutsceneType cutscene) {
-        //     string cutscenesFolder = "Cutscenes";
-        //     string cutsceneFolderName = "Cutscene_" + cutscene.ToString();
-        //     return Path.Combine(cutscenesFolder, cutsceneFolderName);
-        // }
-
-        // public static string GetFrameFilePath(int frameNumber, CutsceneType cutscene) {
-        //     string cutsceneFolderPath = GetCutsceneFolderPath(cutscene);
-        //     string frameFileName = frameNumber.ToString();
-        //     string frameFilePath = Path.Combine(cutsceneFolderPath, frameFileName);
-        //     return frameFilePath;
-        // }
-
-        // public static string GetAudioFolder() {
-        //     return Path.Combine(FindSolutionDirectory(), "Application", "Audio");
-        // }
+        public static string GetFullTextureFilePath(string pathToImage) => Path.Combine(GetTexturesFolder(), pathToImage);
     }
 }
