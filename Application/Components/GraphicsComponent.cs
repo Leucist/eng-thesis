@@ -11,6 +11,7 @@ namespace Application.Components
 
         public Sprite Sprite => GetSprite();
 
+        // * pathToImage being ~"<EntityType>/<AnimationType>/<Image>"
         public void SetTexture(string pathToImage) {
             _texture = new Texture(Pathfinder.GetFullTextureFilePath(pathToImage));
             _textureChanged = true; // resets the flag that the Sprite must be updated
