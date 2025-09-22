@@ -8,11 +8,13 @@ namespace Application.Components
         private float _y = y;
         private float _width = width;
         private float _height = height;
+        private int _direction = 1;
 
         public float X => _x;
         public float Y => _y;
         public float Width => _width;
         public float Height => _height;
+        public int Direction => _direction;
 
         /// <summary>
         /// Special for convenient interacting with the SFML via utilizing its type
@@ -20,6 +22,11 @@ namespace Application.Components
         public Vector2f SFMLPosition => new(_x, _y);
 
         public void Move(float x, float y) {
+            // Change direction, if needed
+            int directionChange = Math.Sign(x);
+            if (directionChange != 0) _direction = directionChange;
+
+            // Change coordinates
             _x += x;
             _y += y;
         }
