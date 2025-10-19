@@ -11,6 +11,8 @@ namespace Application.Components
 
         public Sprite Sprite => GetSprite();
 
+        
+
         // * pathToImage being ~"<EntityType>/<AnimationType>/<Image>"
         public void SetTexture(string pathToImage) {
             _texture = GraphicsCache.GetTextureFromCache(Pathfinder.GetFullTextureFilePath(pathToImage));
