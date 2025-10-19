@@ -20,6 +20,8 @@ namespace Application.Systems
         private readonly RenderTexture _canvas;
         private readonly Sprite _canvasSprite;
 
+        private readonly GraphicsCache _graphicsCache;
+
         public RenderingSystem(EntityManager entityManager)
             : base(
                 entityManager,
@@ -34,6 +36,8 @@ namespace Application.Systems
             _canvas             = new(CANVAS_WIDTH, CANVAS_HEIGHT);
             _canvasSprite       = new(_canvas.Texture);
             _canvasSprite.Scale = new Vector2f(CANVAS_MULTIPLIER, CANVAS_MULTIPLIER);
+
+            _graphicsCache = new();
         }
 
         public override void Update() {

@@ -33,5 +33,22 @@ namespace Application
         public static string GetTexturesFolder() => Path.Combine(GetGraphicsFolder(), "Textures");
 
         public static string GetFullTextureFilePath(string pathToImage) => Path.Combine(GetTexturesFolder(), pathToImage);
+
+
+        /// <summary>
+        /// Returns a list of all files inside the specified directory and its subdirectories.
+        /// </summary>
+        public static List<string> GetAllFilesRecursive(string rootFolder)
+        {
+            if (!Directory.Exists(rootFolder))
+                throw new DirectoryNotFoundException($"Directory not found: {rootFolder}");
+
+            return new List<string>(Directory.GetFiles(rootFolder, "*", SearchOption.AllDirectories));
+        }
+
+        /// <summary>
+        /// Returns all file paths under the Graphics folder (including subdirectories).
+        /// </summary>
+        public static List<string> GetAllTexturePaths() => GetAllFilesRecursive(GetGraphicsFolder());
     }
 }
