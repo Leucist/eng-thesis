@@ -5,8 +5,9 @@ namespace Application
     public class GraphicsCache
     {
         private readonly Dictionary<string, Texture> _texturesCache;
+        private static GraphicsCache? _instance;
 
-        public GraphicsCache() {
+        private GraphicsCache() {
             _texturesCache = [];
 
             // * Pre-load the defined textures.
@@ -28,6 +29,11 @@ namespace Application
                 _texturesCache[path] = requestedTexture;
             }
             return requestedTexture;
+        }
+
+        public static Texture GetTextureFromCache(string path) {
+            _instance ??= new GraphicsCache();
+            return _instance.GetTexture(path);
         }
     }
 }

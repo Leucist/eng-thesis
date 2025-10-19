@@ -13,7 +13,7 @@ namespace Application.Components
 
         // * pathToImage being ~"<EntityType>/<AnimationType>/<Image>"
         public void SetTexture(string pathToImage) {
-            _texture = new Texture(Pathfinder.GetFullTextureFilePath(pathToImage));
+            _texture = GraphicsCache.GetTextureFromCache(Pathfinder.GetFullTextureFilePath(pathToImage));
             _textureChanged = true; // resets the flag that the Sprite must be updated
         }
 
