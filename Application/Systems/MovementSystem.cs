@@ -5,7 +5,7 @@ using Application.Entities;
 namespace Application.Systems
 {
     public class MovementSystem(EntityManager entityManager)
-        : System(
+        : ASystem(
             entityManager,
             [
                 ComponentType.Transform,

@@ -3,12 +3,12 @@ using Application.Entities;
 
 namespace Application.Systems
 {
-    public abstract class System
+    public abstract class ASystem
     {
         protected readonly EntityManager _entityManager;
         protected readonly List<ComponentType> _requiredComponents;
 
-        protected System(EntityManager entityManager, List<ComponentType> requiredComponents) {
+        protected ASystem(EntityManager entityManager, List<ComponentType> requiredComponents) {
             _entityManager = entityManager;
             _requiredComponents = requiredComponents;
         }
