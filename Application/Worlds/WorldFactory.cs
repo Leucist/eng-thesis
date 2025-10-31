@@ -2,21 +2,21 @@ using System.Text.Json;
 
 namespace Application.Worlds
 {
-    public class WorldFactory
+    public static class WorldFactory
     {
-        public World InitialWorld => GetTestWorld() /*GetMainMenuWorld()*/;
+        public static World InitialWorld => GetTestWorld() /*GetMainMenuWorld()*/;
 
-        public World GetTestWorld() {
+        public static World GetTestWorld() {
             throw new NotImplementedException("Test world doesn't exist yet.");
             return LoadFromTemplate("Test");
         }
 
-        public World GetMainMenuWorld() {
+        public static World GetMainMenuWorld() {
             throw new NotImplementedException("Main Menu world doesn't exist yet.");
             return LoadFromTemplate("MainMenu");
         }
         
-        private World Load(string absolutePath) {
+        private static World Load(string absolutePath) {
             string json = File.ReadAllText(absolutePath);
             WorldDTO dto = JsonSerializer.Deserialize<WorldDTO>(json)!;
 
@@ -26,8 +26,8 @@ namespace Application.Worlds
             return world;
         }
 
-        public World LoadFromTemplate(string worldName) => Load(Pathfinder.GetWorldTemplatePath(worldName));
+        public static World LoadFromTemplate(string worldName) => Load(Pathfinder.GetWorldTemplatePath(worldName));
 
-        public World LoadFromSaves(string saveName) => Load(Pathfinder.GetWorldSavePath(saveName));
+        public static World LoadFromSaves(string saveName) => Load(Pathfinder.GetWorldSavePath(saveName));
     }
 }
