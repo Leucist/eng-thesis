@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 using Application.Entities;
 
 namespace Application.Worlds
@@ -13,6 +15,18 @@ namespace Application.Worlds
 
         public World GetMainMenuWorld() {
             return new World(/*EntityManager.Instance.GetMainMenuPlayer()*/);
+        }
+
+        public World LoadFromSaves(string worldName) {
+            string filePath = Pathfinder.GetWorldPath(worldName);
+
+            string json = File.ReadAllText(filePath);
+            WorldDTO dto = JsonSerializer.Deserialize<WorldDTO>(json)!;
+
+            World world = new(dto.Entities, dto.Systems);
+            // todo: Background and size in tiles remain unused
+
+            return world;
         }
     }
 }

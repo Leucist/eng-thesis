@@ -65,6 +65,12 @@ namespace Application.Entities
             PlaceEntityInGroup(entity, components);
         }
 
+        public void AddComponents(Entity entity, List<Component> components) {
+            foreach (Component component in components) {
+                AddComponent(entity, component);
+            }
+        }
+
         public void RemoveComponent(Entity entity, ComponentType componentType) {
             // Retrieve components and check if component is contained
             var components = GetEntityComponents(entity);
