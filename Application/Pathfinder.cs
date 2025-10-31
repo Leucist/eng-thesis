@@ -51,9 +51,9 @@ namespace Application
         /// </summary>
         public static List<string> GetAllTexturePaths() => GetAllFilesRecursive(GetGraphicsFolder());
 
-        public static string GetWorldPath(string name)
+        private static string GetWorldPath(string name, string folderName)
         {
-            string folder   = Path.Combine(GetSourceFolder(), "Worlds");
+            string folder   = Path.Combine(GetSourceFolder(), folderName);
             string filePath = Path.Combine(folder, $"{name}.json");
 
             if (!File.Exists(filePath))
@@ -61,5 +61,8 @@ namespace Application
 
             return filePath;
         }
+
+        public static string GetWorldTemplatePath(string name) => GetWorldPath(name, "Worlds");
+        public static string GetWorldSavePath(string name) => GetWorldPath(name, "Saves");
     }
 }

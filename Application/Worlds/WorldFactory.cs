@@ -1,7 +1,5 @@
 using System.Text.Json;
 
-using Application.Entities;
-
 namespace Application.Worlds
 {
     public class WorldFactory
@@ -9,18 +7,17 @@ namespace Application.Worlds
         public World InitialWorld => GetTestWorld() /*GetMainMenuWorld()*/;
 
         public World GetTestWorld() {
-            World world = new World();
-            return world;
+            throw new NotImplementedException("Test world doesn't exist yet.");
+            return LoadFromTemplate("Test");
         }
 
         public World GetMainMenuWorld() {
-            return new World(/*EntityManager.Instance.GetMainMenuPlayer()*/);
+            throw new NotImplementedException("Main Menu world doesn't exist yet.");
+            return LoadFromTemplate("MainMenu");
         }
-
-        public World LoadFromSaves(string worldName) {
-            string filePath = Pathfinder.GetWorldPath(worldName);
-
-            string json = File.ReadAllText(filePath);
+        
+        private World Load(string absolutePath) {
+            string json = File.ReadAllText(absolutePath);
             WorldDTO dto = JsonSerializer.Deserialize<WorldDTO>(json)!;
 
             World world = new(dto.Entities, dto.Systems);
@@ -28,5 +25,9 @@ namespace Application.Worlds
 
             return world;
         }
+
+        public World LoadFromTemplate(string worldName) => Load(Pathfinder.GetWorldTemplatePath(worldName));
+
+        public World LoadFromSaves(string saveName) => Load(Pathfinder.GetWorldSavePath(saveName));
     }
 }
