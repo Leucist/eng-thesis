@@ -2,6 +2,8 @@ using Application.Entities;
 using Application.Components;
 using Application.Systems;
 
+using System.Text.Json;
+
 namespace Application.Worlds
 {
     public class World
@@ -41,12 +43,12 @@ namespace Application.Worlds
         //     // * ...or pass only additional components for the player? -> already has InputComponent and etc., but others passed
         // }
 
-        private void CreatePlayer(List<Component> playerComponents) {
-            Entity player = _entityManager.CreateEntity();
-            foreach (var component in playerComponents) {
-                _entityManager.AddComponent(player, component);
-            }
-        }
+        // private void CreatePlayer(List<Component> playerComponents) {
+        //     Entity player = _entityManager.CreateEntity();
+        //     foreach (var component in playerComponents) {
+        //         _entityManager.AddComponent(player, component);
+        //     }
+        // }
 
         public void Update() {
             foreach (var system in _systems) {
@@ -64,6 +66,28 @@ namespace Application.Worlds
             // todo: Background and size in tiles remain unused
 
             return dto;
+        }
+
+        /// <summary>
+        /// Serializes World -> WorldDTO -> JSON file under Application/Source/Saves/{name}.json.
+        /// Overwrites existing file.
+        /// </summary>
+        public void SaveWorldToFile(string name)
+        {
+            WorldDTO dto = ConvertToDTO();
+
+            string path = Pathfinder.GetWorldSavePath(name);
+
+            // todo: may be moved to a separate field
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                IncludeFields = true, // needed as the DTO uses public fields instead of properties
+                PropertyNameCaseInsensitive = true
+            };
+            string json = JsonSerializer.Serialize(dto, options);
+            
+            File.WriteAllText(path, json);
         }
     }
 }
