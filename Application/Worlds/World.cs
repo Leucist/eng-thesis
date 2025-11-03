@@ -53,5 +53,17 @@ namespace Application.Worlds
                 system.Update();
             }
         }
+
+        public WorldDTO ConvertToDTO() {
+            var dto = new WorldDTO
+            {
+                Entities = _entityManager.GetAllEntities(),
+                Systems = _systems
+            };
+
+            // todo: Background and size in tiles remain unused
+
+            return dto;
+        }
     }
 }
