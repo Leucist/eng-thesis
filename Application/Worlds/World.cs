@@ -29,27 +29,6 @@ namespace Application.Worlds
             _isAlive = true;
         }
 
-        // public World(List<Component> playerComponents) {
-        //     // - Initialise attributes
-        //     _entityManager = new EntityManager();
-        //     _isAlive = true;
-        //     _systems = [];
-        //     // - Initialise the player entity
-        //     CreatePlayer(playerComponents);
-
-        //     // - Initialise Systems
-        //     foreach (ASystem system in ) {}  // * LOADING FROM JSON-?
-        //     // * Maybe not pass the player comp-s then, and just world init files – the MAP and Saves, any prefabs,
-        //     // * ...or pass only additional components for the player? -> already has InputComponent and etc., but others passed
-        // }
-
-        // private void CreatePlayer(List<Component> playerComponents) {
-        //     Entity player = _entityManager.CreateEntity();
-        //     foreach (var component in playerComponents) {
-        //         _entityManager.AddComponent(player, component);
-        //     }
-        // }
-
         public void Update() {
             foreach (var system in _systems) {
                 system.Update();
