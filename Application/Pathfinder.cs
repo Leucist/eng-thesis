@@ -64,5 +64,9 @@ namespace Application
 
         public static string GetWorldTemplatePath(string name) => GetWorldPath(name, "Worlds");
         public static string GetWorldSavePath(string name) => GetWorldPath(name, "Saves");
+
+        private static string GetPrefabPath() => Path.Combine(GetSourceFolder(), "Prefabs");
+        public static string GetTilePrefabPath(string name) => Path.Combine(GetPrefabPath(), "Tiles", $"{name}.json");
+        public static string GetCharacterPrefabPath(string name) => Path.Combine(GetPrefabPath(), "Characters", $"{name}.json");
     }
 }
