@@ -9,6 +9,6 @@ namespace Application.Worlds
         // public int TileWidth;
         // public int TileHeight;
         public List<List<Component>> Entities;
-        public List<ASystem> Systems;
+        public List<string> SystemTypes;
     }
 }

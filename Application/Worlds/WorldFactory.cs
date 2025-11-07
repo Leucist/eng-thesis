@@ -20,7 +20,7 @@ namespace Application.Worlds
             string json = File.ReadAllText(absolutePath);
             WorldDTO dto = JsonSerializer.Deserialize<WorldDTO>(json)!;
 
-            World world = new(dto.Entities, dto.Systems);
+            World world = new(dto.Entities, dto.SystemTypes);
             // todo: Background and size in tiles remain unused
 
             return world;

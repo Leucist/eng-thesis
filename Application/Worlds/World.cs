@@ -16,8 +16,8 @@ namespace Application.Worlds
         public bool IsAlive  => _isAlive;
         // public Entity Player => _player;
 
-        public World(List<List<Component>> entities, List<ASystem> systems) {
-            _systems = systems;
+        public World(List<List<Component>> entities, List<string> systemTypes) {
+            _systems = [];
             _entityManager = new EntityManager();
 
             // Fill Entities
@@ -26,6 +26,15 @@ namespace Application.Worlds
                 _entityManager.AddComponents(entity, componentBundle);
             }
 
+            // Initialize Systems
+            foreach (var typeName in systemTypes) {
+                // Find the matching class (type) or throw Exception
+                Type type = Type.GetType(typeName) ?? throw new Exception($"System type {typeName} not found");
+                // Create instance of the given type
+                _systems.Add((ASystem) Activator.CreateInstance(type, _entityManager)!);
+            }
+
+            // todo: Not redundant if using level chain? Not yet, however~
             _isAlive = true;
         }
 
@@ -39,7 +48,7 @@ namespace Application.Worlds
             var dto = new WorldDTO
             {
                 Entities = _entityManager.GetAllEntities(),
-                Systems = _systems
+                SystemTypes = _systems.Select(s => s.GetType().AssemblyQualifiedName!).ToList()
             };
 
             // todo: Background and size in tiles remain unused
