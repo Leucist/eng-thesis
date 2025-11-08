@@ -6,7 +6,7 @@ using SFML.Window;
 
 namespace Application.Systems
 {
-    public class RenderingSystem : System
+    public class RenderingSystem : ASystem
     {
         // TODO (?) - May be moved to some app constants class or json
         private const string TITLE = "APPLICATION";

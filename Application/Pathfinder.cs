@@ -50,5 +50,23 @@ namespace Application
         /// Returns all file paths under the Graphics folder (including subdirectories).
         /// </summary>
         public static List<string> GetAllTexturePaths() => GetAllFilesRecursive(GetGraphicsFolder());
+
+        private static string GetWorldPath(string name, string folderName)
+        {
+            string folder   = Path.Combine(GetSourceFolder(), folderName);
+            string filePath = Path.Combine(folder, $"{name}.json");
+
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException($"World file not found: {filePath}");
+
+            return filePath;
+        }
+
+        public static string GetWorldTemplatePath(string name) => GetWorldPath(name, "Worlds");
+        public static string GetWorldSavePath(string name) => GetWorldPath(name, "Saves");
+
+        private static string GetPrefabPath() => Path.Combine(GetSourceFolder(), "Prefabs");
+        public static string GetTilePrefabPath(string name) => Path.Combine(GetPrefabPath(), "Tiles", $"{name}.json");
+        public static string GetCharacterPrefabPath(string name) => Path.Combine(GetPrefabPath(), "Characters", $"{name}.json");
     }
 }

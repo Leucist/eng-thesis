@@ -1,13 +1,33 @@
-using Application.Entities;
+using System.Text.Json;
 
-namespace Application
+namespace Application.Worlds
 {
-    public class WorldFactory
+    public static class WorldFactory
     {
-        public World InitialWorld => GetMainMenuWorld();
+        public static World InitialWorld => GetTestWorld() /*GetMainMenuWorld()*/;
 
-        public World GetMainMenuWorld() {
-            return new World(/*EntityManager.Instance.GetMainMenuPlayer()*/);
+        public static World GetTestWorld() {
+            throw new NotImplementedException("Test world doesn't exist yet.");
+            return LoadFromTemplate("Test");
         }
+
+        public static World GetMainMenuWorld() {
+            throw new NotImplementedException("Main Menu world doesn't exist yet.");
+            return LoadFromTemplate("MainMenu");
+        }
+        
+        private static World Load(string absolutePath) {
+            string json = File.ReadAllText(absolutePath);
+            WorldDTO dto = JsonSerializer.Deserialize<WorldDTO>(json)!;
+
+            World world = new(dto.Entities, dto.SystemTypes);
+            // todo: Background and size in tiles remain unused
+
+            return world;
+        }
+
+        public static World LoadFromTemplate(string worldName) => Load(Pathfinder.GetWorldTemplatePath(worldName));
+
+        public static World LoadFromSaves(string saveName) => Load(Pathfinder.GetWorldSavePath(saveName));
     }
 }

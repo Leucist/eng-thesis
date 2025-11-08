@@ -65,6 +65,12 @@ namespace Application.Entities
             PlaceEntityInGroup(entity, components);
         }
 
+        public void AddComponents(Entity entity, List<Component> components) {
+            foreach (Component component in components) {
+                AddComponent(entity, component);
+            }
+        }
+
         public void RemoveComponent(Entity entity, ComponentType componentType) {
             // Retrieve components and check if component is contained
             var components = GetEntityComponents(entity);
@@ -82,25 +88,36 @@ namespace Application.Entities
             PlaceEntityInGroup(entity, components);
         }
 
-        public Entity GetMainMenuPlayer() {
-            // TODO May load data from some json prefab and return object
-            var player = CreateEntity();
+        public List<List<Component>> GetAllEntities() {
+            // * Used for saving in DTO object
+            List<List<Component>> entities = new((int)_lastID);
 
-            List<Component> componentsToAdd = [];
-
-            componentsToAdd.Add(new TransformComponent(
-                10f, 10f, 10f, 10f  // - values to be changed
-            ));
-
-            // componentsToAdd.Add(new PhysicsComponent);
-            // componentsToAdd.Add(new CombatComponent);
-            // componentsToAdd.Add(new InputComponent);
-
-            foreach (Component component in componentsToAdd) {
-                AddComponent(player, component);
+            foreach (var entity in _entities.Values) {
+                entities.AddRange(entity.Values);
             }
 
-            return player;
+            return entities;
         }
+
+        // public Entity GetMainMenuPlayer() {
+        //     // TODO May load data from some json prefab and return object
+        //     var player = CreateEntity();
+
+        //     List<Component> componentsToAdd = [];
+
+        //     componentsToAdd.Add(new TransformComponent(
+        //         10f, 10f, 10f, 10f  // - values to be changed
+        //     ));
+
+        //     // componentsToAdd.Add(new PhysicsComponent);
+        //     // componentsToAdd.Add(new CombatComponent);
+        //     // componentsToAdd.Add(new InputComponent);
+
+        //     foreach (Component component in componentsToAdd) {
+        //         AddComponent(player, component);
+        //     }
+
+        //     return player;
+        // }
     }
 }

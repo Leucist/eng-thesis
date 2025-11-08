@@ -2,14 +2,18 @@ using SFML.Graphics;
 
 namespace Application.Components
 {
-    public class GraphicsComponent() : Component(ComponentType.Graphics)
+    public class GraphicsComponent : Component
     {
-        // TODO: Ensure fields won't stay null while exiting the constructor
         private Texture _texture;
         private Sprite _sprite;
-        private bool _textureChanged = true;
+        private bool _textureChanged;
 
         public Sprite Sprite => GetSprite();
+
+        public GraphicsComponent(string texturePath) : base(ComponentType.Graphics) {
+            // Sets values of the _texture and _textureChanged flag
+            SetTexture(texturePath);
+        }
 
         // * pathToImage being ~"<EntityType>/<AnimationType>/<Image>"
         public void SetTexture(string pathToImage) {

@@ -1,21 +1,81 @@
-using Application.Components;
 using Application.Entities;
+using Application.Components;
+using Application.Systems;
 
-namespace Application
+using System.Text.Json;
+
+namespace Application.Worlds
 {
-    public class World(/*List<Component> playerComponents*/)
+    public class World
     {
-        private readonly List<Systems.System> _systems = [];
+        private readonly EntityManager _entityManager;
+        private readonly List<ASystem> _systems;
         // private readonly Entity _player = player;
-        private bool _isAlive = true;
+        private bool _isAlive;
 
         public bool IsAlive  => _isAlive;
         // public Entity Player => _player;
+
+        public World(List<List<Component>> entities, List<string> systemTypes) {
+            _systems = [];
+            _entityManager = new EntityManager();
+
+            // Fill Entities
+            foreach (var componentBundle in entities) {
+                var entity = _entityManager.CreateEntity();
+                _entityManager.AddComponents(entity, componentBundle);
+            }
+
+            // Initialize Systems
+            foreach (var typeName in systemTypes) {
+                // Find the matching class (type) or throw Exception
+                Type type = Type.GetType(typeName) ?? throw new Exception($"System type {typeName} not found");
+                // Create instance of the given type
+                _systems.Add((ASystem) Activator.CreateInstance(type, _entityManager)!);
+            }
+
+            // todo: Not redundant if using level chain? Not yet, however~
+            _isAlive = true;
+        }
 
         public void Update() {
             foreach (var system in _systems) {
                 system.Update();
             }
+        }
+
+        public WorldDTO ConvertToDTO() {
+            var dto = new WorldDTO
+            {
+                Entities = _entityManager.GetAllEntities(),
+                SystemTypes = _systems.Select(s => s.GetType().AssemblyQualifiedName!).ToList()
+            };
+
+            // todo: Background and size in tiles remain unused
+
+            return dto;
+        }
+
+        /// <summary>
+        /// Serializes World -> WorldDTO -> JSON file under Application/Source/Saves/{name}.json.
+        /// Overwrites existing file.
+        /// </summary>
+        public void SaveWorldToFile(string name)
+        {
+            WorldDTO dto = ConvertToDTO();
+
+            string path = Pathfinder.GetWorldSavePath(name);
+
+            // todo: may be moved to a separate field
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                IncludeFields = true, // needed as the DTO uses public fields instead of properties
+                PropertyNameCaseInsensitive = true
+            };
+            string json = JsonSerializer.Serialize(dto, options);
+            
+            File.WriteAllText(path, json);
         }
     }
 }

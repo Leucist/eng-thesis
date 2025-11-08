@@ -1,3 +1,5 @@
+using Application.Worlds;
+
 namespace Application
 {
     public class Game
@@ -12,7 +14,6 @@ namespace Application
         private static readonly object _lock = new();
 
         private World? _world;
-        private WorldFactory _worldFactory = new WorldFactory();
         private bool _isRunning = false;
 
         public static Game Instance {
@@ -31,7 +32,7 @@ namespace Application
 
             // Start Main Menu
             _isRunning = true;
-            _world = _worldFactory.InitialWorld;
+            _world = WorldFactory.InitialWorld;
 
             while (_isRunning) {
                 _world = UpdateWorld();
@@ -40,6 +41,8 @@ namespace Application
         }
 
         private World UpdateWorld() {
+            // todo: May Implement switching levels with LinkedList<WorldProxy> (one-way linking) :D 
+
             while (_world!.IsAlive) {
                 _world.Update();
             }
