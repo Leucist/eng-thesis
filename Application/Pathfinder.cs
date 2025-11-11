@@ -2,6 +2,9 @@ namespace Application
 {
     public static class Pathfinder
     {
+        // To cache the Solution path // todo? may be expanded to all the directory paths 
+        private static string? _solutionDirectory;
+
         public static string FindSolutionDirectory()
         {
             // Current directory of the executing process
@@ -24,7 +27,12 @@ namespace Application
             throw new DirectoryNotFoundException("Solution root was not found.");
         }
 
-        public static string GetSourceFolder() => Path.Combine(FindSolutionDirectory(), "Application", "Source");
+        public static string GetSolutionDirectory() {
+            _solutionDirectory ??= FindSolutionDirectory();
+            return _solutionDirectory;
+        }
+
+        public static string GetSourceFolder() => Path.Combine(GetSolutionDirectory(), "Application", "Source");
 
         public static string GetAudioFolder() => Path.Combine(GetSourceFolder(), "Audio");
 
