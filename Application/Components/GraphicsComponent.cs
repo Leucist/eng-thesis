@@ -7,10 +7,13 @@ namespace Application.Components
         private Texture _texture;
         private Sprite _sprite;
         private bool _textureChanged;
+        private string _texturePath;    // for storing path of the initial image in JSON
 
         public Sprite Sprite => GetSprite();
+        public string TexturePath => _texturePath;
 
         public GraphicsComponent(string texturePath) : base(ComponentType.Graphics) {
+            _texturePath = texturePath;
             // Sets values of the _texture and _textureChanged flag
             SetTexture(texturePath);
         }
