@@ -2,6 +2,8 @@ using System.Text.Json;
 using LevelEditor.Serialization;
 using LevelEditor.Core;
 
+using Application;
+
 namespace LevelEditor.Prefabs
 {
     /// <summary>
@@ -26,10 +28,6 @@ namespace LevelEditor.Prefabs
             
             _prefabs[PrefabCategory.Characters] = LoadPrefabsFromDirectory(
                 Pathfinder.GetCharacterPrefabsDirectory()
-            );
-            
-            _prefabs[PrefabCategory.Backgrounds] = LoadPrefabsFromDirectory(
-                Pathfinder.GetBackgroundPrefabsDirectory()
             );
         }
 

@@ -4,6 +4,7 @@ using SFML.Window;
 using LevelEditor.Core;
 using LevelEditor.Prefabs;
 using LevelEditor.Utils;
+using Application;          // for Pathfinder and GraphicsCache
 
 namespace LevelEditor.UI
 {

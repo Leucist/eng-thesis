@@ -120,7 +120,7 @@ namespace LevelEditor.UI
             {
                 // _state.SetToolForCategory(PrefabCategory.Backgrounds);
                 OnSwitchToBackgrounds?.Invoke();
-                UpdateToolButtons();
+                // UpdateToolButtons(); // todo? May check if update won't really be needed here
             };
             _buttons.Add(backgroundsButton);
             xOffset += buttonWidth + spacing;
@@ -153,8 +153,9 @@ namespace LevelEditor.UI
                     button.IsActive = true;
                 else if (button.Label == "Characters" && _state.CurrentCategory == PrefabCategory.Characters && _state.CurrentTool == EditorTool.PlaceCharacter)
                     button.IsActive = true;
-                else if (button.Label == "Backgrounds" && _state.CurrentCategory == PrefabCategory.Backgrounds && _state.CurrentTool == EditorTool.PlaceBackground)
-                    button.IsActive = true;
+                else if (button.Label == "Backgrounds")
+                    // button.IsActive = true; // todo? Skipped highlighting for now
+                    continue;
                 else if (button.Label == "Delete" && _state.CurrentTool == EditorTool.Delete)
                     button.IsActive = true;
             }

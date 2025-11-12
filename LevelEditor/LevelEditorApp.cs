@@ -5,6 +5,7 @@ using LevelEditor.Core;
 using LevelEditor.Prefabs;
 using LevelEditor.UI;
 using LevelEditor.Utils;
+using Application;          // for Pathfinder
 
 namespace LevelEditor
 {

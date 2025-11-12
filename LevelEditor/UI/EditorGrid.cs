@@ -4,6 +4,7 @@ using SFML.Window;
 using LevelEditor.Core;
 using LevelEditor.Utils;
 using LevelEditor.Prefabs;
+using Application.Components;
 
 namespace LevelEditor.UI
 {
@@ -122,7 +123,7 @@ namespace LevelEditor.UI
 
                 case EditorTool.PlaceTile:
                 case EditorTool.PlaceCharacter:
-                case EditorTool.PlaceBackground:
+                // case EditorTool.PlaceBackground:
                     HandlePlaceEntity(gridX, gridY);
                     break;
 
@@ -157,13 +158,13 @@ namespace LevelEditor.UI
             var prefab = _prefabLibrary.GetPrefabByName(_state.SelectedPrefabName);
             if (prefab == null) return;
 
-            // For backgrounds, place at (0, 0) regardless of click position
-            bool isBackground = _state.CurrentTool == EditorTool.PlaceBackground;
-            if (isBackground)
-            {
-                gridX = 0;
-                gridY = 0;
-            }
+            // // For backgrounds, place at (0, 0) regardless of click position
+            // bool isBackground = _state.CurrentTool == EditorTool.PlaceBackground;
+            // if (isBackground)
+            // {
+            //     gridX = 0;
+            //     gridY = 0;
+            // }
 
             var components = prefab.CloneComponents();
             var placedEntity = new PlacedEntity(prefab.Name, components, gridX, gridY);

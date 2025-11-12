@@ -2,7 +2,7 @@ using System.Text.Json;
 using Application.Components;
 using Application.Worlds;
 using Application.Systems;
-using Application.Serialization;
+using LevelEditor.Serialization;
 using LevelEditor.Utils;
 
 namespace LevelEditor.Core
@@ -94,7 +94,7 @@ namespace LevelEditor.Core
             var dto = new WorldDTO
             {
                 Entities = Entities.Select(e => e.Components).ToList(),
-                Systems = CreateDefaultSystemTypes() // TODO: Make this configurable
+                SystemTypes = CreateDefaultSystemTypes() // TODO: Make this configurable
             };
             return dto;
         }
