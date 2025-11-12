@@ -38,7 +38,8 @@ namespace Application
 
         public static string GetGraphicsFolder() => Path.Combine(GetSourceFolder(), "Graphics");
 
-        public static string GetTexturesFolder() => Path.Combine(GetGraphicsFolder(), "Textures");
+        public static string GetTexturesFolder()        => Path.Combine(GetGraphicsFolder(), "Textures");
+        public static string GetBackgroundDirectory()   => Path.Combine(GetGraphicsFolder(), "Backgrounds");
 
         public static string GetFullTextureFilePath(string pathToImage) => Path.Combine(GetTexturesFolder(), pathToImage);
 
@@ -73,8 +74,13 @@ namespace Application
         public static string GetWorldTemplatePath(string name) => GetWorldPath(name, "Worlds");
         public static string GetWorldSavePath(string name) => GetWorldPath(name, "Saves");
 
-        private static string GetPrefabPath() => Path.Combine(GetSourceFolder(), "Prefabs");
-        public static string GetTilePrefabPath(string name) => Path.Combine(GetPrefabPath(), "Tiles", $"{name}.json");
-        public static string GetCharacterPrefabPath(string name) => Path.Combine(GetPrefabPath(), "Characters", $"{name}.json");
+        // * Prefabs *
+        private static string GetPrefabsFolder() => Path.Combine(GetSourceFolder(), "Prefabs");
+
+        public static string GetTilePrefabsDirectory()          => Path.Combine(GetPrefabsFolder(), "Tiles");
+        public static string GetCharacterPrefabsDirectory()     => Path.Combine(GetPrefabsFolder(), "Characters");
+
+        public static string GetTilePrefabPath(string name) => Path.Combine(GetTilePrefabsDirectory(), $"{name}.json");
+        public static string GetCharacterPrefabPath(string name) => Path.Combine(GetCharacterPrefabsDirectory(), $"{name}.json");
     }
 }
