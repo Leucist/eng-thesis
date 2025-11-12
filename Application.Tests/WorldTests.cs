@@ -1,10 +1,10 @@
-using Application.Entities;
+using Application.Worlds;
 
 namespace Application.Tests
 {
     public class WorldTests
     {
-        private WorldFactory _factory = new();
+        // private WorldFactory _factory = new();
 
         // TODO: May be better tested when loading prefabs from JSON implemented. 
         // - Commented for now, as only entity properties can be compared, not the entites themselves as for unique id's
