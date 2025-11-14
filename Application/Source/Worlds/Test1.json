@@ -1,0 +1,296 @@
+{
+  "Entities": [
+    [
+      {
+        "$type": "transform",
+        "X": 128,
+        "Y": 256,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 448,
+        "Y": 256,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 416,
+        "Y": 192,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 352,
+        "Y": 128,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 224,
+        "Y": 96,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 416,
+        "Y": 256,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 384,
+        "Y": 192,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 320,
+        "Y": 224,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 256,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 192,
+        "Y": 192,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 128,
+        "Y": 128,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 128,
+        "Y": 192,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 64,
+        "Y": 256,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 0,
+        "Y": 224,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 32,
+        "Y": 160,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 64,
+        "Y": 160,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 192,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 0,
+        "Y": 0,
+        "Width": 1920,
+        "Height": 1080,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "/home/leucist/Programming/EngineeringThesis/Application/Application/Source/Graphics/Backgrounds/test_small_BG.png",
+        "Type": 4
+      }
+    ]
+  ],
+  "SystemTypes": [
+    "Application.Systems.MovementSystem",
+    "Application.Systems.RenderingSystem"
+  ]
+}

@@ -48,8 +48,24 @@ namespace LevelEditor.UI
         private void CalculateCellSize()
         {
             // Calculate cell size to fit the grid
-            float maxVisibleWidth = Math.Min(_level.WidthInTiles, EditorConstants.MAX_VISIBLE_GRID_WIDTH);
-            _cellSize = (_gridSize.X - 2 * EditorConstants.GRID_PADDING) / maxVisibleWidth;
+            int visibleWidth = Math.Min(_level.WidthInTiles, EditorConstants.MAX_VISIBLE_GRID_WIDTH);
+            int visibleHeight = Math.Min(_level.HeightInTiles, EditorConstants.MAX_LEVEL_HEIGHT_TILES);
+            // int visibleHeight = _level.HeightInTiles;
+            
+            // Calculate based on both width and height constraints
+            float cellSizeByWidth = (_gridSize.X - 2 * EditorConstants.GRID_PADDING) / visibleWidth;
+            float cellSizeByHeight = (_gridSize.Y - 2 * EditorConstants.GRID_PADDING) / visibleHeight;
+            
+            // Use the smaller of the two to ensure everything fits
+            _cellSize = Math.Min(cellSizeByWidth, cellSizeByHeight);
+            
+            // Set a minimum cell size so tiles don't become too small, may be removed~
+            _cellSize = Math.Max(_cellSize, 32f); // Minimum 32 pixels per cell
+
+
+            // // Calculate cell size to fit the grid
+            // float maxVisibleWidth = Math.Min(_level.WidthInTiles, EditorConstants.MAX_VISIBLE_GRID_WIDTH);
+            // _cellSize = (_gridSize.X - 2 * EditorConstants.GRID_PADDING) / maxVisibleWidth;
         }
 
         private void GenerateGridLines()
@@ -57,7 +73,8 @@ namespace LevelEditor.UI
             _gridLines.Clear();
 
             int visibleWidth = Math.Min(_level.WidthInTiles, EditorConstants.MAX_VISIBLE_GRID_WIDTH);
-            int visibleHeight = _level.HeightInTiles;
+            int visibleHeight = Math.Min(_level.HeightInTiles, EditorConstants.MAX_LEVEL_HEIGHT_TILES);
+            // int visibleHeight = _level.HeightInTiles;
 
             // Vertical lines
             for (int x = 0; x <= visibleWidth; x++)
@@ -228,12 +245,6 @@ namespace LevelEditor.UI
         {
             window.Draw(_background);
 
-            // Draw grid lines
-            foreach (var line in _gridLines)
-            {
-                window.Draw(line);
-            }
-
             // Draw entities
             // Create a view for scrolling
             var originalView = window.GetView();
@@ -277,6 +288,12 @@ namespace LevelEditor.UI
                         tempOutline.Size = originalSize;
                     }
                 }
+            }
+
+            // Draw grid lines
+            foreach (var line in _gridLines)
+            {
+                window.Draw(line);
             }
         }
 

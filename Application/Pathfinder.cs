@@ -65,8 +65,8 @@ namespace Application
             string folder   = Path.Combine(GetSourceFolder(), folderName);
             string filePath = Path.Combine(folder, $"{name}.json");
 
-            if (!File.Exists(filePath))
-                throw new FileNotFoundException($"World file not found: {filePath}");
+            // if (!File.Exists(filePath))  // * Throwing exceptions seems not that significant here, for simplicity comment for now
+            //     throw new FileNotFoundException($"World file not found: {filePath}");
 
             return filePath;
         }

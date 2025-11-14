@@ -1,0 +1,17 @@
+{
+  "Name": "MenuNinjaEnemy",
+  "PreviewTexture": "test-ninja_frame-0.png",
+  "Components": [
+    {
+      "$type": "transform",
+      "X": 0,
+      "Y": 0,
+      "Width": 32,
+      "Height": 32
+    },
+    {
+      "$type": "graphics",
+      "TexturePath": "test-ninja_frame-0.png"
+    }
+  ]
+}

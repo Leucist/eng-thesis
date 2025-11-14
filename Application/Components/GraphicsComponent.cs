@@ -1,14 +1,18 @@
 using SFML.Graphics;
+using System.Text.Json.Serialization;
 
 namespace Application.Components
 {
     public class GraphicsComponent : Component
     {
+        [JsonIgnore]
         private Texture _texture;
+        [JsonIgnore]
         private Sprite _sprite;
         private bool _textureChanged;
         private string _texturePath;    // for storing path of the initial image in JSON
 
+        [JsonIgnore]
         public Sprite Sprite => GetSprite();
         public string TexturePath => _texturePath;
 

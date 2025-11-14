@@ -209,8 +209,9 @@ namespace LevelEditor
         {
             // TODO: Implement file dialog
             // For now, using console input
-            Console.WriteLine("Enter level file path:");
-            string? path = Console.ReadLine();
+            Console.WriteLine("Enter level file name:");
+            string? name = Console.ReadLine();
+            string path = Pathfinder.GetWorldTemplatePath(name);
             
             if (!string.IsNullOrEmpty(path) && File.Exists(path))
             {
@@ -239,7 +240,7 @@ namespace LevelEditor
             {
                 try
                 {
-                    string path = Pathfinder.GetWorldSavePath(name);
+                    string path = Pathfinder.GetWorldTemplatePath(name);
                     _level.SaveToFile(path);
                     Console.WriteLine($"Level saved to: {path}");
                 }

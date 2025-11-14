@@ -49,12 +49,14 @@ namespace LevelEditor.Core
                 return false;
 
             // For backgrounds, allow placement anywhere (they don't occupy grid)
-            bool isBackground = entity.Components.OfType<GraphicsComponent>()
-                .Any(gc => {
-                    // Check if this is a background by looking at transform
-                    var transform = entity.Components.OfType<TransformComponent>().FirstOrDefault();
-                    return transform != null && transform.X == 0 && transform.Y == 0;
-                });
+            bool isBackground = entity.PrefabName == "Background";
+            // bool isBackground = entity.PrefabName.ToLower().Contains("background");
+            // bool isBackground = entity.Components.OfType<GraphicsComponent>()
+            //     .Any(gc => {
+            //         // Check if this is a background by looking at transform
+            //         var transform = entity.Components.OfType<TransformComponent>().FirstOrDefault();
+            //         return transform != null && transform.X == 0 && transform.Y == 0;
+            //     });
 
             if (!isBackground && IsGridPositionOccupied(entity.GridX, entity.GridY))
                 return false;

@@ -72,7 +72,8 @@ namespace LevelEditor.UI
             
             foreach (var imagePath in imageFiles)
             {
-                string relativePath = "Backgrounds/" + Path.GetFileNameWithoutExtension(imagePath);
+                // string relativePath = "Backgrounds/" + Path.GetFileNameWithoutExtension(imagePath);
+                string absolutePath = Path.Combine(Pathfinder.GetBackgroundDirectory(), imagePath); // bizzare strings mixing ~
                 int col = index % 2;
                 int row = index / 2;
                 
@@ -81,7 +82,7 @@ namespace LevelEditor.UI
                 float y = _position.Y + EditorConstants.PREFAB_PADDING + 
                         row * (EditorConstants.PREFAB_ICON_SIZE + EditorConstants.PREFAB_PADDING + 20f);
                 
-                var button = new BackgroundButton(new Vector2f(x, y), relativePath, _font);
+                var button = new BackgroundButton(new Vector2f(x, y), absolutePath, _font);
                 _backgroundButtons.Add(button);
                 index++;
             }
@@ -89,6 +90,8 @@ namespace LevelEditor.UI
 
         public void RefreshPrefabs()
         {
+            _isBackgroundMode = false;  // reset to prefab mode
+            _backgroundButtons.Clear(); // clear backgrounds
             _prefabButtons.Clear();
             var prefabs = _prefabLibrary.GetPrefabs(_state.CurrentCategory);
 
@@ -149,7 +152,8 @@ namespace LevelEditor.UI
 
         public void HandleMouseMove(Vector2i mousePos)
         {
-            foreach (var button in _prefabButtons)
+            List<ItemButton> collection = _isBackgroundMode ? _backgroundButtons : _prefabButtons;
+            foreach (ItemButton button in collection)
             {
                 button.HandleMouseMove(mousePos, _scrollOffset);
             }
@@ -174,7 +178,8 @@ namespace LevelEditor.UI
             window.Draw(_background);
 
             // Draw prefab buttons with scroll offset
-            foreach (var button in _prefabButtons)
+            List<ItemButton> collection = _isBackgroundMode ? _backgroundButtons : _prefabButtons;
+            foreach (ItemButton button in collection)
             {
                 button.Draw(window, _scrollOffset);
             }
@@ -182,8 +187,12 @@ namespace LevelEditor.UI
 
 
         // * - - - INNER CLASSES - - - *
+        private abstract ItemButton {
+            public void HandleMouseMove(Vector2i mousePos, float scrollOffset);
+            public void Draw(RenderWindow window, float scrollOffset);
+        }
 
-        private class BackgroundButton
+        private class BackgroundButton : ItemButton
         {
             public string ImagePath { get; }
             private RectangleShape _iconBackground;
@@ -209,10 +218,11 @@ namespace LevelEditor.UI
                 // Try to load preview texture
                 try
                 {
-                    var texture = GraphicsCache.GetTextureFromCache(
-                        // Pathfinder.GetBackgroundDirectory(ImagePath)
-                        ImagePath
-                    );
+                    var texture = new Texture(ImagePath);
+                    // var texture = GraphicsCache.GetTextureFromCache(
+                    //     // Pathfinder.GetBackgroundDirectory(ImagePath)
+                    //     ImagePath
+                    // );
                     _iconSprite = new Sprite(texture);
                     
                     // Scale to fit icon
@@ -222,8 +232,9 @@ namespace LevelEditor.UI
                     _iconSprite.Scale = new Vector2f(scale, scale);
                     _iconSprite.Position = position;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Console.WriteLine($"Failed to load background preview {imagePath}: {ex.Message}");
                     _iconSprite = null;
                 }
 
@@ -302,7 +313,7 @@ namespace LevelEditor.UI
             }
         }
 
-        private class PrefabButton
+        private class PrefabButton : ItemButton
         {
             public PrefabDefinition Prefab { get; }
             private RectangleShape _iconBackground;
@@ -328,9 +339,8 @@ namespace LevelEditor.UI
                 // Try to load preview texture
                 try
                 {
-                    var texture = GraphicsCache.GetTextureFromCache(
-                        Pathfinder.GetFullTextureFilePath(prefab.PreviewTexture)
-                    );
+                    string fullPath = Pathfinder.GetFullTextureFilePath(prefab.PreviewTexture);
+                    var texture = new Texture(fullPath);
                     _iconSprite = new Sprite(texture);
                     
                     // Scale to fit icon
@@ -340,8 +350,9 @@ namespace LevelEditor.UI
                     _iconSprite.Scale = new Vector2f(scale, scale);
                     _iconSprite.Position = position;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Console.WriteLine($"Failed to load prefab preview {prefab.PreviewTexture}: {ex.Message}");
                     _iconSprite = null;
                 }
 

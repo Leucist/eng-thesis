@@ -1,6 +1,7 @@
 using Application.Components;
 using SFML.Graphics;
 using SFML.System;
+using System.Text.Json.Serialization;
 
 namespace LevelEditor.Core
 {
@@ -15,8 +16,11 @@ namespace LevelEditor.Core
         public int GridY { get; set; }
         
         // Visual representation
+        [JsonIgnore]
         public Sprite? Sprite { get; set; }
+        [JsonIgnore]
         public RectangleShape SelectionOutline { get; set; }
+        [JsonIgnore]
         public bool IsSelected { get; set; } = false;
 
         public PlacedEntity(string prefabName, List<Component> components, int gridX, int gridY)

@@ -14,8 +14,8 @@ namespace LevelEditor.Utils
 
         // Grid settings
         public const int TILE_SIZE = 32; // pixels
-        public const int MAX_VISIBLE_GRID_WIDTH = 10; // tiles (before horizontal scrolling)
-        public const int MAX_LEVEL_HEIGHT_TILES = 33; // ~1056px at 32px tiles (fits 1080p)
+        public const int MAX_VISIBLE_GRID_WIDTH = 20; // tiles (before horizontal scrolling)
+        public const int MAX_LEVEL_HEIGHT_TILES = 11;
         
         // UI Layout
         public const float PREFAB_PANEL_WIDTH = 200f;
