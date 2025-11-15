@@ -1,0 +1,744 @@
+{
+  "Entities": [
+    [
+      {
+        "$type": "transform",
+        "X": 0,
+        "Y": 0,
+        "Width": 640,
+        "Height": 352,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "/home/leucist/Programming/EngineeringThesis/Application/Application/Source/Graphics/Backgrounds/test_small_BG.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 0,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 32,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 64,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 96,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 128,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 160,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 192,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 288,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 320,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 352,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 384,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 416,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 448,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 480,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 512,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 544,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 576,
+        "Y": 256,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 608,
+        "Y": 256,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 224,
+        "Y": 256,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 256,
+        "Y": 256,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_up.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 224,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 256,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 0,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 32,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 64,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 96,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 128,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 160,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 192,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 224,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 256,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 288,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 320,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 352,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 384,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 416,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 448,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 480,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 512,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 544,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 576,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 576,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 608,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 608,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test_dark_tile_down.png",
+        "Type": 4
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 416,
+        "Y": 256,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      }
+    ]
+  ],
+  "SystemTypes": [
+    "Application.Systems.MovementSystem",
+    "Application.Systems.RenderingSystem"
+  ]
+}

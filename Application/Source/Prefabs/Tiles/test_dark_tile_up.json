@@ -1,0 +1,17 @@
+{
+  "Name": "Test_dark_tile_Up",
+  "PreviewTexture": "test_dark_tile_up.png",
+  "Components": [
+    {
+      "$type": "transform",
+      "X": 0,
+      "Y": 0,
+      "Width": 32,
+      "Height": 32
+    },
+    {
+      "$type": "graphics",
+      "TexturePath": "test_dark_tile_up.png"
+    }
+  ]
+}

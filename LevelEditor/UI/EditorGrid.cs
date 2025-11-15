@@ -116,7 +116,12 @@ namespace LevelEditor.UI
             // Create background entity
             var components = new List<Component>
             {
-                new TransformComponent(0, 0, 1920, 1080), // Todo: use EditorConstants for screen size if sticks~
+                new TransformComponent
+                (
+                    0, 0, 
+                    _level.WidthInTiles * EditorConstants.TILE_SIZE,    // <- actual sizes before scaling
+                    _level.HeightInTiles * EditorConstants.TILE_SIZE    // <-/
+                ),
                 new GraphicsComponent(backgroundImagePath)
             };
             
