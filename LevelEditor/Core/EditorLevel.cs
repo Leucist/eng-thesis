@@ -127,7 +127,7 @@ namespace LevelEditor.Core
             string json = JsonSerializer.Serialize(dto, options);
             File.WriteAllText(filePath, json);
             CurrentFilePath = filePath;
-            Console.WriteLine($"Level saved to: {filePath}");
+            // Console.WriteLine($"Level saved to: {filePath}");
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace LevelEditor.Core
             }
 
             level.CurrentFilePath = filePath;
-            Console.WriteLine($"Level loaded from: {filePath}");
+            // Console.WriteLine($"Level loaded from: {filePath}");     // - was double message
             return level;
         }
     }

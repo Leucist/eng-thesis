@@ -8,7 +8,7 @@ namespace LevelEditor.Core
         Select,    // Select and manipulate entities
         PlaceTile, // Place tile prefabs
         PlaceCharacter, // Place character prefabs
-        // PlaceBackground, // Place background prefabs
+        PlaceBackground, // Place background prefabs
         Delete     // Delete entities
     }
 

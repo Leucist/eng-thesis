@@ -152,7 +152,7 @@ namespace LevelEditor.UI
 
         public void HandleMouseMove(Vector2i mousePos)
         {
-            List<ItemButton> collection = _isBackgroundMode ? _backgroundButtons : _prefabButtons;
+            IEnumerable<ItemButton> collection = _isBackgroundMode ? _backgroundButtons : _prefabButtons;
             foreach (ItemButton button in collection)
             {
                 button.HandleMouseMove(mousePos, _scrollOffset);
@@ -178,7 +178,7 @@ namespace LevelEditor.UI
             window.Draw(_background);
 
             // Draw prefab buttons with scroll offset
-            List<ItemButton> collection = _isBackgroundMode ? _backgroundButtons : _prefabButtons;
+            IEnumerable<ItemButton> collection = _isBackgroundMode ? _backgroundButtons : _prefabButtons;
             foreach (ItemButton button in collection)
             {
                 button.Draw(window, _scrollOffset);
@@ -187,24 +187,16 @@ namespace LevelEditor.UI
 
 
         // * - - - INNER CLASSES - - - *
-        private abstract ItemButton {
-            public void HandleMouseMove(Vector2i mousePos, float scrollOffset);
-            public void Draw(RenderWindow window, float scrollOffset);
-        }
-
-        private class BackgroundButton : ItemButton
+        private abstract class ItemButton
         {
-            public string ImagePath { get; }
-            private RectangleShape _iconBackground;
-            private Sprite? _iconSprite;
-            private Text _nameText;
-            private bool _isHovered = false;
+            protected RectangleShape _iconBackground;
+            protected Sprite? _iconSprite;
+            protected Text _nameText;
+            protected bool _isHovered = false;
             public bool IsSelected { get; set; } = false;
-            
-            public BackgroundButton(Vector2f position, string imagePath, Font font)
-            {
-                ImagePath = imagePath;
 
+            protected ItemButton(Vector2f position, Font font, string displayName)
+            {
                 _iconBackground = new RectangleShape(new Vector2f(
                     EditorConstants.PREFAB_ICON_SIZE, 
                     EditorConstants.PREFAB_ICON_SIZE))
@@ -215,14 +207,18 @@ namespace LevelEditor.UI
                     OutlineColor = new Color(70, 70, 75)
                 };
 
-                // Try to load preview texture
+                _nameText = new Text(displayName, font, 12)
+                {
+                    Position = new Vector2f(position.X, position.Y + EditorConstants.PREFAB_ICON_SIZE + 2),
+                    FillColor = Color.White
+                };
+            }
+
+            protected void LoadTexture(string texturePath, Vector2f position)
+            {
                 try
                 {
-                    var texture = new Texture(ImagePath);
-                    // var texture = GraphicsCache.GetTextureFromCache(
-                    //     // Pathfinder.GetBackgroundDirectory(ImagePath)
-                    //     ImagePath
-                    // );
+                    var texture = new Texture(texturePath);
                     _iconSprite = new Sprite(texture);
                     
                     // Scale to fit icon
@@ -234,17 +230,9 @@ namespace LevelEditor.UI
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Failed to load background preview {imagePath}: {ex.Message}");
+                    Console.WriteLine($"Failed to load texture {texturePath}: {ex.Message}");
                     _iconSprite = null;
                 }
-
-                _nameText = new Text(
-                    Path.GetFileNameWithoutExtension(ImagePath), 
-                    font, 12
-                ) {
-                    Position = new Vector2f(position.X, position.Y + EditorConstants.PREFAB_ICON_SIZE + 2),
-                    FillColor = Color.White
-                };
             }
 
             public void HandleMouseMove(Vector2i mousePos, float scrollOffset)
@@ -260,14 +248,14 @@ namespace LevelEditor.UI
                 return adjustedBounds.Contains(mousePos.X, mousePos.Y);
             }
 
-            private FloatRect GetAdjustedBounds(float scrollOffset)
+            protected FloatRect GetAdjustedBounds(float scrollOffset)
             {
                 var bounds = _iconBackground.GetGlobalBounds();
                 bounds.Top -= scrollOffset;
                 return bounds;
             }
 
-            private void UpdateVisualState()
+            protected void UpdateVisualState()
             {
                 if (IsSelected)
                 {
@@ -310,122 +298,31 @@ namespace LevelEditor.UI
                 // Restore original positions
                 _iconBackground.Position = originalIconPos;
                 _nameText.Position = originalTextPos;
+            }
+        }
+
+        private class BackgroundButton : ItemButton
+        {
+            public string ImagePath { get; }
+            
+            public BackgroundButton(Vector2f position, string imagePath, Font font)
+                : base(position, font, Path.GetFileNameWithoutExtension(imagePath))
+            {
+                ImagePath = imagePath;
+                LoadTexture(imagePath, position);
             }
         }
 
         private class PrefabButton : ItemButton
         {
             public PrefabDefinition Prefab { get; }
-            private RectangleShape _iconBackground;
-            private Sprite? _iconSprite;
-            private Text _nameText;
-            private bool _isHovered = false;
-            public bool IsSelected { get; set; } = false;
 
             public PrefabButton(Vector2f position, PrefabDefinition prefab, Font font)
+                : base(position, font, prefab.Name)
             {
                 Prefab = prefab;
-
-                _iconBackground = new RectangleShape(new Vector2f(
-                    EditorConstants.PREFAB_ICON_SIZE, 
-                    EditorConstants.PREFAB_ICON_SIZE))
-                {
-                    Position = position,
-                    FillColor = new Color(50, 50, 55),
-                    OutlineThickness = 2f,
-                    OutlineColor = new Color(70, 70, 75)
-                };
-
-                // Try to load preview texture
-                try
-                {
-                    string fullPath = Pathfinder.GetFullTextureFilePath(prefab.PreviewTexture);
-                    var texture = new Texture(fullPath);
-                    _iconSprite = new Sprite(texture);
-                    
-                    // Scale to fit icon
-                    float scaleX = EditorConstants.PREFAB_ICON_SIZE / texture.Size.X;
-                    float scaleY = EditorConstants.PREFAB_ICON_SIZE / texture.Size.Y;
-                    float scale = Math.Min(scaleX, scaleY);
-                    _iconSprite.Scale = new Vector2f(scale, scale);
-                    _iconSprite.Position = position;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Failed to load prefab preview {prefab.PreviewTexture}: {ex.Message}");
-                    _iconSprite = null;
-                }
-
-                _nameText = new Text(prefab.Name, font, 12)
-                {
-                    Position = new Vector2f(position.X, position.Y + EditorConstants.PREFAB_ICON_SIZE + 2),
-                    FillColor = Color.White
-                };
-            }
-
-            public void HandleMouseMove(Vector2i mousePos, float scrollOffset)
-            {
-                var adjustedBounds = GetAdjustedBounds(scrollOffset);
-                _isHovered = adjustedBounds.Contains(mousePos.X, mousePos.Y);
-                UpdateVisualState();
-            }
-
-            public bool HandleClick(Vector2i mousePos, float scrollOffset)
-            {
-                var adjustedBounds = GetAdjustedBounds(scrollOffset);
-                return adjustedBounds.Contains(mousePos.X, mousePos.Y);
-            }
-
-            private FloatRect GetAdjustedBounds(float scrollOffset)
-            {
-                var bounds = _iconBackground.GetGlobalBounds();
-                bounds.Top -= scrollOffset;
-                return bounds;
-            }
-
-            private void UpdateVisualState()
-            {
-                if (IsSelected)
-                {
-                    _iconBackground.OutlineColor = EditorConstants.SELECTED_ENTITY_OUTLINE;
-                    _iconBackground.OutlineThickness = 3f;
-                }
-                else if (_isHovered)
-                {
-                    _iconBackground.OutlineColor = EditorConstants.BUTTON_HOVER;
-                    _iconBackground.OutlineThickness = 2f;
-                }
-                else
-                {
-                    _iconBackground.OutlineColor = new Color(70, 70, 75);
-                    _iconBackground.OutlineThickness = 2f;
-                }
-            }
-
-            public void Draw(RenderWindow window, float scrollOffset)
-            {
-                // Adjust positions for scrolling
-                var originalIconPos = _iconBackground.Position;
-                var originalTextPos = _nameText.Position;
-
-                _iconBackground.Position = new Vector2f(originalIconPos.X, originalIconPos.Y - scrollOffset);
-                _nameText.Position = new Vector2f(originalTextPos.X, originalTextPos.Y - scrollOffset);
-
-                window.Draw(_iconBackground);
-                
-                if (_iconSprite != null)
-                {
-                    var originalSpritePos = _iconSprite.Position;
-                    _iconSprite.Position = new Vector2f(originalSpritePos.X, originalSpritePos.Y - scrollOffset);
-                    window.Draw(_iconSprite);
-                    _iconSprite.Position = originalSpritePos;
-                }
-
-                window.Draw(_nameText);
-
-                // Restore original positions
-                _iconBackground.Position = originalIconPos;
-                _nameText.Position = originalTextPos;
+                string fullPath = Pathfinder.GetFullTextureFilePath(prefab.PreviewTexture);
+                LoadTexture(fullPath, position);
             }
         }
     }
