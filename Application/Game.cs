@@ -10,11 +10,11 @@ namespace Application
         // i.e. World is for levels playthrough, when "Start new game" or "Load the game"
         // ..and Game is for World + Menu + Cutscenes, etc.
 
-        private static Game? _instance = null;
-        private static readonly object _lock = new();
-
         private World? _world;
         private bool _isRunning = false;
+        
+        private static Game? _instance = null;
+        private static readonly object _lock = new();
 
         public static Game Instance {
             get {
