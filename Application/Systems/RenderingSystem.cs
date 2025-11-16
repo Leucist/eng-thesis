@@ -1,5 +1,6 @@
 using Application.Components;
 using Application.Entities;
+using Application.GraphicsUtils;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
@@ -8,10 +9,7 @@ namespace Application.Systems
 {
     public class RenderingSystem : ASystem
     {
-        // TODO (?) - May be moved to some app constants class or json
-        private const string TITLE = "APPLICATION";
-        private const int WIDTH             = 1920;
-        private const int HEIGHT            = 1080;
+        // * Canvas Constants *
         private const int CANVAS_WIDTH      = 640;
         private const int CANVAS_HEIGHT     = 352;
         private const int CANVAS_MULTIPLIER = 3;
@@ -31,30 +29,15 @@ namespace Application.Systems
                 ]
             ) 
         {
-            // * WINDOW mode *
-            VideoMode videoMode = new(WIDTH, HEIGHT);
-            _renderWindow       = new(videoMode, TITLE);
-            // * FULL SCREEN mode *
-            // VideoMode videoMode = VideoMode.DesktopMode;
-            // _renderWindow       = new(videoMode, TITLE, Styles.Fullscreen);
+            _renderWindow = WindowManager.Window;
+            
             _canvas             = new(CANVAS_WIDTH, CANVAS_HEIGHT);
             _canvasSprite       = new(_canvas.Texture);
             _canvasSprite.Scale = new Vector2f(CANVAS_MULTIPLIER, CANVAS_MULTIPLIER);
-
-            // _graphicsCache = new();
-            _renderWindow.Closed += OnWindowClosed;
-        }
-
-        private void OnWindowClosed(object? sender, EventArgs e)
-        {
-            // Close the window and exit when the close button is clicked
-            _renderWindow.Close();
-            Environment.Exit(0);
         }
 
         public override void Update() {
             // TODO: Update rendering so only the modified parts get redrawn, not the whole canvas - IF not built-in already
-            _renderWindow.DispatchEvents();
             // Clearing the canvas before redrawing entities
             _canvas.Clear();
 

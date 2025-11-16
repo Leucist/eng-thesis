@@ -1,6 +1,7 @@
 using Application.Entities;
 using Application.Components;
 using Application.Systems;
+using Application.GraphicsUtils;
 
 using System.Text.Json;
 
@@ -39,6 +40,9 @@ namespace Application.Worlds
         }
 
         public void Update() {
+            // Dispatch pending window events
+            WindowManager.DispatchEvents();
+            // Update systems
             foreach (var system in _systems) {
                 system.Update();
             }
