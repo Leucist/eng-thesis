@@ -8,7 +8,7 @@ namespace Application.Worlds
         // public string Background;
         // public int TileWidth;
         // public int TileHeight;
-        public List<List<Component>> Entities;
-        public List<string> SystemTypes;
+        public required List<List<Component>> Entities { get; set; }
+        public required List<string> SystemTypes { get; set; }
     }
 }

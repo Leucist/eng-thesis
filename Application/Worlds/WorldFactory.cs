@@ -7,7 +7,6 @@ namespace Application.Worlds
         public static World InitialWorld => GetTestWorld() /*GetMainMenuWorld()*/;
 
         public static World GetTestWorld() {
-            throw new NotImplementedException("Test world doesn't exist yet.");
             return LoadFromTemplate("Test");
         }
 
