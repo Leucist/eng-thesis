@@ -31,8 +31,12 @@ namespace Application.Systems
                 ]
             ) 
         {
+            // * WINDOW mode *
             VideoMode videoMode = new(WIDTH, HEIGHT);
             _renderWindow       = new(videoMode, TITLE);
+            // * FULL SCREEN mode *
+            // VideoMode videoMode = VideoMode.DesktopMode;
+            // _renderWindow       = new(videoMode, TITLE, Styles.Fullscreen);
             _canvas             = new(CANVAS_WIDTH, CANVAS_HEIGHT);
             _canvasSprite       = new(_canvas.Texture);
             _canvasSprite.Scale = new Vector2f(CANVAS_MULTIPLIER, CANVAS_MULTIPLIER);
