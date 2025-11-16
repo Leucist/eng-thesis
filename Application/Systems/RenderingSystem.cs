@@ -12,9 +12,9 @@ namespace Application.Systems
         private const string TITLE = "APPLICATION";
         private const int WIDTH             = 1920;
         private const int HEIGHT            = 1080;
-        private const int CANVAS_WIDTH      = 384;
-        private const int CANVAS_HEIGHT     = 216;
-        private const int CANVAS_MULTIPLIER = 5;
+        private const int CANVAS_WIDTH      = 640;
+        private const int CANVAS_HEIGHT     = 352;
+        private const int CANVAS_MULTIPLIER = 3;
 
         private readonly RenderWindow _renderWindow;
         private readonly RenderTexture _canvas;
@@ -38,6 +38,14 @@ namespace Application.Systems
             _canvasSprite.Scale = new Vector2f(CANVAS_MULTIPLIER, CANVAS_MULTIPLIER);
 
             // _graphicsCache = new();
+            _renderWindow.Closed += OnWindowClosed;
+        }
+
+        private void OnWindowClosed(object? sender, EventArgs e)
+        {
+            // Close the window and exit when the close button is clicked
+            _renderWindow.Close();
+            Environment.Exit(0);
         }
 
         public override void Update() {
