@@ -1,4 +1,4 @@
-namespace Application.Input
+namespace Application.InputUtils
 {
     public enum Input
     {
