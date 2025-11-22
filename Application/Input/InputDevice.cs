@@ -1,6 +1,6 @@
 namespace Application.Input
 {
-    public class InputDevice
+    public abstract class InputDevice
     {
         
     }
