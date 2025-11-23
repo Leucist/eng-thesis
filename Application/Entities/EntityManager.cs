@@ -22,7 +22,7 @@ namespace Application.Entities
             return entity;
         }
 
-        public List<List<Component>> GetComponentsOfType(List<ComponentType> types) {
+        public List<List<Component>> GetAllEntitiesWith(List<ComponentType> types) {
             List<List<Component>> result = [];
 
             foreach(var group in _entities) {

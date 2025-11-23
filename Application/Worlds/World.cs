@@ -39,6 +39,10 @@ namespace Application.Worlds
             _isAlive = true;
         }
 
+        // * Separate method for Systems Init ?
+        // - Check if Command System, add ref isAlive via .LinkWorldLife(bool) mb or so~
+        // - * and there were other checks... hm.
+
         public void Update() {
             // Dispatch pending window events
             WindowManager.DispatchEvents();
