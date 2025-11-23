@@ -4,8 +4,10 @@ namespace Application.Components
 {
     public class InputComponent() : Component(ComponentType.Input)
     {
-        private readonly Dictionary<Input, ICommand> _bindings;
+        // TODO: InputComponent remains just as a blank flag for a player for now, as the way of plain simplifying
 
-        public ICommand ProcessInput(Input input) => _bindings[input];
+        // private readonly Dictionary<Input, ICommand> _bindings;
+
+        // public ICommand ProcessInput(Input input) => _bindings[input];
     }
 }

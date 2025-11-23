@@ -110,8 +110,9 @@ namespace LevelEditor.Core
             // For now, returns list with default system types
             return new List<string>
             {
-                "Application.Systems.MovementSystem",
                 "Application.Systems.RenderingSystem",
+                "Application.Systems.InputSystem",
+                "Application.Systems.MovementSystem",
                 // "Application.Systems.AnimationSystem", // TODO: Not implemented yet
                 // "Application.Systems.CollisionSystem"
             };

@@ -735,10 +735,38 @@
         "TexturePath": "test-ninja_frame-0.png",
         "Type": 4
       }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 96,
+        "Y": 256,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-player_frame-0.png",
+        "Type": 4
+      },
+      {
+        "$type": "input",
+        "Type": 16
+      },
+      {
+        "$type": "physics",
+        "IsFalling": false,
+        "Mass": 60,
+        "MaxSpeed": 2000,
+        "Type": 2
+      }
     ]
   ],
   "SystemTypes": [
-    "Application.Systems.MovementSystem",
-    "Application.Systems.RenderingSystem"
+    "Application.Systems.RenderingSystem",
+    "Application.Systems.InputSystem",
+    "Application.Systems.MovementSystem"
   ]
 }

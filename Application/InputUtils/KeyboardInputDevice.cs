@@ -18,18 +18,30 @@ namespace Application.InputUtils
         };
 
         public override void Subscribe(RenderWindow window) {
-            window.KeyPressed   += (object? sender, KeyEventArgs e) => OnKeyPressed (_keyInputBindings[e.Code]);
-            window.KeyReleased  += (object? sender, KeyEventArgs e) => OnKeyReleased(_keyInputBindings[e.Code]);
+            window.KeyPressed   += (object? sender, KeyEventArgs e) => OnKeyPressed (sender, e);
+            window.KeyReleased  += (object? sender, KeyEventArgs e) => OnKeyReleased(sender, e);
         }
 
-        public void OnKeyPressed(Input i)
+
+        // - Not particularly beatiful methods, but as is for now >
+
+        private Input? ExtractInput(Keyboard.Key key) {
+            if (_keyInputBindings.TryGetValue(key, out Input input)) {
+                return input;
+            }
+            return null;
+        }
+
+        public void OnKeyPressed(object? sender, KeyEventArgs e)
         {
-            _inputThisFrame.Add(i);
+            Input? input = ExtractInput(e.Code);
+            if (input is not null) _inputThisFrame.Add((Input)input);
         }
         
-        public void OnKeyReleased(Input i)
+        public void OnKeyReleased(object? sender, KeyEventArgs e)
         {
-            _releasedThisFrame.Add(i);
+            Input? input = ExtractInput(e.Code);
+            if (input is not null) _releasedThisFrame.Add((Input)input);
         }
     }
 }
