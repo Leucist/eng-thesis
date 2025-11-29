@@ -34,12 +34,19 @@ namespace Application.Systems
             return intersection;
         }
 
-        public void FitInScreenBounds(FloatRect bounds, TransformComponent entity)
+        public bool FitInScreenBounds(FloatRect bounds, TransformComponent entity)
         {
             // Check the left border
-            if (bounds.Left < 0) entity.SetX(0);
+            if (bounds.Left < 0) {
+                entity.SetX(0);
+                return true;
+            }
             // Check the right border
-            if (bounds.Left + bounds.Width > AppConstants.CANVAS_WIDTH) entity.SetX(AppConstants.CANVAS_WIDTH - bounds.Width);
+            if (bounds.Left + bounds.Width > AppConstants.CANVAS_WIDTH) {
+                entity.SetX(AppConstants.CANVAS_WIDTH - bounds.Width);
+                return true;
+            }
+            return false;
         }
 
         public override void Update()
@@ -56,11 +63,15 @@ namespace Application.Systems
             if (transformComponent.HasMoved) return;
             
             var graphicsComponent   = (GraphicsComponent)   entityComponents[ComponentType.Graphics];
+            var physicsComponent    = (PhysicsComponent)    entityComponents[ComponentType.Physics];
 
             FloatRect entityRect = graphicsComponent.Sprite.GetGlobalBounds();
 
             // - Iterate through borders
-            FitInScreenBounds(entityRect, transformComponent);
+            if (FitInScreenBounds(entityRect, transformComponent)) {
+                // Stop the entity
+                physicsComponent.Stop();
+            }
 
             // - Iterate through entities
             foreach (var collidable in _collidableRects) {
@@ -77,12 +88,16 @@ namespace Application.Systems
                         // Offset depending on the sign of deltaX
                         var xOffset = deltaX > 0 ? -intersection.Width : intersection.Width;
                         transformComponent.Move(xOffset, 0);
+                        // Stop the entity
+                        physicsComponent.Stop();
                     }
                     else if (deltaY != 0)
                     {
                         // Offset depending on the sign of deltaY
                         var yOffset = deltaY > 0 ? -intersection.Height : intersection.Height;
                         transformComponent.Move(0, yOffset);
+                        // Set entity as no longer falling
+                        physicsComponent.Ground();
                     }
                 }
             }
