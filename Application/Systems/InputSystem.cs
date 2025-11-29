@@ -93,7 +93,8 @@ namespace Application.Systems
 
         // todo Temp [2] - Delegates below:
         private void MovePlayer(float direction, int magnitude=200) {
-            Console.WriteLine($"- PLAYER\tFa.Value: {_playerPhysicsC.AppliedForce.Value}\tFa.Angle: {_playerPhysicsC.AppliedForce.Angle}"); // TODO! REMOVE
+            // * Debug log :D
+            // Console.WriteLine($"- PLAYER\tFa.Value: {_playerPhysicsC.AppliedForce.Value}\tFa.Angle: {_playerPhysicsC.AppliedForce.Angle}");
             _playerPhysicsC.AddAppliedForce(new(magnitude, direction));
         }
         private void MovePlayerLeft() => MovePlayer(RadiansLeftDirection);
