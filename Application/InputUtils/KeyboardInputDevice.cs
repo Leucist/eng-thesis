@@ -18,8 +18,8 @@ namespace Application.InputUtils
         };
 
         public override void Subscribe(RenderWindow window) {
-            window.KeyPressed   += (object? sender, KeyEventArgs e) => OnKeyPressed (sender, e);
-            window.KeyReleased  += (object? sender, KeyEventArgs e) => OnKeyReleased(sender, e);
+            window.KeyPressed   += OnKeyPressed;
+            window.KeyReleased  += OnKeyReleased;
         }
 
 
