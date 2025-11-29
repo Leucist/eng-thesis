@@ -5,10 +5,6 @@ namespace Application.GraphicsUtils
 {
     public class WindowManager
     {
-        // * Window Constants *
-        private const string TITLE  = "APPLICATION";
-        private const int WIDTH     = 1920;
-        private const int HEIGHT    = 1080;
         // * Window Instance *
         private static RenderWindow _renderWindow;
         public  static RenderWindow Window => _renderWindow;
@@ -17,8 +13,8 @@ namespace Application.GraphicsUtils
         static WindowManager()
         {
             // * WINDOW mode *
-            VideoMode videoMode = new(WIDTH, HEIGHT);
-            _renderWindow       = new(videoMode, TITLE);
+            VideoMode videoMode = new(AppConstants.WIDTH, AppConstants.HEIGHT);
+            _renderWindow       = new(videoMode, AppConstants.TITLE);
             // * FULL SCREEN mode *
             // VideoMode videoMode = VideoMode.DesktopMode;
             // _renderWindow       = new(videoMode, TITLE, Styles.Fullscreen);

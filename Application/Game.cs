@@ -9,11 +9,9 @@ namespace Application
         //
         // i.e. World is for levels playthrough, when "Start new game" or "Load the game"
         // ..and Game is for World + Menu + Cutscenes, etc.
-        
-        private const uint FRAME_TIME = 16;   // 1000 ms => 1 fps
 
         private World? _world;
-        private Timer _timer = new(FRAME_TIME);
+        private Timer _timer = new(AppConstants.FRAME_TIME_MS);
         private bool _isRunning = false;
         
         private static Game? _instance = null;
