@@ -13,7 +13,6 @@ namespace Application.Systems
             ]
         )
     {
-        // TODO: Depending on the future usage: to be changed to utilizing time between frames as parameter 
         private const int DELTA_TIME = 1;
 
         protected override void PerformSystemAction(Dictionary<ComponentType, Component> entityComponents) {
@@ -23,6 +22,9 @@ namespace Application.Systems
             // Perform the system logic
             OffsetEntry movementOffset = physicsComponent.GetMovementOffset(DELTA_TIME);
             transformComponent.Move(movementOffset.X, -movementOffset.Y);
+
+            // TODO: TEMP [mv1] movement flag
+            transformComponent.HasMoved = (movementOffset.X != 0 || movementOffset.Y != 0) ? true : false;
         }
     }
 }

@@ -1,19 +1,14 @@
 using Application.Components;
 using Application.Entities;
 using Application.GraphicsUtils;
+using static Application.AppConstants;
 using SFML.Graphics;
 using SFML.System;
-using SFML.Window;
 
 namespace Application.Systems
 {
     public class RenderingSystem : ASystem
     {
-        // * Canvas Constants *
-        private const int CANVAS_WIDTH      = 640;
-        private const int CANVAS_HEIGHT     = 352;
-        private const int CANVAS_MULTIPLIER = 3;
-
         private readonly RenderWindow _renderWindow;
         private readonly RenderTexture _canvas;
         private readonly Sprite _canvasSprite;
