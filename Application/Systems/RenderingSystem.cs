@@ -53,12 +53,31 @@ namespace Application.Systems
             // Update the GC position and orientation according to the TC
             Vector2f sfmlPosition   = new(transformComponent.X, transformComponent.Y);
             Vector2f sfmlDirection  = new(transformComponent.Direction, 1); // Direction states whether the sprite has to be reflected
+
+            // To avoid redundant calls, just store the reference
+            Sprite sprite = graphicsComponent.Sprite;
             
+            // Correction for proper sprite reflection
+            if (transformComponent.Direction < 0) sfmlPosition.X += graphicsComponent.Sprite.GetLocalBounds().Width;
+
             graphicsComponent.Sprite.Position   = sfmlPosition;
             graphicsComponent.Sprite.Scale      = sfmlDirection;
             
             // Draw the entity on the canvas
             _canvas.Draw(graphicsComponent.Sprite);
+
+
+            // * Enable HitBox highlighting
+            // // Create a rectangle for the perimeter
+            // var outline = new RectangleShape();
+            // outline.Size = new Vector2f(graphicsComponent.Sprite.GetLocalBounds().Width, graphicsComponent.Sprite.GetLocalBounds().Height);
+            // outline.Position = new Vector2f(transformComponent.X, transformComponent.Y);
+            // outline.FillColor = Color.Transparent;  // Transparent background
+            // outline.OutlineColor = Color.Yellow;    // Outline color
+            // outline.OutlineThickness = 1;           // Outline thickness
+            // // Display on the canvas
+            // _canvas.Draw(outline);
+            // * - - -
         }
     }
 }
