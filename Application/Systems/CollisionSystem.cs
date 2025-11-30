@@ -103,7 +103,7 @@ namespace Application.Systems
                         // Offset depending on the sign of deltaX
                         var xOffset = deltaX > 0 ? -intersection.Width : intersection.Width;
                         // ? var xOffset = -deltaX;
-                        transformComponent.Move(xOffset, 0);
+                        transformComponent.ChangePostition(xOffset, 0);
                         // Stop the entity
                         physicsComponent?.Stop();
                     }
@@ -112,7 +112,7 @@ namespace Application.Systems
                         Console.WriteLine($"- I'm falling! My deltaY: {deltaY}");   // !
                         // Offset depending on the sign of deltaY
                         var yOffset = deltaY > 0 ? -intersection.Height : intersection.Height;
-                        transformComponent.Move(0, yOffset);
+                        transformComponent.ChangePostition(0, yOffset);
                         // Set entity as no longer falling
                         physicsComponent?.Ground();
                     }

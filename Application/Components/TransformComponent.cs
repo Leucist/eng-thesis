@@ -26,14 +26,18 @@ namespace Application.Components
         //     _y = y;
         // }
 
+        public void ChangePostition(float x, float y) {
+            // Change coordinates
+            _x += x;
+            _y += y;
+        }
+
         public void Move(float x, float y) {
             // Change direction, if needed
             int directionChange = Math.Sign(x);
             if (directionChange != 0) _direction = directionChange;
 
-            // Change coordinates
-            _x += x;
-            _y += y;
+            ChangePostition(x, y);
         }
 
         public void Resize(float width, float height) {
