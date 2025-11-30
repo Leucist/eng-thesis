@@ -113,8 +113,8 @@ namespace LevelEditor.Core
                 "Application.Systems.RenderingSystem",
                 "Application.Systems.InputSystem",
                 "Application.Systems.MovementSystem",
-                // "Application.Systems.AnimationSystem", // TODO: Not implemented yet
-                // "Application.Systems.CollisionSystem"
+                "Application.Systems.CollisionSystem",
+                // "Application.Systems.AnimationSystem" // TODO: Not implemented yet
             };
         }
 

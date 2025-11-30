@@ -12,6 +12,9 @@
     {
       "$type": "graphics",
       "TexturePath": "test_dark_tile_up.png"
+    },
+    {
+      "$type": "collision"
     }
   ]
 }

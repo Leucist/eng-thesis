@@ -12,6 +12,9 @@
     {
       "$type": "graphics",
       "TexturePath": "test-ninja_frame-0.png"
+    },
+    {
+      "$type": "collision"
     }
   ]
 }

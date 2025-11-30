@@ -10,22 +10,35 @@ namespace Application.Systems
             [
                 ComponentType.Collision,
                 ComponentType.Transform,
+                ComponentType.Physics,
                 ComponentType.Graphics
             ]
         )
     {
         // Buffer storage for one-frame collisions check - gathers all collidable entities for future check in PerformSystemAction()
-        private List<FloatRect> _collidableRects = [];
+        private Dictionary<Entity, FloatRect> _collidableRects = [];
+        private Dictionary<Entity, (FloatRect, TransformComponent, PhysicsComponent?)> _movedEntities = [];
         private readonly FloatRect ZERO_RECT = new (0, 0, 0, 0);
 
         private void GatherCollidableRects() {
-            Dictionary<ComponentType, Component> result = [];
+            _collidableRects.Clear();
+            _movedEntities.Clear();
             // receive a whole bunch of components for each entity
             var collidables = _entityManager.GetAllEntitiesWith([ComponentType.Collision, ComponentType.Graphics]);
             // filter only needed components
             foreach (var entity in collidables) {
-                GraphicsComponent gc = (GraphicsComponent) entity.First(c => c.Type == ComponentType.Graphics);
-                _collidableRects.Add(gc.Sprite.GetGlobalBounds());
+                // Add Entity to the check-list
+                GraphicsComponent gc = (GraphicsComponent) entity.Value.First(c => c.Type == ComponentType.Graphics);
+                FloatRect entityBounds = gc.Sprite.GetGlobalBounds();
+                _collidableRects.Add(entity.Key, entityBounds);
+                
+                // * Note: not the most elegant solution, as all here, but will do perfectly fine at this scale >
+                // Add moved entities to the separate list as well
+                TransformComponent tc = (TransformComponent) entity.Value.First(c => c.Type == ComponentType.Transform);
+                if (tc.HasMoved) {
+                    PhysicsComponent? phc = (PhysicsComponent?) entity.Value.FirstOrDefault(c => c.Type == ComponentType.Physics);
+                    _movedEntities.Add(entity.Key, (entityBounds, tc, phc));
+                }
             }
         }
 
@@ -53,29 +66,29 @@ namespace Application.Systems
         {
             // Reset the collidables list
             GatherCollidableRects();
-            // Continue with the base method 
-            base.Update();
+            // // Continue with the base method 
+            // base.Update();
+            foreach (var movedEntity in _movedEntities) {
+                PerformCustomSystemAction(movedEntity);
+            }
         }
 
-        protected override void PerformSystemAction(Dictionary<ComponentType, Component> entityComponents) {
-            // Skip if entity hasn't moved
-            var transformComponent  = (TransformComponent)  entityComponents[ComponentType.Transform];
-            if (transformComponent.HasMoved) return;
-            
-            var graphicsComponent   = (GraphicsComponent)   entityComponents[ComponentType.Graphics];
-            var physicsComponent    = (PhysicsComponent)    entityComponents[ComponentType.Physics];
-
-            FloatRect entityRect = graphicsComponent.Sprite.GetGlobalBounds();
+        protected override void PerformSystemAction(Dictionary<ComponentType, Component> entityComponents) {}
+        protected void PerformCustomSystemAction(KeyValuePair<Entity, (FloatRect, TransformComponent, PhysicsComponent?)> entity) {
+            FloatRect           entityRect          = entity.Value.Item1;
+            TransformComponent  transformComponent  = entity.Value.Item2;
+            PhysicsComponent?   physicsComponent    = entity.Value.Item3;
 
             // - Iterate through borders
             if (FitInScreenBounds(entityRect, transformComponent)) {
                 // Stop the entity
-                physicsComponent.Stop();
+                physicsComponent?.Stop();
             }
 
             // - Iterate through entities
             foreach (var collidable in _collidableRects) {
-                var intersection = CheckCollision(entityRect, collidable);
+                if (collidable.Key == entity.Key) continue; // to skip checking collision with itself
+                var intersection = CheckCollision(entityRect, collidable.Value);
                 // IF collision occured
                 if (intersection != ZERO_RECT) {
                     // Find direction of the intersection
@@ -85,19 +98,23 @@ namespace Application.Systems
                     // Deduce from which side did collision occure
                     if (deltaX != 0)
                     {
+                        Console.WriteLine($"- I'm twitching! My deltaX: {deltaX}"); // !
+                        Console.WriteLine($"- I'm colliding with: {collidable}");   // !
                         // Offset depending on the sign of deltaX
                         var xOffset = deltaX > 0 ? -intersection.Width : intersection.Width;
+                        // ? var xOffset = -deltaX;
                         transformComponent.Move(xOffset, 0);
                         // Stop the entity
-                        physicsComponent.Stop();
+                        physicsComponent?.Stop();
                     }
-                    else if (deltaY != 0)
+                    if (deltaY != 0)
                     {
+                        Console.WriteLine($"- I'm falling! My deltaY: {deltaY}");   // !
                         // Offset depending on the sign of deltaY
                         var yOffset = deltaY > 0 ? -intersection.Height : intersection.Height;
                         transformComponent.Move(0, yOffset);
                         // Set entity as no longer falling
-                        physicsComponent.Ground();
+                        physicsComponent?.Ground();
                     }
                 }
             }

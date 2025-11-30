@@ -45,7 +45,7 @@ namespace Application.Systems
         }
 
         private void SetPlayer() {
-            List<Component> player = _entityManager.GetAllEntitiesWith(_requiredComponents)[0];
+            List<Component> player = _entityManager.GetAllComponentBundlesWith(_requiredComponents)[0];
             
             foreach (var component in player) {
                 switch (component.Type) {

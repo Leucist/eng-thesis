@@ -20,6 +20,9 @@
       "$type": "physics",
       "Mass": 60,
       "MaxSpeed": 100
+    },
+    {
+      "$type": "collision"
     }
   ]
 }
