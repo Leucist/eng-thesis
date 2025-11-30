@@ -58,10 +58,10 @@ namespace Application.Systems
             Sprite sprite = graphicsComponent.Sprite;
             
             // Correction for proper sprite reflection
-            if (transformComponent.Direction < 0) sfmlPosition.X += graphicsComponent.Sprite.GetLocalBounds().Width;
+            if (transformComponent.Direction < 0) sfmlPosition.X += sprite.GetLocalBounds().Width;
 
-            graphicsComponent.Sprite.Position   = sfmlPosition;
-            graphicsComponent.Sprite.Scale      = sfmlDirection;
+            sprite.Position = sfmlPosition;
+            sprite.Scale    = sfmlDirection;
             
             // Draw the entity on the canvas
             _canvas.Draw(graphicsComponent.Sprite);
@@ -70,7 +70,7 @@ namespace Application.Systems
             // * Enable HitBox highlighting
             // // Create a rectangle for the perimeter
             // var outline = new RectangleShape();
-            // outline.Size = new Vector2f(graphicsComponent.Sprite.GetLocalBounds().Width, graphicsComponent.Sprite.GetLocalBounds().Height);
+            // outline.Size = new Vector2f(sprite.GetLocalBounds().Width, sprite.GetLocalBounds().Height);
             // outline.Position = new Vector2f(transformComponent.X, transformComponent.Y);
             // outline.FillColor = Color.Transparent;  // Transparent background
             // outline.OutlineColor = Color.Yellow;    // Outline color
