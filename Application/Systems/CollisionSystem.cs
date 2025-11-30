@@ -98,8 +98,6 @@ namespace Application.Systems
                     // Deduce from which side did collision occure
                     if (deltaX != 0)
                     {
-                        Console.WriteLine($"- I'm twitching! My deltaX: {deltaX}"); // !
-                        Console.WriteLine($"- I'm colliding with: {collidable}");   // !
                         // Offset depending on the sign of deltaX
                         var xOffset = deltaX > 0 ? -intersection.Width : intersection.Width;
                         // ? var xOffset = -deltaX;
@@ -109,7 +107,6 @@ namespace Application.Systems
                     }
                     if (deltaY != 0)
                     {
-                        Console.WriteLine($"- I'm falling! My deltaY: {deltaY}");   // !
                         // Offset depending on the sign of deltaY
                         var yOffset = deltaY > 0 ? -intersection.Height : intersection.Height;
                         transformComponent.ChangePostition(0, yOffset);
