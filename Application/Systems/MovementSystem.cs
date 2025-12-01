@@ -24,7 +24,7 @@ namespace Application.Systems
             transformComponent.Move(movementOffset.X, -movementOffset.Y);
 
             // TODO: TEMP [mv1] movement flag
-            transformComponent.HasMoved = (movementOffset.X != 0 || movementOffset.Y != 0) ? true : false;
+            transformComponent.HasMoved = movementOffset.X != 0 || movementOffset.Y != 0;
         }
     }
 }
