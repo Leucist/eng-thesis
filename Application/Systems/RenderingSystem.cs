@@ -68,15 +68,15 @@ namespace Application.Systems
 
 
             // * Enable HitBox highlighting
-            // // Create a rectangle for the perimeter
-            // var outline = new RectangleShape();
-            // outline.Size = new Vector2f(sprite.GetLocalBounds().Width, sprite.GetLocalBounds().Height);
-            // outline.Position = new Vector2f(transformComponent.X, transformComponent.Y);
-            // outline.FillColor = Color.Transparent;  // Transparent background
-            // outline.OutlineColor = Color.Yellow;    // Outline color
-            // outline.OutlineThickness = 1;           // Outline thickness
-            // // Display on the canvas
-            // _canvas.Draw(outline);
+            // Create a rectangle for the perimeter
+            var outline = new RectangleShape();
+            outline.Size = new Vector2f(sprite.GetLocalBounds().Width, sprite.GetLocalBounds().Height);
+            outline.Position = new Vector2f(transformComponent.X, transformComponent.Y);
+            outline.FillColor = Color.Transparent;  // Transparent background
+            outline.OutlineColor = Color.Yellow;    // Outline color
+            outline.OutlineThickness = 1;           // Outline thickness
+            // Display on the canvas
+            _canvas.Draw(outline);
             // * - - -
         }
     }

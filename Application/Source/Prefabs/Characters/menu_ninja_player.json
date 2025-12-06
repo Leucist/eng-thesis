@@ -18,8 +18,8 @@
     },
     {
       "$type": "physics",
-      "Mass": 60,
-      "MaxSpeed": 100
+      "Mass": 6,
+      "MaxSpeed": 120
     },
     {
       "$type": "collision"

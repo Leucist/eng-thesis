@@ -20,7 +20,7 @@ namespace Application.Components
         // * Used in collisions * 
         // todo: (?) May place transparent colliders on the left and right of the level - and this method won't be needed
         public void SetX(float x) => _x = x;
-        // public void SetY(float y) => _y = y;
+        public void SetY(float y) => _y = y;
         // public void SetCoords(float x, float y) {
         //     _x = x;
         //     _y = y;

@@ -39,7 +39,8 @@ namespace Application.Systems
             // todo Temp [2] - START
             _playerBindings = new() {
                 {Input.Left, MovePlayerLeft},
-                {Input.Right, MovePlayerRight}
+                {Input.Right, MovePlayerRight},
+                {Input.RisingMovement, PlayerJump}
             };
             // todo Temp [2] - END
         }
@@ -92,14 +93,18 @@ namespace Application.Systems
         // }
 
         // todo Temp [2] - Delegates below:
-        private void MovePlayer(float direction, int magnitude=200) {
+        private void MovePlayer(float direction, int magnitude=20) {
             // * Debug log :D
             // Console.WriteLine($"- PLAYER\tFa.Value: {_playerPhysicsC.AppliedForce.Value}\tFa.Angle: {_playerPhysicsC.AppliedForce.Angle}");
             _playerPhysicsC.AddAppliedForce(new(magnitude, direction));
         }
         private void MovePlayerLeft() => MovePlayer(RadiansLeftDirection);
         private void MovePlayerRight() => MovePlayer(RadiansRightDirection);
-        // private void MovePlayerUp() => MovePlayer(RadiansUpDirection);
-        // private void MovePlayerDown() => MovePlayer(RadiansDownDirection);
+        private void PlayerJump() {
+            if (_playerPhysicsC.IsFalling) return;  // to prevent double-jump
+            MovePlayer(RadiansUpDirection, 80);
+            // could've been handled in collisions as well, but for convenience is here
+            _playerPhysicsC.IsFalling = true;
+        }
     }
 }

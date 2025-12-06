@@ -790,6 +790,11 @@
         "Type": 4
       },
       {
+        "$type": "physics",
+        "Mass": 5,
+        "MaxSpeed": 100
+      },
+      {
         "$type": "collision",
         "Type": 32
       }
@@ -817,8 +822,8 @@
       {
         "$type": "physics",
         "IsFalling": false,
-        "Mass": 60,
-        "MaxSpeed": 100,
+        "Mass": 6,
+        "MaxSpeed": 120,
         "AppliedForce": {
           "Value": 0,
           "Angle": 0
