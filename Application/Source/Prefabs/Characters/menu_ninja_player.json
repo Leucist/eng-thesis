@@ -1,6 +1,6 @@
 {
   "Name": "MenuNinjaPlayer",
-  "PreviewTexture": "test-player_frame-0.png",
+  "PreviewTexture": "ninja_mc_red.png",
   "Components": [
     {
       "$type": "transform",
@@ -11,7 +11,7 @@
     },
     {
       "$type": "graphics",
-      "TexturePath": "test-player_frame-0.png"
+      "TexturePath": "ninja_mc_red.png"
     },
     {
       "$type": "input"
