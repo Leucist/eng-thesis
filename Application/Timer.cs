@@ -14,7 +14,7 @@ namespace Application
         }
 
         public bool FramePassed => _stopwatch.ElapsedMilliseconds >= _time_limit;
-        // public void Reset()     => _stopwatch.Reset(); 
+        
         public void Reset() {
             _stopwatch.Reset();
             _stopwatch.Start();

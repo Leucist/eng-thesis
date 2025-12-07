@@ -110,9 +110,6 @@ namespace Application.Systems
                     }
                     if (deltaY != 0)
                     {
-                        Console.WriteLine(deltaY);
-                        Console.Write("Y:");
-                        Console.WriteLine(transformComponent.Y);
                         // Offset depending on the sign of deltaY
                         var yOffset = deltaY > transformComponent.Y ? -intersection.Height-1 : intersection.Height+1;
                         // ! transformComponent.SetY(deltaY+yOffset);
