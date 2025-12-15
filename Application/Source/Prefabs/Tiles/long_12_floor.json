@@ -1,17 +1,17 @@
 {
-  "Name": "floor_blue_tile_slab.png",
-  "PreviewTexture": "floor_blue_tile_slab.png",
+  "Name": "12 Floor Tiles",
+  "PreviewTexture": "long_tilegroup-12.png",
   "Components": [
     {
       "$type": "transform",
       "X": 0,
       "Y": 0,
-      "Width": 32,
-      "Height": 4
+      "Width": 384,
+      "Height": 32
     },
     {
       "$type": "graphics",
-      "TexturePath": "floor_blue_tile_slab.png"
+      "TexturePath": "long_tilegroup-12.png"
     },
     {
       "$type": "collision"
