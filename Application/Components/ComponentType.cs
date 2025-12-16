@@ -11,5 +11,6 @@ namespace Application.Components
         Input       = 1 << 4, // ..and so on
         Collision   = 1 << 5,
         Combat      = 1 << 6,
+        AI          = 1 << 7,
     }
 }
