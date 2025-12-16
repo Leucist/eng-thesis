@@ -1,3 +1,4 @@
+using Application.AppMath;
 using Application.Components;
 using Application.Entities;
 
@@ -6,7 +7,7 @@ namespace Application.Systems
     public class AISystem : ASystem
     {
         private readonly (TransformComponent, CombatComponent) _player;
-        private readonly Dictionary<Entity, List<Component>> _enemies;
+        // private readonly Dictionary<Entity, List<Component>> _enemies;
 
         public AISystem(EntityManager entityManager) : base(
             entityManager,
@@ -22,11 +23,7 @@ namespace Application.Systems
             var playerCC = (CombatComponent)    player.First(c => c.Type == ComponentType.Combat);
             _player = (playerTC, playerCC);
 
-            _enemies = _entityManager.GetAllEntitiesWith([ComponentType.AI]);
-        }
-
-        private void MoveEnemy(PhysicsComponent phc) {
-            // smth*
+            // _enemies = _entityManager.GetAllEntitiesWith([ComponentType.AI]);
         }
 
         protected override void PerformSystemAction(Dictionary<ComponentType, Component> entityComponents) {
@@ -35,29 +32,168 @@ namespace Application.Systems
             var transformComponent = (TransformComponent) entityComponents[ComponentType.Transform];
             var physicsComponent = (PhysicsComponent) entityComponents[ComponentType.Physics];
 
-            float distToPlayer = transformComponent.X - _player.Item1.X;
-    
-            // State transitions
-            if (distToPlayer < combatComponent.AttackRange) {
-                aiComponent.CurrentState = AIState.Attack;
-            } else if (distToPlayer < aiComponent.AggroRange /* * aiComponent.Aggression*/) {
-                aiComponent.CurrentState = AIState.Chase;
-            } else {
-                aiComponent.CurrentState = AIState.Patrol;
+            // Skip dead enemies
+            if (combatComponent.IsDead) return;
+
+            float distToPlayer = _player.Item1.X - transformComponent.X;
+            float distToPlayerAbs = Math.Abs(distToPlayer);
+
+            // Increment time in current state
+            aiComponent.TimeInState++;
+            
+            // Random reaction delay - don't make decisions every frame
+            if (--aiComponent.NextDecisionTime > 0 && aiComponent.CurrentState != AIState.AttackWindup)
+            {
+                // Still execute current state behavior, just don't make new decisions
+                ExecuteStateBehavior(aiComponent, combatComponent, physicsComponent, distToPlayer);
+                return;
             }
             
-            // State behaviors
-            switch (aiComponent.CurrentState) {
+            // Time to make a new decision
+            aiComponent.NextDecisionTime = aiComponent.DecisionDelay;
+            
+            // Death run: Check if health is low
+            float healthPercent = combatComponent.Health / combatComponent.MaxHealth;
+            bool shouldFlee = healthPercent <= aiComponent.FleeHealthThreshold;
+            
+            // State transition logic
+            if (shouldFlee && aiComponent.CurrentState != AIState.Flee)
+            {
+                ChangeState(aiComponent, AIState.Flee);
+            }
+            else if (aiComponent.CurrentState == AIState.AttackWindup)
+            {
+                // Handle attack windup timer
+                aiComponent.AttackWindupTimer++;
+                if (aiComponent.AttackWindupTimer >= aiComponent.AttackWindupDuration)
+                {
+                    ChangeState(aiComponent, AIState.Attack);
+                    aiComponent.AttackWindupTimer = 0;
+                }
+            }
+            else if (aiComponent.CurrentState == AIState.Chase)
+            {
+                // Give up chase if too long or player too far
+                if (aiComponent.TimeInState > aiComponent.ChaseGiveUpTime && 
+                    distToPlayerAbs > aiComponent.AggroRange + aiComponent.Aggression)
+                {
+                    ChangeState(aiComponent, AIState.Patrol);
+                }
+                else if (distToPlayerAbs < aiComponent.AttackRange)
+                {
+                    ChangeState(aiComponent, AIState.AttackWindup);  // Start windup instead of immediate attack
+                }
+            }
+            else if (!shouldFlee)
+            {
+                // Normal state transitions
+                if (distToPlayerAbs < aiComponent.AttackRange)
+                {
+                    ChangeState(aiComponent, AIState.AttackWindup);
+                }
+                else if (distToPlayerAbs < aiComponent.AggroRange)
+                {
+                    ChangeState(aiComponent, AIState.Chase);
+                }
+                else if (aiComponent.CurrentState != AIState.Patrol)
+                {
+                    ChangeState(aiComponent, AIState.Patrol);
+                }
+            }
+            
+            // Execute behavior for current state
+            ExecuteStateBehavior(aiComponent, combatComponent, physicsComponent, distToPlayer);
+        }
+
+        private void ChangeState(AIComponent ai, AIState newState)
+        {
+            if (ai.CurrentState != newState)
+            {
+                ai.CurrentState = newState;
+                ai.TimeInState = 0;
+                ai.PatrolReconsiderDirectionTimer = 0;
+                
+                // Reset attack windup timer when entering windup state
+                if (newState == AIState.AttackWindup)
+                {
+                    ai.AttackWindupTimer = 0;
+                }
+            }
+        }
+
+        private void ExecuteStateBehavior(AIComponent ai, CombatComponent combat, PhysicsComponent physics, float distToPlayer)
+        {
+            switch (ai.CurrentState)
+            {
                 case AIState.Patrol:
-                    PatrolBehavior(transform, physics, aiComponent);
+                    PatrolBehavior(physics, ai);
                     break;
+                    
                 case AIState.Chase:
-                    ChaseBehavior(transform, physics, playerTransform, aiComponent);
+                    ChaseBehavior(distToPlayer, physics, ai);
                     break;
+                    
+                case AIState.AttackWindup:
+                    // Pause/telegraph before attack - no movement
+                    WindupBehavior(physics);
+                    break;
+                    
                 case AIState.Attack:
-                    AttackBehavior(physics, combat, transform, playerTransform);
+                    AttackBehavior(physics, combat);
+                    // After attack, go back to chase or patrol based on distance
+                    ChangeState(ai, distToPlayer < ai.AggroRange ? AIState.Chase : AIState.Patrol);
+                    break;
+                    
+                case AIState.Flee:
+                    FleeBehavior(distToPlayer, physics, ai);
                     break;
             }
+        }
+
+        private void PatrolBehavior(PhysicsComponent physics, AIComponent ai)
+        {
+            if (ai.PatrolReconsiderDirectionTimer < ai.PatrolReconsiderDirectionTime) {
+                ai.PatrolReconsiderDirectionTimer++;
+                return;
+            }
+            // Simple left-right patrol
+            int direction = MathF.Sin(ai.TimeInState) > 0 ? 1 : -1;
+            AddMovementForce(physics, ai.PatrolSpeed, direction);
+            ai.PatrolReconsiderDirectionTimer = 0;
+        }
+
+        private void ChaseBehavior(float distToPlayer, PhysicsComponent physics, AIComponent ai)
+        {
+            AddMovementForce(physics, ai.ChaseSpeed, Math.Sign(distToPlayer));
+        }
+
+        private void WindupBehavior(PhysicsComponent physics)
+        {
+            // Stop movement during windup (telegraph)
+            physics.Stop();
+        }
+
+        private void AttackBehavior(PhysicsComponent physics, CombatComponent combat)
+        {
+            if (combat.CanAttack)
+            {
+                // Stop moving
+                physics.Stop();
+                // Execute attack
+                combat.Attack();
+            }
+        }
+
+        private void FleeBehavior(float distToPlayer, PhysicsComponent physics, AIComponent ai)
+        {
+            // Run away from player
+            AddMovementForce(physics, ai.FleeSpeed, -Math.Sign(distToPlayer));
+        }
+
+        private void AddMovementForce(PhysicsComponent physics, int magnitude, int direction)
+        {
+            var angle = direction > 0 ? MathConstants.RadiansRightDirection : MathConstants.RadiansLeftDirection;
+            physics.AddAppliedForce(new(magnitude, angle));
         }
     }
 }

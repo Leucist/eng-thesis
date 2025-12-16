@@ -30,6 +30,9 @@
       "Health": 15,
       "MaxHealth": 15,
       "HPRegenCooldown": 40
+    },
+    {
+      "$type": "ai"
     }
   ]
 }

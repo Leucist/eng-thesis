@@ -335,6 +335,9 @@
         "CanAttack": true,
         "IsDead": false,
         "Type": 64
+      },
+      {
+        "$type": "ai"
       }
     ],
     [
@@ -393,6 +396,7 @@
     "Application.Systems.InputSystem",
     "Application.Systems.MovementSystem",
     "Application.Systems.CollisionSystem",
-    "Application.Systems.CombatSystem"
+    "Application.Systems.CombatSystem",
+    "Application.Systems.AISystem"
   ]
 }

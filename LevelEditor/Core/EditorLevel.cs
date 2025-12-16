@@ -115,6 +115,7 @@ namespace LevelEditor.Core
                 "Application.Systems.MovementSystem",
                 "Application.Systems.CollisionSystem",
                 "Application.Systems.CombatSystem",
+                "Application.Systems.AISystem",
                 // "Application.Systems.AnimationSystem" // TODO: Not implemented yet
             };
         }
