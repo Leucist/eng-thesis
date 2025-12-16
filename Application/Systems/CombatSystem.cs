@@ -41,10 +41,12 @@ namespace Application.Systems
             if (!playerAlive) {
                 // * Game Over
                 _isWorldAlive.Value = false;
+                GraphicsUtils.WindowManager.GameOver("GAME OVER!");
             }
             if (_warriors.Count == 1) {
                 // * Only player remains – Victory
                 _isWorldAlive.Value = false;
+                GraphicsUtils.WindowManager.GameOver("VICTORY!");
             }
             
             // base.Update();

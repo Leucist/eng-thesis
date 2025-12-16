@@ -50,9 +50,10 @@ namespace Application
                 while (!_timer.FramePassed) System.Threading.Thread.Sleep(1);
             }
 
-            throw new NotImplementedException("World has died.");
+            // throw new NotImplementedException("World has died.");
             
-            return _world;
+            System.Threading.Thread.Sleep(3000); // sleep for 3 seconds after "GameOver"
+            return WorldFactory.InitialWorld;
         }
     }
 }
