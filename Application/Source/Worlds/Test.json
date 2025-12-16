@@ -62,38 +62,6 @@
     [
       {
         "$type": "transform",
-        "X": 384,
-        "Y": 288,
-        "Width": 32,
-        "Height": 32,
-        "Direction": 1,
-        "HasMoved": false,
-        "Type": 1
-      },
-      {
-        "$type": "graphics",
-        "TexturePath": "test-ninja_frame-0.png",
-        "Type": 4
-      },
-      {
-        "$type": "physics",
-        "IsFalling": false,
-        "Mass": 5,
-        "MaxSpeed": 100,
-        "AppliedForce": {
-          "Value": 0,
-          "Angle": 0
-        },
-        "Type": 2
-      },
-      {
-        "$type": "collision",
-        "Type": 32
-      }
-    ],
-    [
-      {
-        "$type": "transform",
         "X": 64,
         "Y": 320,
         "Width": 32,
@@ -264,7 +232,7 @@
       {
         "$type": "transform",
         "X": 544,
-        "Y": 288,
+        "Y": 316,
         "Width": 32,
         "Height": 4,
         "Direction": 1,
@@ -285,7 +253,7 @@
       {
         "$type": "transform",
         "X": 576,
-        "Y": 288,
+        "Y": 316,
         "Width": 32,
         "Height": 4,
         "Direction": 1,
@@ -357,6 +325,66 @@
       {
         "$type": "collision",
         "Type": 32
+      },
+      {
+        "$type": "combat",
+        "Damage": 7,
+        "AttackRange": 16,
+        "AttackCooldown": 50,
+        "AttackDuration": 30,
+        "Health": 20,
+        "MaxHealth": 20,
+        "HPRegenCooldown": 20,
+        "IsDealingDamage": false,
+        "CanAttack": true,
+        "IsDead": false,
+        "Type": 64
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 416,
+        "Y": 288,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "test-ninja_frame-0.png",
+        "Type": 4
+      },
+      {
+        "$type": "physics",
+        "IsFalling": false,
+        "Mass": 5,
+        "MaxSpeed": 100,
+        "AppliedForce": {
+          "Value": 0,
+          "Angle": 0
+        },
+        "Type": 2
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      },
+      {
+        "$type": "combat",
+        "Damage": 3.5,
+        "AttackRange": 12,
+        "AttackCooldown": 50,
+        "AttackDuration": 30,
+        "Health": 15,
+        "MaxHealth": 15,
+        "HPRegenCooldown": 40,
+        "IsDealingDamage": false,
+        "CanAttack": true,
+        "IsDead": false,
+        "Type": 64
       }
     ]
   ],
@@ -364,6 +392,7 @@
     "Application.Systems.RenderingSystem",
     "Application.Systems.InputSystem",
     "Application.Systems.MovementSystem",
-    "Application.Systems.CollisionSystem"
+    "Application.Systems.CollisionSystem",
+    "Application.Systems.CombatSystem"
   ]
 }

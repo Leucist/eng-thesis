@@ -122,5 +122,9 @@ namespace Application.Systems
             }
             // if (!hasCollidedOnBottom && physicsComponent is not null) physicsComponent.IsFalling = true;
         }
+
+        public static bool AreColliding(FloatRect a, FloatRect b) {
+            return a.Intersects(b);
+        }
     }
 }

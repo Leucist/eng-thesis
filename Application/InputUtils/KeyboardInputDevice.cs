@@ -15,6 +15,7 @@ namespace Application.InputUtils
             {Keyboard.Key.Down,     Input.Down},
             {Keyboard.Key.S,        Input.Down},
             {Keyboard.Key.Space,    Input.RisingMovement},
+            {Keyboard.Key.Enter,    Input.ShortAction},
         };
 
         public override void Subscribe(RenderWindow window) {

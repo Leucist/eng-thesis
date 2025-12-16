@@ -11,7 +11,7 @@ namespace Application.InputUtils
         Down,
         // ShortMovement,
         RisingMovement,
-        // ShortAction,
+        ShortAction,
         // LongAction,
         // Select,
         // Pause

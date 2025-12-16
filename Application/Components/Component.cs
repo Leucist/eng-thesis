@@ -8,6 +8,7 @@ namespace Application.Components
     [JsonDerivedType(typeof(GraphicsComponent), "graphics")]
     [JsonDerivedType(typeof(InputComponent), "input")]
     [JsonDerivedType(typeof(CollisionComponent), "collision")]
+    [JsonDerivedType(typeof(CombatComponent), "combat")]
     public abstract class Component(ComponentType type)
     {
         public ComponentType Type { get; } = type;

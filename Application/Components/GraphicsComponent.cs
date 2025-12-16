@@ -23,7 +23,7 @@ namespace Application.Components
             SetTexture(texturePath);
         }
 
-        // * pathToImage being ~"<EntityType>/<AnimationType>/<Image>"
+        // * pathToImage being just texture name, not the whole ~"<EntityType>/<AnimationType>/<Image>"
         public void SetTexture(string pathToImage) {
             _texture = GraphicsCache.GetTextureFromCache(Pathfinder.GetFullTextureFilePath(pathToImage));
             _textureChanged = true; // resets the flag that the Sprite must be updated

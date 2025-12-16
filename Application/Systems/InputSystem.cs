@@ -14,7 +14,7 @@ namespace Application.Systems
         // todo Temp? [1]
         private InputComponent _playerInputC;
         private PhysicsComponent _playerPhysicsC;
-        // private CombatComponent _playerCombatC;
+        private CombatComponent _playerCombatC;
         // todo Temp [2] - START
         private delegate void ActionDelegate();
         private Dictionary<Input, ActionDelegate> _playerBindings;
@@ -26,7 +26,7 @@ namespace Application.Systems
                 [
                     ComponentType.Input,
                     ComponentType.Physics,
-                    // ComponentType.Combat,
+                    ComponentType.Combat,
                 ]
             )  
         {
@@ -40,7 +40,8 @@ namespace Application.Systems
             _playerBindings = new() {
                 {Input.Left, MovePlayerLeft},
                 {Input.Right, MovePlayerRight},
-                {Input.RisingMovement, PlayerJump}
+                {Input.RisingMovement, PlayerJump},
+                {Input.ShortAction, PlayerAttack}
             };
             // todo Temp [2] - END
         }
@@ -55,6 +56,9 @@ namespace Application.Systems
                         break;
                     case ComponentType.Physics:
                         _playerPhysicsC = (PhysicsComponent) component;
+                        break;
+                    case ComponentType.Combat:
+                        _playerCombatC = (CombatComponent) component;
                         break;
                 }
             }
@@ -105,6 +109,9 @@ namespace Application.Systems
             MovePlayer(RadiansUpDirection, 80);
             // could've been handled in collisions as well, but for convenience is here
             _playerPhysicsC.IsFalling = true;
+        }
+        private void PlayerAttack() {
+            if (_playerCombatC.CanAttack) _playerCombatC.Attack();
         }
     }
 }

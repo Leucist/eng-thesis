@@ -23,6 +23,16 @@
     },
     {
       "$type": "collision"
+    },
+    {
+      "$type": "combat",
+      "Damage": 7.0,
+      "AttackRange": 16,
+      "AttackCooldown": 50,
+      "AttackDuration": 30,
+      "Health": 20,
+      "MaxHealth": 20,
+      "HPRegenCooldown": 20
     }
   ]
 }
