@@ -25,8 +25,8 @@
       "$type": "combat",
       "Damage": 3.5,
       "AttackRange": 12,
-      "AttackCooldown": 50,
-      "AttackDuration": 30,
+      "AttackCooldown": 12,
+      "AttackDuration": 7,
       "Health": 15,
       "MaxHealth": 15,
       "HPRegenCooldown": 40

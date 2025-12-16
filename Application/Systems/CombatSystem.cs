@@ -14,26 +14,26 @@ namespace Application.Systems
             ]
         )
     {
-        private List<(CombatComponent, SFML.Graphics.FloatRect)> _warriors = [];
+        private Dictionary<Entity, (CombatComponent, TransformComponent, GraphicsComponent?)> _warriors = [];
 
         public override void Update()
         {
             _warriors = [];
             bool playerAlive = false;
-            var selectedEntities = _entityManager.GetAllComponentBundlesWith([ComponentType.Combat, ComponentType.Transform]);
+            var selectedEntities = _entityManager.GetAllEntitiesWith([ComponentType.Combat, ComponentType.Transform]);
             // Fills list with all entites that have CC and TC and are currently in the game
             foreach (var entity in selectedEntities) {
-                var tc = (TransformComponent) entity.First(c => c.Type == ComponentType.Transform);
-                SFML.Graphics.FloatRect hitbox = new(tc.X, tc.Y-tc.Height, tc.Width, tc.Height);
-                var cc = (CombatComponent)entity.First(c => c.Type == ComponentType.Combat);
-                var bundle = (cc, hitbox);
+                var tc = (TransformComponent)   entity.Value.First(c => c.Type == ComponentType.Transform);
+                var cc = (CombatComponent)      entity.Value.First(c => c.Type == ComponentType.Combat);
+                var gc = (GraphicsComponent?)   entity.Value.FirstOrDefault(c => c.Type == ComponentType.Graphics);
+                var bundle = (cc, tc, gc);
 
                 // Check for whether it's player and if it is alive
-                if (entity.FirstOrDefault(c => c.Type == ComponentType.Input) != null) {
+                if (entity.Value.FirstOrDefault(c => c.Type == ComponentType.Input) != null) {
                     if (!cc.IsDead) playerAlive = true;
                 }
 
-                if (!cc.IsDead) _warriors.Add(bundle);  // adds only entities that are alive 
+                if (!cc.IsDead) _warriors[entity.Key] = bundle;  // adds only entities that are alive 
             }
 
             // Check if game should continue
@@ -44,47 +44,54 @@ namespace Application.Systems
                 // * Only player remains – Victory
             }
             
-            base.Update();
+            // base.Update();
+            foreach (var entity in _warriors) {
+                PerformCustomSystemAction(entity);
+            }
         }
 
         protected override void PerformSystemAction(Dictionary<ComponentType, Component> entityComponents) {
-            var combatComponent     = (CombatComponent)     entityComponents[ComponentType.Combat];
-            var transformComponent  = (TransformComponent)  entityComponents[ComponentType.Transform];
-            // todo: TEMP [1] Graphics Component present as well
-            var graphicsComponent   = (GraphicsComponent)   entityComponents[ComponentType.Graphics];
-
-            // Ensure the "dead" entities are not being handled
-            if (combatComponent.IsDead) {
-                // todo: Reset Texture or State (<- which's not Impl. yet)
-                graphicsComponent.SetTexture("tombstone.png");
-                // _entityManager.RemoveComponent(?ihavenoentity, ComponentType.Collision); // todo: removing collision would be nice
-                return;
-            }
+            throw new NotImplementedException("How did you call this anyway?");
+        }
+        protected void PerformCustomSystemAction(KeyValuePair<Entity, 
+            (CombatComponent, TransformComponent, GraphicsComponent?)> entity)
+        {
+            var combatComponent     = entity.Value.Item1;
+            var transformComponent  = entity.Value.Item2;
+            // // todo: TEMP [1] Graphics Component present as well
+            // var graphicsComponent   = entity.Value.Item3;
 
             combatComponent.Update();
 
             if (combatComponent.IsDealingDamage) {
                 // * Create imaginary FloatRect for attacked area.
-                var aX = transformComponent.Direction == 1 ?
+                var attackRectX = transformComponent.Direction == 1 ?
                         transformComponent.X + transformComponent.Width : 
                         transformComponent.X - combatComponent.AttackRange;
-                SFML.Graphics.FloatRect attackArea = new(aX, transformComponent.Y - transformComponent.Height,
+                SFML.Graphics.FloatRect attackArea = new(attackRectX, transformComponent.Y - transformComponent.Height,
                                                         combatComponent.AttackRange, transformComponent.Height);
 
                 // * Check if it collides with any entity that has CombatComponent
                 var thisTop = transformComponent.Y - transformComponent.Height;
-                foreach (var body in _warriors) {
-                    // * Return if entity is this entity (to not check itself)
-                    // instead of id-check I want to try somewhat simplier approach with checking rects
-                    // ..as entities with combatCs usually have collisions as well.
-                    if (body.Item2.Top == thisTop && body.Item2.Left == transformComponent.X) {
-                        continue;
-                    } 
+                foreach (var victim in _warriors) {
+                    // * Skip iteration if entity is this entity (to not check itself)
+                    if (victim.Key == entity.Key) continue;
                     
-                    if (CollisionSystem.AreColliding(attackArea, body.Item2)) {
-                        body.Item1.TakeDamage(combatComponent.Damage);
-                        Console.WriteLine($"{body.Item1.Health}");
+                    // Init the hitbox of the "victim"
+                    var victimTC = victim.Value.Item2;
+                    SFML.Graphics.FloatRect victimHitbox = new(victimTC.X, victimTC.Y-victimTC.Height, victimTC.Width, victimTC.Height);
+                    if (CollisionSystem.AreColliding(attackArea, victimHitbox)) {
+                        victim.Value.Item1.TakeDamage(combatComponent.Damage);
+                        Console.WriteLine($"{victim.Value.Item1.Health}");
                         combatComponent.HasAttacked = true;
+
+                        // Ensure the "dead" entities are not being handled
+                        if (victim.Value.Item1.IsDead) {
+                            // todo: Reset Texture or State (<- which's not Impl. yet)
+                            victim.Value.Item3?.SetTexture("tombstone.png");
+                            _entityManager.RemoveComponent(victim.Key, ComponentType.Collision);    // remove collision
+                            return;
+                        }
                     }
                 }
             }
