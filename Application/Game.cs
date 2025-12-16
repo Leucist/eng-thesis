@@ -50,7 +50,7 @@ namespace Application
                 while (!_timer.FramePassed) System.Threading.Thread.Sleep(1);
             }
 
-            throw new NotImplementedException();
+            throw new NotImplementedException("World has died.");
             
             return _world;
         }

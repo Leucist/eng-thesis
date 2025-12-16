@@ -15,6 +15,7 @@ namespace Application.Systems
         )
     {
         private Dictionary<Entity, (CombatComponent, TransformComponent, GraphicsComponent?)> _warriors = [];
+        private Worlds.BoolWrapper _isWorldAlive = true;
 
         public override void Update()
         {
@@ -39,9 +40,11 @@ namespace Application.Systems
             // Check if game should continue
             if (!playerAlive) {
                 // * Game Over
+                _isWorldAlive.Value = false;
             }
             if (_warriors.Count == 1) {
                 // * Only player remains – Victory
+                _isWorldAlive.Value = false;
             }
             
             // base.Update();
@@ -82,7 +85,6 @@ namespace Application.Systems
                     SFML.Graphics.FloatRect victimHitbox = new(victimTC.X, victimTC.Y-victimTC.Height, victimTC.Width, victimTC.Height);
                     if (CollisionSystem.AreColliding(attackArea, victimHitbox)) {
                         victim.Value.Item1.TakeDamage(combatComponent.Damage);
-                        Console.WriteLine($"{victim.Value.Item1.Health}");
                         combatComponent.HasAttacked = true;
 
                         // Ensure the "dead" entities are not being handled
@@ -95,9 +97,10 @@ namespace Application.Systems
                     }
                 }
             }
+        }
 
-            // // Remove entity if its HP dropped to/below 0
-            // if (combatComponent.IsDead) _entityManager.RemoveEntity();  // ? (._ .)
+        public void LinkWorldLife(ref Worlds.BoolWrapper isAlive) {
+            _isWorldAlive = isAlive;
         }
     }
 }
