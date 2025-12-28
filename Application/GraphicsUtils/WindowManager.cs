@@ -13,11 +13,11 @@ namespace Application.GraphicsUtils
         static WindowManager()
         {
             // * WINDOW mode *
-            // VideoMode videoMode = new(AppConstants.WIDTH, AppConstants.HEIGHT);
-            // _renderWindow       = new(videoMode, AppConstants.TITLE);
+            VideoMode videoMode = new(AppConstants.WIDTH, AppConstants.HEIGHT);
+            _renderWindow       = new(videoMode, AppConstants.TITLE);
             // * FULL SCREEN mode *
-            VideoMode videoMode = VideoMode.DesktopMode;
-            _renderWindow       = new(videoMode, AppConstants.TITLE, Styles.Fullscreen);
+            // VideoMode videoMode = VideoMode.DesktopMode;
+            // _renderWindow       = new(videoMode, AppConstants.TITLE, Styles.Fullscreen);
             
             // Registers essential events
             SetHandlers();

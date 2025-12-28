@@ -118,6 +118,8 @@ namespace Application.Systems
                 {
                     ai.AttackWindupTimer = 0;
                 }
+                // ! DEBUG LOG
+                Console.WriteLine($"> Enemy state changed to {newState}");
             }
         }
 
@@ -141,7 +143,7 @@ namespace Application.Systems
                 case AIState.Attack:
                     AttackBehavior(physics, combat);
                     // After attack, go back to chase or patrol based on distance
-                    ChangeState(ai, distToPlayer < ai.AggroRange ? AIState.Chase : AIState.Patrol);
+                    // ChangeState(ai, distToPlayer < ai.AggroRange ? AIState.Chase : AIState.Patrol);  //? kinda redundant~
                     break;
                     
                 case AIState.Flee:
@@ -181,6 +183,9 @@ namespace Application.Systems
                 physics.Stop();
                 // Execute attack
                 combat.Attack();
+
+                // ! DEBUG LOG
+                Console.WriteLine($"-- I've just attacked!");
             }
         }
 

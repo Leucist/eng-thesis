@@ -25,8 +25,8 @@ namespace Application.Components
         public float NextDecisionTime = 0f;
         public float DecisionDelay;                 // randomized delay for any decision
         public int TimeInState = 0;
-        public float AttackWindupDuration = 0.2f;
-        public int AttackWindupTimer = 0;
+        public int AttackWindupDuration = 1;
+        public int AttackWindupTimer    = 0;
         public int ChaseGiveUpTime = 35;         // enemy gives up after this many frames
         public int PatrolReconsiderDirectionTime = 24;
         public int PatrolReconsiderDirectionTimer;

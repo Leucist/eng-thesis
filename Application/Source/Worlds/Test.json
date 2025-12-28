@@ -393,10 +393,10 @@
   ],
   "SystemTypes": [
     "Application.Systems.RenderingSystem",
+    "Application.Systems.AISystem",
     "Application.Systems.InputSystem",
     "Application.Systems.MovementSystem",
     "Application.Systems.CollisionSystem",
-    "Application.Systems.CombatSystem",
-    "Application.Systems.AISystem"
+    "Application.Systems.CombatSystem"
   ]
 }
