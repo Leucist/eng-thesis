@@ -8,7 +8,7 @@ namespace Application.Components
         public float    AttackRange     { get; private set; }
         public int      AttackCooldown  { get; private set; }     // How long to wait before next attack 
         public int      AttackDuration  { get; private set; }     // How long the attack can cause damage
-        public int _attackCounter;  // ! TEMPORARY PUBLIC
+        private int _attackCounter;
         // * ^ e,g, Player has attack animation for 4 frames, but only first 3 deal damage
 
         public float    Health          { get; private set; }
@@ -58,13 +58,13 @@ namespace Application.Components
             }
             else HasAttacked = false;
             
-            // if (_regenCounter <= 0) {
-            //     var increasedHP = Health + HP_REGENED_PER_FRAME;
-            //     // increase Health Points so they won't breach the max limit
-            //     Health = increasedHP > MaxHealth ? MaxHealth : increasedHP;
-            //     _regenCounter = HPRegenCooldown;
-            // }
-            // else _regenCounter--;
+            if (_regenCounter <= 0) {
+                var increasedHP = Health + HP_REGENED_PER_FRAME;
+                // increase Health Points so they won't breach the max limit
+                Health = increasedHP > MaxHealth ? MaxHealth : increasedHP;
+                _regenCounter = HPRegenCooldown;
+            }
+            else _regenCounter--;
         }
     }
 }

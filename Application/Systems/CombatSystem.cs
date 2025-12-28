@@ -16,8 +16,6 @@ namespace Application.Systems
     {
         private Dictionary<Entity, (CombatComponent, TransformComponent, GraphicsComponent?)> _warriors = [];
         private Worlds.BoolWrapper _isWorldAlive = true;
-        // ! DEBUG TEMP
-        private Entity _playerId;
 
         public override void Update()
         {
@@ -34,7 +32,6 @@ namespace Application.Systems
                 // Check for whether it's player and if it is alive
                 if (entity.Value.FirstOrDefault(c => c.Type == ComponentType.Input) != null) {
                     if (!cc.IsDead) playerAlive = true;
-                    _playerId = entity.Key;
                 }
 
                 // Only if entity is alive, add it
@@ -74,9 +71,6 @@ namespace Application.Systems
 
             // If entity is able to hit anyone in this frame (is dealing damage)
             if (combatComponent.IsDealingDamage) {
-                // ! DEBUG LOG
-                Console.WriteLine($"> Entity {entity.Key.Id} at X: {transformComponent.X} is dealing {combatComponent.Damage} damage.");
-                
                 // * Create imaginary FloatRect for attacked area.
                 var attackRectX = transformComponent.Direction == 1 ?
                         transformComponent.X + transformComponent.Width : 
@@ -98,10 +92,6 @@ namespace Application.Systems
                         victim.Value.Item1.TakeDamage(combatComponent.Damage);
                         combatComponent.HasAttacked = true;
 
-                        // ! DEBUG LOG
-                        Console.WriteLine($"\t· Entity {victim.Key.Id} was just hit.");
-                        Console.WriteLine($"\t· Entity's HP: {victim.Value.Item1.Health}.");
-
                         // * Ensure the "dead" entities are not being handled
                         if (victim.Value.Item1.IsDead) {
                             // todo: Reset Texture or State (<- which's not Impl. yet)
@@ -111,15 +101,6 @@ namespace Application.Systems
                         }
                     }
                 }
-            }
-            else if (entity.Key != _playerId) {
-                // ! DEBUG LOG
-                Console.WriteLine($"-- Somehow {entity.Key.Id} is not dealing damage...");
-                Console.WriteLine($"My stats:");
-                Console.WriteLine($"-- IsDealingDamage: {combatComponent.IsDealingDamage}");
-                Console.WriteLine($"-- HasAttacked: {combatComponent.HasAttacked}");
-                Console.WriteLine($"-- _attackCounter: {combatComponent._attackCounter}");
-                Console.WriteLine($"-- AttackDuration: {combatComponent.AttackDuration}\n");
             }
         }
 

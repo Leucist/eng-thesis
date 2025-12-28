@@ -118,8 +118,6 @@ namespace Application.Systems
                 {
                     ai.AttackWindupTimer = 0;
                 }
-                // ! DEBUG LOG
-                Console.WriteLine($"> Enemy state changed to {newState}");
             }
         }
 
@@ -183,9 +181,6 @@ namespace Application.Systems
                 physics.Stop();
                 // Execute attack
                 combat.Attack();
-
-                // ! DEBUG LOG
-                Console.WriteLine($"-- I've just attacked!");
             }
         }
 
