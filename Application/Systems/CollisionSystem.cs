@@ -29,12 +29,14 @@ namespace Application.Systems
             foreach (var entity in collidables) {
                 // Add Entity to the check-list
                 GraphicsComponent gc = (GraphicsComponent) entity.Value.First(c => c.Type == ComponentType.Graphics);
-                FloatRect entityBounds = gc.Sprite.GetGlobalBounds();
+                TransformComponent tc = (TransformComponent) entity.Value.First(c => c.Type == ComponentType.Transform);
+                // FloatRect entityBounds = gc.Sprite.GetGlobalBounds();
+                var spriteBoundsRect = gc.Sprite.GetLocalBounds();
+                FloatRect entityBounds = new(tc.X, tc.Y, spriteBoundsRect.Width, spriteBoundsRect.Height);
                 _collidableRects.Add(entity.Key, entityBounds);
                 
                 // * Note: not the most elegant solution, as all here, but will do perfectly fine at this scale >
                 // Add moved entities to the separate list as well
-                TransformComponent tc = (TransformComponent) entity.Value.First(c => c.Type == ComponentType.Transform);
                 if (tc.HasMoved) {
                     PhysicsComponent? phc = (PhysicsComponent?) entity.Value.FirstOrDefault(c => c.Type == ComponentType.Physics);
                     _movedEntities.Add(entity.Key, (entityBounds, tc, phc, false));
@@ -80,41 +82,52 @@ namespace Application.Systems
             PhysicsComponent?   physicsComponent    = entity.Value.Item3;
             bool                hasCollidedOnBottom = entity.Value.Item4;
 
-            // - Iterate through borders // todo: maybe place this check in the end?
-            if (!FitInScreenBounds(entityRect, transformComponent)) {
-                // Stop the entity
-                physicsComponent?.Stop();
-            }
-
             // ! Debug log
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"\n- - - COLLISION CHECK ROUND - - -");
+            Console.WriteLine($"\n- - - COLLISION CHECK ROUND for {entity.Key.Id} - - -");
             Console.ResetColor();
+            Console.WriteLine($"Entity's coords\t-\tX: {entity.Value.Item2.X}\tY: {entity.Value.Item2.Y}");
 
             // - Iterate through entities
             foreach (var collidable in _collidableRects) {
                 // Skip the check if collidable is this entity (collision with itself)
-                if (collidable.Key == entity.Key) continue;
+                if (collidable.Key.Id == entity.Key.Id) continue;
 
                 // Find intersection area
                 var intersection = CheckCollision(entityRect, collidable.Value);
                 
+                // ! Debug log
+                if (collidable.Key.Id == 9) {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"\nFloor overlap with Entity >");
+                    Console.WriteLine($"intersection.Width: {intersection.Width}\nintersection.Height: {intersection.Height}");
+                    Console.WriteLine($"intersection.Top: {intersection.Top}\nintersection.Left: {intersection.Left}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine($"\nFloor FloatRect >");
+                    Console.WriteLine($"Width: {collidable.Value.Width}\nHeight: {collidable.Value.Height}");
+                    Console.WriteLine($"Top: {collidable.Value.Top}\nLeft: {collidable.Value.Left}");
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine($"\nEntity FloatRect >");
+                    Console.WriteLine($"Width: {entityRect.Width}\nHeight: {entityRect.Height}");
+                    Console.WriteLine($"Top: {entityRect.Top}\nLeft: {entityRect.Left}");
+                    Console.ResetColor();
+                }
+
                 // * If collision occured
                 if (intersection != ZERO_RECT) {
                     
                     // ! Debug log
-                    Console.WriteLine($"\n- Collision occured with entity {entity.Key.Id} and {collidable.Key.Id} >");
+                    Console.WriteLine($"\n- Collision occured with entity {collidable.Key.Id} >");
                     Console.WriteLine($"intersection.Width: {intersection.Width}\nintersection.Height: {intersection.Height}");
                     Console.WriteLine($"intersection.Top: {intersection.Top}\nintersection.Left: {intersection.Left}");
-                    Console.WriteLine($"Before fix\t-\tX: {entity.Value.Item2.X}\tY: {entity.Value.Item2.Y}");
 
                     // If X offset is greater than on Y axis - rise (or lower) the entity
                     if (intersection.Width > intersection.Height) {
-                        var intersectionY = intersection.Top /* + intersection.Height // - as it's already bottom for some reason */;
-                        float yPos;
+                        var intersectionY = intersection.Top /*+ intersection.Height // as it's already bottom in SFML for some reason*/;
+                        float yOffset;
                         if (intersectionY >= transformComponent.Y) {
+                            yOffset = -intersection.Height;
                             // if entity collided with smth on the bottom
-                            yPos = intersection.Top - intersection.Height;
                             physicsComponent?.Ground();
                             hasCollidedOnBottom = true;
 
@@ -122,17 +135,15 @@ namespace Application.Systems
                             Console.WriteLine($"(entity {entity.Key.Id} touched floor - no longer falling)");
                         }
                         else {
-                            var collidableYPos = collidable.Value.Top /* + collidable.Value.Height */;
-                            yPos = collidableYPos + transformComponent.Height;
+                            yOffset = intersection.Height;
                         }
-                        transformComponent.SetY(yPos);
+                        transformComponent.ChangePostition(0, yOffset);
                     }
 
 
                     else {
-                        var xPos = intersection.Left > transformComponent.X ? collidable.Value.Left - transformComponent.Width
-                                                                            : collidable.Value.Left + collidable.Value.Width;
-                        transformComponent.SetX(xPos);
+                        var xOffset = intersection.Left > transformComponent.X ? -intersection.Width : intersection.Width;
+                        transformComponent.ChangePostition(xOffset, 0);
                         // Stop the entity
                         physicsComponent?.Stop();
                     }
@@ -151,6 +162,12 @@ namespace Application.Systems
             if (!hasCollidedOnBottom && physicsComponent is not null) {physicsComponent.IsFalling = true;
                 // ! Debug log
                 Console.WriteLine($"(entity {entity.Key.Id} is falling now)");}
+
+            // - Iterate through borders
+            if (!FitInScreenBounds(entityRect, transformComponent)) {
+                // Stop the entity
+                physicsComponent?.Stop();
+            }
         }
 
         public static bool AreColliding(FloatRect a, FloatRect b) {
