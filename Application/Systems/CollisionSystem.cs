@@ -94,7 +94,8 @@ namespace Application.Systems
                 if (collidable.Key.Id == entity.Key.Id) continue;
 
                 // Find intersection area
-                var intersection = CheckCollision(entityRect, collidable.Value);
+                FloatRect newEntityRect = new(transformComponent.X, transformComponent.Y, entityRect.Width, entityRect.Height);
+                var intersection = CheckCollision(newEntityRect, collidable.Value);
                 
                 // ! Debug log
                 if (collidable.Key.Id == 9) {
@@ -122,7 +123,7 @@ namespace Application.Systems
                     Console.WriteLine($"intersection.Top: {intersection.Top}\nintersection.Left: {intersection.Left}");
 
                     // If X offset is greater than on Y axis - rise (or lower) the entity
-                    if (intersection.Width > intersection.Height) {
+                    // if (intersection.Width > intersection.Height) {
                         var intersectionY = intersection.Top /*+ intersection.Height // as it's already bottom in SFML for some reason*/;
                         float yOffset;
                         if (intersectionY >= transformComponent.Y) {
@@ -138,15 +139,15 @@ namespace Application.Systems
                             yOffset = intersection.Height;
                         }
                         transformComponent.ChangePostition(0, yOffset);
-                    }
+                    // }
 
 
-                    else {
-                        var xOffset = intersection.Left > transformComponent.X ? -intersection.Width : intersection.Width;
-                        transformComponent.ChangePostition(xOffset, 0);
-                        // Stop the entity
-                        physicsComponent?.Stop();
-                    }
+                    // else {
+                    //     var xOffset = intersection.Left > transformComponent.X ? -intersection.Width : intersection.Width;
+                    //     transformComponent.ChangePostition(xOffset, 0);
+                    //     // Stop the entity
+                    //     physicsComponent?.Stop();
+                    // }
 
                     // ! Debug log
                     Console.WriteLine($"After fix\t-\tX: {entity.Value.Item2.X}\tY: {entity.Value.Item2.Y}");
