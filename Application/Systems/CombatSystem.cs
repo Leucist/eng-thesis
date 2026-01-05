@@ -16,6 +16,7 @@ namespace Application.Systems
     {
         private Dictionary<Entity, (CombatComponent, TransformComponent, GraphicsComponent?)> _warriors = [];
         private Worlds.BoolWrapper _isWorldAlive = true;
+        private AI.AIDistributionManager? _aiManager;
 
         public override void Update()
         {
@@ -40,12 +41,14 @@ namespace Application.Systems
 
             // Check if game should continue
             if (!playerAlive) {
-                // * Game Over
+                // * [ GAME OVER ]
+                _aiManager!.RecordAIWin();
                 _isWorldAlive.Value = false;
                 GraphicsUtils.WindowManager.GameOver("GAME OVER!");
             }
             else if (_warriors.Count == 1) {
-                // * Only player remains – Victory
+                // * [ VICTORY ] - Only player remains
+                _aiManager!.RecordPlayerWin();
                 _isWorldAlive.Value = false;
                 GraphicsUtils.WindowManager.GameOver("VICTORY!");
             }
@@ -106,6 +109,9 @@ namespace Application.Systems
 
         public void LinkWorldLife(ref Worlds.BoolWrapper isAlive) {
             _isWorldAlive = isAlive;
+        }
+        public void LinkAIManager(AI.AIDistributionManager aiManager) {
+            _aiManager = aiManager;
         }
     }
 }

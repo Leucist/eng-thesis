@@ -30,6 +30,11 @@ namespace Application.Worlds
         private readonly List<ASystem> _systems;
         // private readonly Entity _player = player;
         private BoolWrapper _isAlive;
+        private AI.AIDistributionManager? _aiManager;
+
+        public void LinkAIManager(AI.AIDistributionManager aiManager) {
+            _aiManager = aiManager;
+        }
 
         public bool IsAlive  => _isAlive.Value;
         // public Entity Player => _player;
@@ -58,6 +63,7 @@ namespace Application.Worlds
             // todo: Temp? linking isAlive to combat.
             var cs = (CombatSystem?) _systems.FirstOrDefault(s => s.GetType() == typeof(CombatSystem));
             cs?.LinkWorldLife(ref _isAlive);
+            cs?.LinkAIManager(_aiManager);
         }
 
         // * Separate method for Systems Init ?

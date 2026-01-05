@@ -1,3 +1,4 @@
+using Application.AI;
 using Application.Worlds;
 
 namespace Application
@@ -9,6 +10,8 @@ namespace Application
         //
         // i.e. World is for levels playthrough, when "Start new game" or "Load the game"
         // ..and Game is for World + Menu + Cutscenes, etc.
+
+        private AIDistributionManager _aiManager = new();
 
         private World? _world;
         private Timer _timer = new(AppConstants.FRAME_TIME_MS);
@@ -36,6 +39,7 @@ namespace Application
             _world = WorldFactory.InitialWorld;
 
             while (_isRunning) {
+                _world.LinkAIManager(_aiManager);
                 _world = UpdateWorld();
             }
             // Update MM and handle further actions (e.g. load or create world and pass ctrl)
