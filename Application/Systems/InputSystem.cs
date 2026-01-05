@@ -15,6 +15,7 @@ namespace Application.Systems
         private InputComponent _playerInputC;
         private PhysicsComponent _playerPhysicsC;
         private CombatComponent _playerCombatC;
+        private TransformComponent _playerTransformC;
         // todo Temp [2] - START
         private delegate void ActionDelegate();
         private Dictionary<Input, ActionDelegate> _playerBindings;
@@ -59,6 +60,9 @@ namespace Application.Systems
                         break;
                     case ComponentType.Combat:
                         _playerCombatC = (CombatComponent) component;
+                        break;
+                    case ComponentType.Transform:
+                        _playerTransformC = (TransformComponent) component;
                         break;
                 }
             }
@@ -106,7 +110,8 @@ namespace Application.Systems
         private void MovePlayerRight() => MovePlayer(RadiansRightDirection);
         private void PlayerJump() {
             if (_playerPhysicsC.IsFalling) return;  // to prevent double-jump
-            MovePlayer(RadiansUpDirection, 80);
+            var jumpDirection = RadiansUpDirection - (_playerTransformC.Direction * 0.1f);
+            MovePlayer(jumpDirection, 200);
             // could've been handled in collisions as well, but for convenience is here
             _playerPhysicsC.IsFalling = true;
         }

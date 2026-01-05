@@ -124,10 +124,11 @@ namespace Application.Systems
 
                     // If X offset is greater than on Y axis - rise (or lower) the entity
                     // if (intersection.Width > intersection.Height) {
-                        var intersectionY = intersection.Top /*+ intersection.Height // as it's already bottom in SFML for some reason*/;
-                        float yOffset;
+                        var intersectionY = intersection.Top;
+                        float newPosY;
                         if (intersectionY >= transformComponent.Y) {
-                            yOffset = -intersection.Height;
+                            // Places entity on top of collidable
+                            newPosY = collidable.Value.Top - transformComponent.Height;
                             // if entity collided with smth on the bottom
                             physicsComponent?.Ground();
                             hasCollidedOnBottom = true;
@@ -136,9 +137,9 @@ namespace Application.Systems
                             Console.WriteLine($"(entity {entity.Key.Id} touched floor - no longer falling)");
                         }
                         else {
-                            yOffset = intersection.Height;
+                            newPosY = collidable.Value.Top + collidable.Value.Height;
                         }
-                        transformComponent.ChangePostition(0, yOffset);
+                        transformComponent.SetY(newPosY);
                     // }
 
 
