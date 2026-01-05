@@ -38,7 +38,7 @@ namespace Application.Components
 
         private ForceVector GetWeight() {
             if (_massWasChanged) {
-                _weight.Value = (int) (_mass * MathConstants.GravitationalAcceleration);    // "P = mg"
+                _weight.Value = (int) (_mass * MathConstants.GravitationalAcceleration) / 4;    // "P = mg" decreased
                 _massWasChanged = false;
             }
             return _weight;
