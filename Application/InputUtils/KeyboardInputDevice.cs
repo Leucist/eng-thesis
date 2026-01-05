@@ -36,14 +36,13 @@ namespace Application.InputUtils
         public void OnKeyPressed(object? sender, KeyEventArgs e)
         {
             Input? input = ExtractInput(e.Code);
-            if (input is not null) _inputThisFrame.Add((Input)input);
+            if (input is not null) _input.Add((Input)input);
         }
         
         public void OnKeyReleased(object? sender, KeyEventArgs e)
         {
             Input? input = ExtractInput(e.Code);
-            // if (input is not null) _releasedThisFrame.Add((Input)input);
-            if (input is not null) _inputThisFrame.Remove((Input)input);
+            if (input is not null) _input.Remove((Input)input);
         }
     }
 }
