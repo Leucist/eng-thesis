@@ -389,6 +389,111 @@
         "IsDead": false,
         "Type": 64
       }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 192,
+        "Y": 256,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_up.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 224,
+        "Y": 256,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_up.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 256,
+        "Y": 256,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_up.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 352,
+        "Y": 224,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_up.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 384,
+        "Y": 224,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_up.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
     ]
   ],
   "SystemTypes": [
