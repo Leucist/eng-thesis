@@ -42,7 +42,8 @@ namespace Application.InputUtils
         public void OnKeyReleased(object? sender, KeyEventArgs e)
         {
             Input? input = ExtractInput(e.Code);
-            if (input is not null) _releasedThisFrame.Add((Input)input);
+            // if (input is not null) _releasedThisFrame.Add((Input)input);
+            if (input is not null) _inputThisFrame.Remove((Input)input);
         }
     }
 }

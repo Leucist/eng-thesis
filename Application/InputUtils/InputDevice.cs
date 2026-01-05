@@ -10,12 +10,12 @@ namespace Application.InputUtils
         public abstract void Subscribe(RenderWindow window);
 
         public virtual Input[] GetInput() {
-            // Fill the resulting array
-            Input[] input = new Input[_inputThisFrame.Count];
-            _inputThisFrame.CopyTo(input);
-            // Update the input queue
-            _inputThisFrame.ExceptWith(_releasedThisFrame);
-            return input;
+            // // Fill the resulting array
+            // Input[] input = new Input[_inputThisFrame.Count];
+            // _inputThisFrame.CopyTo(input);
+            // // Update the input queue
+            // _inputThisFrame.ExceptWith(_releasedThisFrame);
+            return [.. _inputThisFrame];
         }
     }
 }
