@@ -79,7 +79,7 @@ namespace Application.Systems
                 {
                     ChangeState(aiComponent, AIState.Patrol);
                 }
-                else if (distToPlayerAbs < aiComponent.AttackRange)
+                else if (distToPlayerAbs < combatComponent.AttackRange)
                 {
                     ChangeState(aiComponent, AIState.AttackWindup);  // Start windup instead of immediate attack
                 }
@@ -87,7 +87,7 @@ namespace Application.Systems
             else if (!shouldFlee)
             {
                 // Normal state transitions
-                if (distToPlayerAbs < aiComponent.AttackRange)
+                if (distToPlayerAbs < combatComponent.AttackRange)
                 {
                     ChangeState(aiComponent, AIState.AttackWindup);
                 }

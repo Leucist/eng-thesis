@@ -14,8 +14,7 @@ namespace Application.Components
         public AIState CurrentState = AIState.Patrol;
         
         // Ranges and speeds
-        public float AggroRange = 150f;
-        public float AttackRange = 40f;
+        public float AggroRange = 90f;
         public float Aggression = 1f;               // may later use random ~0.5-1.5 range for personality
         public int PatrolSpeed = 10;
         public int ChaseSpeed = 15;
