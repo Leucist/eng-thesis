@@ -35,11 +35,11 @@ Custom License – See `LICENSE` for details.
 
 ## 🚧 Roadmap Highlights (early thoughts)
 
-- [ ] Game init and the main loop created
-- [ ] Basic components and systems created
-- [ ] Basic rendering and animation
-- [ ] Custom level editor
-- [ ] Entity creation from mockups (prefabs)
+- [+] Game init and the main loop created
+- [+] Basic components and systems created
+- [%] Basic rendering and animation
+- [+] Custom level editor
+- [+] Entity creation from mockups (prefabs)
 - [ ] Light and shadow simulation
 - [ ] Music and ambiance layering (custom sound engine)
 - [ ] Save/load system with narrative triggers
