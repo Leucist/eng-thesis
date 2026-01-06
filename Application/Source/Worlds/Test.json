@@ -345,8 +345,8 @@
         "$type": "transform",
         "X": 32,
         "Y": 288,
-        "Width": 32,
-        "Height": 32,
+        "Width": 25,
+        "Height": 30,
         "Direction": 1,
         "HasMoved": false,
         "Type": 1
@@ -396,14 +396,14 @@
         "X": 192,
         "Y": 256,
         "Width": 32,
-        "Height": 32,
+        "Height": 4,
         "Direction": 1,
         "HasMoved": false,
         "Type": 1
       },
       {
         "$type": "graphics",
-        "TexturePath": "floor_blue_tile_up.png",
+        "TexturePath": "floor_blue_tile_slab.png",
         "Type": 4
       },
       {
@@ -417,14 +417,14 @@
         "X": 224,
         "Y": 256,
         "Width": 32,
-        "Height": 32,
+        "Height": 4,
         "Direction": 1,
         "HasMoved": false,
         "Type": 1
       },
       {
         "$type": "graphics",
-        "TexturePath": "floor_blue_tile_up.png",
+        "TexturePath": "floor_blue_tile_slab.png",
         "Type": 4
       },
       {
@@ -435,17 +435,17 @@
     [
       {
         "$type": "transform",
-        "X": 256,
-        "Y": 256,
+        "X": 320,
+        "Y": 224,
         "Width": 32,
-        "Height": 32,
+        "Height": 4,
         "Direction": 1,
         "HasMoved": false,
         "Type": 1
       },
       {
         "$type": "graphics",
-        "TexturePath": "floor_blue_tile_up.png",
+        "TexturePath": "floor_blue_tile_slab.png",
         "Type": 4
       },
       {
@@ -459,14 +459,14 @@
         "X": 352,
         "Y": 224,
         "Width": 32,
-        "Height": 32,
+        "Height": 4,
         "Direction": 1,
         "HasMoved": false,
         "Type": 1
       },
       {
         "$type": "graphics",
-        "TexturePath": "floor_blue_tile_up.png",
+        "TexturePath": "floor_blue_tile_slab.png",
         "Type": 4
       },
       {
@@ -480,14 +480,56 @@
         "X": 384,
         "Y": 224,
         "Width": 32,
-        "Height": 32,
+        "Height": 4,
         "Direction": 1,
         "HasMoved": false,
         "Type": 1
       },
       {
         "$type": "graphics",
-        "TexturePath": "floor_blue_tile_up.png",
+        "TexturePath": "floor_blue_tile_slab.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 544,
+        "Y": 172,
+        "Width": 32,
+        "Height": 4,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_slab.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 512,
+        "Y": 172,
+        "Width": 32,
+        "Height": 4,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_slab.png",
         "Type": 4
       },
       {
