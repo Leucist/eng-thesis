@@ -17,9 +17,9 @@ namespace Application.Components
         public float AggroRange = 150f;
         public float AttackRange = 40f;
         public float Aggression = 1f;               // may later use random ~0.5-1.5 range for personality
-        public int PatrolSpeed = 15;
-        public int ChaseSpeed = 20;
-        public int FleeSpeed = 22;
+        public int PatrolSpeed = 10;
+        public int ChaseSpeed = 15;
+        public int FleeSpeed = 17;
         
         // Timers and delays
         public float NextDecisionTime = 0f;
