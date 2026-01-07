@@ -18,6 +18,13 @@ namespace Application.Systems
         private Worlds.BoolWrapper _isWorldAlive = true;
         private AI.AIDistributionManager? _aiManager;
 
+        private const int ENEMIES_AMOUNT = 3;
+        private readonly (int X, int Y)[] SPAWN_POINTS = [
+            (256, 288), // close
+            (416, 288), // mid
+            (544, 256), // far
+        ];
+
         public override void Update()
         {
             _warriors = [];
@@ -112,6 +119,54 @@ namespace Application.Systems
         }
         public void LinkAIManager(AI.AIDistributionManager aiManager) {
             _aiManager = aiManager;
+            SpawnEnemies(); // <- as it's called when Level is created
+        }
+
+        private (Entity Entity, List<Component> Components) CreateEnemy() {
+            // TODO: Extract in some EntityFactory class, maybe~ // Left here for now
+            // Create entity
+            var enemy = _entityManager.CreateEntity();
+
+            // Load and deserialize enemy template
+            string json = File.ReadAllText(Pathfinder.GetCharacterPrefabPath("menu_ninja_enemy"));
+            List<Component> components = System.Text.Json.JsonSerializer.Deserialize<List<Component>>(json)!;
+
+            // Add components
+            _entityManager.AddComponents(enemy, components);
+
+            return (enemy, components);
+        }
+
+        private void SpawnEnemyAt((int X, int Y) spawnpoint) {
+            var newEnemy = CreateEnemy();
+
+            TransformComponent tc = (TransformComponent) newEnemy.Components.First(c => c.Type == ComponentType.Transform);
+            tc.SetX(spawnpoint.X);
+            tc.SetY(spawnpoint.Y);
+        }
+
+        private void SpawnEnemies() {
+            float[] distribution = _aiManager.
+            //*^ [0.4, 0.3, 0.3] for example
+
+            // Fill weightedPoints
+            var weightedPoints = new (int Count, int SpawnPoint)[ENEMIES_AMOUNT];
+            for (int i = 0; i < SPAWN_POINTS.Length; i++) {
+                weightedPoints[i] = ((int) Math.Round(distribution[i] * ENEMIES_AMOUNT, MidpointRounding.AwayFromZero), i);
+            }
+
+            // Sort spawn point by their enemy distribution descending
+            Array.Sort(weightedPoints, (a, b) => b.Count.CompareTo(a.Count));
+
+            // Spawn enemies
+            int enemiesSpawned = 0;
+            foreach (var (Count, SpawnPoint) in weightedPoints) {
+                for (int i = 0; i < Count && enemiesSpawned < ENEMIES_AMOUNT; i++) {
+                    // ? If needed, may add small offset like SP.X += 0.01f * i here for enemy crowds~
+                    SpawnEnemyAt(SPAWN_POINTS[SpawnPoint]);
+                    enemiesSpawned++;
+                }
+            }
         }
     }
 }

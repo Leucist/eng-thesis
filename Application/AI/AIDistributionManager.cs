@@ -18,6 +18,8 @@ namespace Application.AI
 
         private readonly float[] _startDistribution = [0.4f, 0.3f, 0.3f];    // todo: randomly generate
 
+        public float[] Distribution => 
+
         public AIDistributionManager() {
             _previousRound = new float[4];
             _decision = new float[4];
