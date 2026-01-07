@@ -146,7 +146,7 @@ namespace Application.Systems
         }
 
         private void SpawnEnemies() {
-            float[] distribution = _aiManager.
+            float[] distribution = _aiManager!.Distribution;
             //*^ [0.4, 0.3, 0.3] for example
 
             // Fill weightedPoints
