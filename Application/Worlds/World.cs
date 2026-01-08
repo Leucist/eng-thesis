@@ -34,6 +34,8 @@ namespace Application.Worlds
 
         public void LinkAIManager(AI.AIDistributionManager aiManager) {
             _aiManager = aiManager;
+            var cs = (CombatSystem?) _systems.FirstOrDefault(s => s.GetType() == typeof(CombatSystem));
+            cs?.LinkAIManager(_aiManager);
         }
 
         public bool IsAlive  => _isAlive.Value;
@@ -63,7 +65,6 @@ namespace Application.Worlds
             // todo: Temp? linking isAlive to combat.
             var cs = (CombatSystem?) _systems.FirstOrDefault(s => s.GetType() == typeof(CombatSystem));
             cs?.LinkWorldLife(ref _isAlive);
-            cs?.LinkAIManager(_aiManager);
         }
 
         // * Separate method for Systems Init ?

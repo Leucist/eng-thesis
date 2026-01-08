@@ -3,7 +3,7 @@ namespace Application.AI
     public class AIDistributionManager
     {
         private DistributionNN _neuralNetwork;
-        private string _weightsFile = Path.Combine(Pathfinder.GetSolutionDirectory(), "AI", "weights.txt");
+        private string _weightsFile = Path.Combine(Pathfinder.GetSolutionDirectory(), "Application", "AI", "weights.json");
         // Game results being:
         // - Percent of enemies spawned CLOSE
         // - Percent of enemies spawned at MID
@@ -43,7 +43,7 @@ namespace Application.AI
             var trainingData = TrainingDataGenerator.GenerateTrainingData();
             Console.WriteLine($"Generated {trainingData.Length} training samples");
 
-            _neuralNetwork.Train(trainingData, epochs: 2000, learningRate: 0.05f);
+            _neuralNetwork.Train(trainingData, epochs: 2000, learningRate: 0.1f);
             _neuralNetwork.SaveWeights(weightsFile);
 
             Console.WriteLine($"Training complete! Saved to {weightsFile}");

@@ -129,7 +129,10 @@ namespace Application.Systems
 
             // Load and deserialize enemy template
             string json = File.ReadAllText(Pathfinder.GetCharacterPrefabPath("menu_ninja_enemy"));
-            List<Component> components = System.Text.Json.JsonSerializer.Deserialize<List<Component>>(json)!;
+            System.Text.Json.Nodes.JsonNode root = System.Text.Json.Nodes.JsonNode.Parse(json)!;
+            System.Text.Json.Nodes.JsonArray componentsNode = (System.Text.Json.Nodes.JsonArray) root["Components"]!;
+            string componentsJson = componentsNode.ToJsonString();
+            List<Component> components = System.Text.Json.JsonSerializer.Deserialize<List<Component>>(componentsJson)!;
 
             // Add components
             _entityManager.AddComponents(enemy, components);

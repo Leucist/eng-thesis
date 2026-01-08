@@ -6,15 +6,16 @@ namespace Application.AI
         {
             var data = new List<TrainingData>();
 
-            // STRATEGY 1: AI won with balanced distribution -> keep it
-            for (int i = 0; i < 50; i++)
-            {
-                data.Add(new TrainingData
-                {
-                    Input   = [0.33f + Rand(0.15f), 0.33f + Rand(0.15f), 0.33f + Rand(0.15f), 1f],
-                    Target  = [0f, 0f, 0f, 1f] // no change
-                });
-            }
+            // // STRATEGY 1: AI won with balanced distribution -> keep it
+            // for (int i = 0; i < 50; i++)
+            // {
+            //     float 
+            //     data.Add(new TrainingData
+            //     {
+            //         Input   = [0.33f + Rand(0.15f), 0.33f + Rand(0.15f), 0.33f + Rand(0.15f), 1f],
+            //         Target  = [0f, 0f, 0f, 1f] // no change
+            //     });
+            // }
 
             // STRATEGY 2: AI lost with too many close enemies -> push farther
             for (int i = 0; i < 80; i++)
