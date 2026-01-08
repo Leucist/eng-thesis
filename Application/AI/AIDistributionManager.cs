@@ -18,7 +18,6 @@ namespace Application.AI
 
         public AIDistributionManager() {
             _previousRound  = new float[4];
-            _decision       = new float[4];
             _distribution   = new float[3];
 
             // Fill data about the previous round for the game start (copy default distribution)
