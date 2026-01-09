@@ -16,6 +16,8 @@ namespace Application.AI
         private float[] _distribution;
         public float[] Distribution => _distribution;
 
+        private int _logRoundCounter = 0;
+
         public AIDistributionManager() {
             _previousRound  = new float[4];
             _distribution   = new float[3];
@@ -97,7 +99,11 @@ namespace Application.AI
             }
 
             // todo: - NN Logs -
-            Console.WriteLine("\nData from the previous round >");
+            _logRoundCounter++;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"\n\tROUND #{_logRoundCounter}");
+            Console.ResetColor();
+            Console.WriteLine("Data from the previous round >");
             Console.WriteLine($"Close percent:\t{_previousRound[0]}");
             Console.WriteLine($"Mid percent:\t{_previousRound[1]}");
             Console.WriteLine($"Far percent:\t{_previousRound[2]}");
