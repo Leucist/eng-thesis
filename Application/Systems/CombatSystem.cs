@@ -108,6 +108,8 @@ namespace Application.Systems
                             // todo: Reset Texture or State (<- which's not Impl. yet)
                             victim.Value.Item3?.SetTexture("tombstone.png");
                             _entityManager.RemoveComponent(victim.Key, ComponentType.Collision);    // remove collision
+                            _entityManager.RemoveComponent(victim.Key, ComponentType.Combat);
+                            _entityManager.RemoveComponent(victim.Key, ComponentType.Physics);      // <- so it won't fall no more
                             return;
                         }
                     }
