@@ -294,55 +294,6 @@
     [
       {
         "$type": "transform",
-        "X": 416,
-        "Y": 288,
-        "Width": 32,
-        "Height": 32,
-        "Direction": 1,
-        "HasMoved": false,
-        "Type": 1
-      },
-      {
-        "$type": "graphics",
-        "TexturePath": "test-ninja_frame-0.png",
-        "Type": 4
-      },
-      {
-        "$type": "physics",
-        "IsFalling": false,
-        "Mass": 5,
-        "MaxSpeed": 100,
-        "AppliedForce": {
-          "Value": 0,
-          "Angle": 0
-        },
-        "Type": 2
-      },
-      {
-        "$type": "collision",
-        "Type": 32
-      },
-      {
-        "$type": "combat",
-        "Damage": 3.5,
-        "AttackRange": 12,
-        "AttackCooldown": 12,
-        "AttackDuration": 7,
-        "Health": 15,
-        "MaxHealth": 15,
-        "HPRegenCooldown": 40,
-        "IsDealingDamage": false,
-        "CanAttack": true,
-        "IsDead": false,
-        "Type": 64
-      },
-      {
-        "$type": "ai"
-      }
-    ],
-    [
-      {
-        "$type": "transform",
         "X": 32,
         "Y": 288,
         "Width": 25,
