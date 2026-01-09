@@ -178,7 +178,7 @@
         "$type": "transform",
         "X": 160,
         "Y": 320,
-        "Width": 384,
+        "Width": 32,
         "Height": 32,
         "Direction": 1,
         "HasMoved": false,
@@ -186,7 +186,238 @@
       },
       {
         "$type": "graphics",
-        "TexturePath": "long_tilegroup-12.png",
+        "TexturePath": "floor_blue_tile_up.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 192,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_up.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 224,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_up.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 256,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_up.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 288,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_up.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 320,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_up.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 352,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_up.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 384,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_up.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 416,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_up.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 448,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_up.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 480,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_up.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 512,
+        "Y": 320,
+        "Width": 32,
+        "Height": 32,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_up.png",
         "Type": 4
       },
       {
@@ -296,8 +527,8 @@
         "$type": "transform",
         "X": 32,
         "Y": 288,
-        "Width": 25,
-        "Height": 30,
+        "Width": 21,
+        "Height": 32,
         "Direction": 1,
         "HasMoved": false,
         "Type": 1
@@ -386,7 +617,7 @@
     [
       {
         "$type": "transform",
-        "X": 320,
+        "X": 308,
         "Y": 224,
         "Width": 32,
         "Height": 4,
@@ -407,7 +638,7 @@
     [
       {
         "$type": "transform",
-        "X": 352,
+        "X": 340,
         "Y": 224,
         "Width": 32,
         "Height": 4,
@@ -428,7 +659,7 @@
     [
       {
         "$type": "transform",
-        "X": 384,
+        "X": 372,
         "Y": 224,
         "Width": 32,
         "Height": 4,
@@ -449,8 +680,8 @@
     [
       {
         "$type": "transform",
-        "X": 544,
-        "Y": 172,
+        "X": 460,
+        "Y": 190,
         "Width": 32,
         "Height": 4,
         "Direction": 1,
@@ -470,8 +701,29 @@
     [
       {
         "$type": "transform",
-        "X": 512,
-        "Y": 172,
+        "X": 492,
+        "Y": 190,
+        "Width": 32,
+        "Height": 4,
+        "Direction": 1,
+        "HasMoved": false,
+        "Type": 1
+      },
+      {
+        "$type": "graphics",
+        "TexturePath": "floor_blue_tile_slab.png",
+        "Type": 4
+      },
+      {
+        "$type": "collision",
+        "Type": 32
+      }
+    ],
+    [
+      {
+        "$type": "transform",
+        "X": 524,
+        "Y": 190,
         "Width": 32,
         "Height": 4,
         "Direction": 1,
