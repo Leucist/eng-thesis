@@ -30,15 +30,17 @@ namespace Application.Systems
                 // Add Entity to the check-list
                 GraphicsComponent gc = (GraphicsComponent) entity.Value.First(c => c.Type == ComponentType.Graphics);
                 TransformComponent tc = (TransformComponent) entity.Value.First(c => c.Type == ComponentType.Transform);
-                // FloatRect entityBounds = gc.Sprite.GetGlobalBounds();
+                PhysicsComponent? phc = (PhysicsComponent?) entity.Value.FirstOrDefault(c => c.Type == ComponentType.Physics);
+                
+                // Get bounds of the entity - hitbox
                 var spriteBoundsRect = gc.Sprite.GetLocalBounds();
                 FloatRect entityBounds = new(tc.X, tc.Y, spriteBoundsRect.Width, spriteBoundsRect.Height);
-                _collidableRects.Add(entity.Key, entityBounds);
+                // Add only "non-physical" or not falling objects as collidables
+                if (phc is null || !phc.IsFalling) _collidableRects.Add(entity.Key, entityBounds);
                 
                 // * Note: not the most elegant solution, as all here, but will do perfectly fine at this scale >
                 // Add moved entities to the separate list as well
                 if (tc.HasMoved) {
-                    PhysicsComponent? phc = (PhysicsComponent?) entity.Value.FirstOrDefault(c => c.Type == ComponentType.Physics);
                     _movedEntities.Add(entity.Key, (entityBounds, tc, phc, false));
                 }
             }
