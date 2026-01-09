@@ -35,8 +35,9 @@ namespace Application.Systems
             // Skip dead enemies
             if (combatComponent.IsDead) return;
 
-            float distToPlayer = _player.Item1.X - transformComponent.X;
-            float distToPlayerAbs = Math.Abs(distToPlayer);
+            float XdistToPlayer = _player.Item1.X - transformComponent.X;
+            float YdistToPlayer = _player.Item1.Y - transformComponent.Y;
+            float distToPlayer = MathF.Sqrt((XdistToPlayer * XdistToPlayer) + (YdistToPlayer * YdistToPlayer));
 
             // Increment time in current state
             aiComponent.TimeInState++;
@@ -45,7 +46,7 @@ namespace Application.Systems
             if (--aiComponent.NextDecisionTime > 0 && aiComponent.CurrentState != AIState.AttackWindup)
             {
                 // Still execute current state behavior, just don't make new decisions
-                ExecuteStateBehavior(aiComponent, combatComponent, physicsComponent, distToPlayer, transformComponent);
+                ExecuteStateBehavior(aiComponent, combatComponent, physicsComponent, XdistToPlayer, transformComponent);
                 return;
             }
             
@@ -75,12 +76,14 @@ namespace Application.Systems
             {
                 // Give up chase if too long or player too far
                 if (aiComponent.TimeInState > aiComponent.ChaseGiveUpTime && 
-                    distToPlayerAbs > aiComponent.AggroRange + aiComponent.Aggression)
+                    distToPlayer > aiComponent.AggroRange + aiComponent.Aggression 
+                    || MathF.Abs(YdistToPlayer) > _player.Item1.Height /* if player is so high that it's out of reach */)
                 {
                     transformComponent.SetDirection(0);
                     ChangeState(aiComponent, AIState.Patrol);
                 }
-                else if (distToPlayerAbs < combatComponent.AttackRange)
+
+                else if (distToPlayer < combatComponent.AttackRange)
                 {
                     ChangeState(aiComponent, AIState.AttackWindup);  // Start windup instead of immediate attack
                 }
@@ -88,11 +91,12 @@ namespace Application.Systems
             else if (!shouldFlee)
             {
                 // Normal state transitions
-                if (distToPlayerAbs < combatComponent.AttackRange)
+                if (distToPlayer < combatComponent.AttackRange)
                 {
                     ChangeState(aiComponent, AIState.AttackWindup);
                 }
-                else if (distToPlayerAbs < aiComponent.AggroRange)
+                else if (distToPlayer < aiComponent.AggroRange 
+                        && MathF.Abs(YdistToPlayer) < _player.Item1.Height /* if player is so high that it's out of reach */)
                 {
                     ChangeState(aiComponent, AIState.Chase);
                 }
@@ -103,7 +107,7 @@ namespace Application.Systems
             }
             
             // Execute behavior for current state
-            ExecuteStateBehavior(aiComponent, combatComponent, physicsComponent, distToPlayer, transformComponent);
+            ExecuteStateBehavior(aiComponent, combatComponent, physicsComponent, XdistToPlayer, transformComponent);
         }
 
         private void ChangeState(AIComponent ai, AIState newState)
@@ -122,7 +126,7 @@ namespace Application.Systems
             }
         }
 
-        private void ExecuteStateBehavior(AIComponent ai, CombatComponent combat, PhysicsComponent physics, float distToPlayer, TransformComponent transform)
+        private void ExecuteStateBehavior(AIComponent ai, CombatComponent combat, PhysicsComponent physics, float XdistToPlayer, TransformComponent transform)
         {
             switch (ai.CurrentState)
             {
@@ -131,7 +135,7 @@ namespace Application.Systems
                     break;
                     
                 case AIState.Chase:
-                    ChaseBehavior(distToPlayer, physics, ai);
+                    ChaseBehavior(XdistToPlayer, physics, ai);
                     break;
                     
                 case AIState.AttackWindup:
@@ -146,7 +150,7 @@ namespace Application.Systems
                     break;
                     
                 case AIState.Flee:
-                    FleeBehavior(distToPlayer, physics, ai);
+                    FleeBehavior(XdistToPlayer, physics, ai);
                     break;
             }
         }
@@ -166,9 +170,9 @@ namespace Application.Systems
             AddMovementForce(physics, ai.PatrolSpeed, transform.Direction);
         }
 
-        private void ChaseBehavior(float distToPlayer, PhysicsComponent physics, AIComponent ai)
+        private void ChaseBehavior(float XdistToPlayer, PhysicsComponent physics, AIComponent ai)
         {
-            AddMovementForce(physics, ai.ChaseSpeed, Math.Sign(distToPlayer));
+            AddMovementForce(physics, ai.ChaseSpeed, Math.Sign(XdistToPlayer));
         }
 
         private void WindupBehavior(PhysicsComponent physics)
