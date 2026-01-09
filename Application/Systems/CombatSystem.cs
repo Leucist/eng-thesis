@@ -22,7 +22,8 @@ namespace Application.Systems
         private readonly (int X, int Y)[] SPAWN_POINTS = [
             (256, 288), // close
             (416, 288), // mid
-            (544, 256), // far
+            // (544, 256), // far
+            (512, 256), // far
         ];
 
         public override void Update()
@@ -140,11 +141,11 @@ namespace Application.Systems
             return (enemy, components);
         }
 
-        private void SpawnEnemyAt((int X, int Y) spawnpoint) {
+        private void SpawnEnemyAt((int X, int Y) spawnpoint, float xOffset=0f) {
             var newEnemy = CreateEnemy();
 
             TransformComponent tc = (TransformComponent) newEnemy.Components.First(c => c.Type == ComponentType.Transform);
-            tc.SetX(spawnpoint.X);
+            tc.SetX(spawnpoint.X + xOffset);
             tc.SetY(spawnpoint.Y);
         }
 
@@ -166,7 +167,7 @@ namespace Application.Systems
             foreach (var (Count, SpawnPoint) in weightedPoints) {
                 for (int i = 0; i < Count && enemiesSpawned < ENEMIES_AMOUNT; i++) {
                     // ? If needed, may add small offset like SP.X += 0.01f * i here for enemy crowds~
-                    SpawnEnemyAt(SPAWN_POINTS[SpawnPoint]);
+                    SpawnEnemyAt(SPAWN_POINTS[SpawnPoint], 0.1f * i);
                     enemiesSpawned++;
                 }
             }
