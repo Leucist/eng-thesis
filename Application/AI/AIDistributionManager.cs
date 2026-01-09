@@ -96,7 +96,25 @@ namespace Application.AI
                 maxIndex = decision[i] > decision[maxIndex] ? i : maxIndex;
             }
 
+            // todo: - NN Logs -
+            Console.WriteLine("\nData from the previous round >");
+            Console.WriteLine($"Close percent:\t{_previousRound[0]}");
+            Console.WriteLine($"Mid percent:\t{_previousRound[1]}");
+            Console.WriteLine($"Far percent:\t{_previousRound[2]}");
+            Console.WriteLine($"Did AI win?:\t{_previousRound[3]}");
+            Console.WriteLine($"\nNN chose option number: {maxIndex}");
+            // todo: - end logs -
+
             HandleDecision(maxIndex);
+            // Store the distribution
+            Array.Copy(_distribution, _previousRound, _distribution.Length);
+
+            // todo: - NN Logs -
+            Console.WriteLine($"NN proposes the following distribution >");
+            Console.WriteLine($"Close percent:\t{_distribution[0]}");
+            Console.WriteLine($"Mid percent:\t{_distribution[1]}");
+            Console.WriteLine($"Far percent:\t{_distribution[2]}\n");
+            // todo: - end logs -
         }
 
         public void RecordAIWin()       => ConcludeRoundResults(1);

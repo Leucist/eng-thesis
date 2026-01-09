@@ -18,7 +18,7 @@ namespace Application.Systems
         private Worlds.BoolWrapper _isWorldAlive = true;
         private AI.AIDistributionManager? _aiManager;
 
-        private const int ENEMIES_AMOUNT = 4;
+        private const int ENEMIES_AMOUNT = 6;
         private readonly (int X, int Y)[] SPAWN_POINTS = [
             (256, 288), // close
             (416, 288), // mid
