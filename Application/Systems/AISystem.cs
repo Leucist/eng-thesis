@@ -9,6 +9,9 @@ namespace Application.Systems
         private readonly (TransformComponent, CombatComponent) _player;
         // private readonly Dictionary<Entity, List<Component>> _enemies;
 
+        // private const float ATTACK_DISTANCE_MULTIPLIER = 2.5f;
+        private const int ATTACK_DISTANCE_OFFSET = 32;
+
         public AISystem(EntityManager entityManager) : base(
             entityManager,
             [
@@ -35,8 +38,9 @@ namespace Application.Systems
             // Skip dead enemies
             if (combatComponent.IsDead) return;
 
-            float XdistToPlayer = _player.Item1.X - transformComponent.X;
-            float YdistToPlayer = _player.Item1.Y - transformComponent.Y;
+            float XdistToPlayer = (_player.Item1.X + _player.Item1.Width/2) - (transformComponent.X + transformComponent.Width/2);
+            float YdistToPlayer = (_player.Item1.Y + _player.Item1.Height/2) - (transformComponent.Y + transformComponent.Height/2);
+            // float YdistToPlayer = _player.Item1.Y - transformComponent.Y;
             float distToPlayer = MathF.Sqrt((XdistToPlayer * XdistToPlayer) + (YdistToPlayer * YdistToPlayer));
 
             // Increment time in current state
@@ -83,7 +87,7 @@ namespace Application.Systems
                     ChangeState(aiComponent, AIState.Patrol);
                 }
 
-                else if (distToPlayer < combatComponent.AttackRange)
+                else if (distToPlayer < combatComponent.AttackRange + ATTACK_DISTANCE_OFFSET)
                 {
                     ChangeState(aiComponent, AIState.AttackWindup);  // Start windup instead of immediate attack
                 }
@@ -91,7 +95,7 @@ namespace Application.Systems
             else if (!shouldFlee)
             {
                 // Normal state transitions
-                if (distToPlayer < combatComponent.AttackRange)
+                if (distToPlayer < combatComponent.AttackRange + ATTACK_DISTANCE_OFFSET)
                 {
                     ChangeState(aiComponent, AIState.AttackWindup);
                 }
