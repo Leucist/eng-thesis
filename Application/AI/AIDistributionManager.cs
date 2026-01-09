@@ -85,7 +85,7 @@ namespace Application.AI
         }
 
         private void ConcludeRoundResults(int didAIWin) {
-            _previousRound[4] = didAIWin;
+            _previousRound[3] = didAIWin;
 
             // * Generate result *;
             float[] decision = _neuralNetwork.Forward(_previousRound);
