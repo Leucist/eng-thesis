@@ -86,7 +86,7 @@ namespace Application.Systems
                 var attackRectX = transformComponent.Direction == 1 ?
                         transformComponent.X + transformComponent.Width : 
                         transformComponent.X - combatComponent.AttackRange;
-                SFML.Graphics.FloatRect attackArea = new(attackRectX, transformComponent.Y - transformComponent.Height,
+                SFML.Graphics.FloatRect attackArea = new(attackRectX, transformComponent.Y,
                                                         combatComponent.AttackRange, transformComponent.Height);
 
                 // Iterate through all the entities with Combat Component
@@ -96,7 +96,7 @@ namespace Application.Systems
                     
                     // Init the hitbox of the "victim"
                     var victimTC = victim.Value.Item2;
-                    SFML.Graphics.FloatRect victimHitbox = new(victimTC.X, victimTC.Y-victimTC.Height, victimTC.Width, victimTC.Height);
+                    SFML.Graphics.FloatRect victimHitbox = new(victimTC.X, victimTC.Y, victimTC.Width, victimTC.Height);
 
                     // * Check if attacked area collides with any entity that has CombatComponent
                     if (CollisionSystem.AreColliding(attackArea, victimHitbox)) {
