@@ -96,7 +96,7 @@ namespace Application.Systems
                 // * If collision occured
                 if (intersection != ZERO_RECT) {
                     // If X offset is greater than on Y axis - rise (or lower) the entity
-                    if (intersection.Width > intersection.Height) {
+                    if (intersection.Width > intersection.Height || intersection.Height == 4 /* for stairs */) {
                         var intersectionY = intersection.Top;
                         float newPosY;
                         if (intersectionY >= transformComponent.Y) {
