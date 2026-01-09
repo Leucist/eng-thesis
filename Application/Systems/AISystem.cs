@@ -45,7 +45,7 @@ namespace Application.Systems
             if (--aiComponent.NextDecisionTime > 0 && aiComponent.CurrentState != AIState.AttackWindup)
             {
                 // Still execute current state behavior, just don't make new decisions
-                ExecuteStateBehavior(aiComponent, combatComponent, physicsComponent, distToPlayer, transformComponent.Direction);
+                ExecuteStateBehavior(aiComponent, combatComponent, physicsComponent, distToPlayer, transformComponent);
                 return;
             }
             
@@ -77,6 +77,7 @@ namespace Application.Systems
                 if (aiComponent.TimeInState > aiComponent.ChaseGiveUpTime && 
                     distToPlayerAbs > aiComponent.AggroRange + aiComponent.Aggression)
                 {
+                    transformComponent.SetDirection(0);
                     ChangeState(aiComponent, AIState.Patrol);
                 }
                 else if (distToPlayerAbs < combatComponent.AttackRange)
@@ -102,7 +103,7 @@ namespace Application.Systems
             }
             
             // Execute behavior for current state
-            ExecuteStateBehavior(aiComponent, combatComponent, physicsComponent, distToPlayer, transformComponent.Direction);
+            ExecuteStateBehavior(aiComponent, combatComponent, physicsComponent, distToPlayer, transformComponent);
         }
 
         private void ChangeState(AIComponent ai, AIState newState)
@@ -121,12 +122,12 @@ namespace Application.Systems
             }
         }
 
-        private void ExecuteStateBehavior(AIComponent ai, CombatComponent combat, PhysicsComponent physics, float distToPlayer, int direction)
+        private void ExecuteStateBehavior(AIComponent ai, CombatComponent combat, PhysicsComponent physics, float distToPlayer, TransformComponent transform)
         {
             switch (ai.CurrentState)
             {
                 case AIState.Patrol:
-                    PatrolBehavior(direction, physics, ai);
+                    PatrolBehavior(transform, physics, ai);
                     break;
                     
                 case AIState.Chase:
@@ -150,19 +151,19 @@ namespace Application.Systems
             }
         }
 
-        private void PatrolBehavior(int direction, PhysicsComponent physics, AIComponent ai)
+        private void PatrolBehavior(TransformComponent transform, PhysicsComponent physics, AIComponent ai)
         {
             if (ai.PatrolReconsiderDirectionTimer >= ai.PatrolReconsiderDirectionTime) {
                 // Simple left-right patrol
                 // int direction = MathF.Sin(ai.TimeInState) > 0 ? 1 : -1;
                 var random = new Random();
-                direction = random.Next(2) > 0 ? 1 : -1;
+                transform.SetDirection(random.Next(2) > 0 ? 1 : -1);
                 ai.PatrolReconsiderDirectionTimer = 0;
             }
             else {
                 ai.PatrolReconsiderDirectionTimer++;
             }
-            AddMovementForce(physics, ai.PatrolSpeed, direction);
+            AddMovementForce(physics, ai.PatrolSpeed, transform.Direction);
         }
 
         private void ChaseBehavior(float distToPlayer, PhysicsComponent physics, AIComponent ai)

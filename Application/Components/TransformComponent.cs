@@ -25,6 +25,7 @@ namespace Application.Components
         //     _x = x;
         //     _y = y;
         // }
+        public void SetDirection(int direction) => _direction = direction;
 
         public void ChangePostition(float x, float y) {
             // Change coordinates

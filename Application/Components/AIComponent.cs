@@ -27,7 +27,7 @@ namespace Application.Components
         public int AttackWindupDuration = 1;
         public int AttackWindupTimer    = 0;
         public int ChaseGiveUpTime = 35;         // enemy gives up after this many frames
-        public int PatrolReconsiderDirectionTime = 24;
+        public int PatrolReconsiderDirectionTime = 240;
         public int PatrolReconsiderDirectionTimer;
         
         // Health-based behavior
