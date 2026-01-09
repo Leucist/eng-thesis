@@ -11,7 +11,7 @@ namespace Application.AI
         // - "Did AI win?" [0/1]
         private float[] _previousRound;
 
-        private readonly float[] _startDistribution = [0.4f, 0.3f, 0.3f];    // todo: randomly generate
+        private readonly float[] _startDistribution = [0.3f, 0.3f, 0.4f];    // todo: randomly generate
 
         private float[] _distribution;
         public float[] Distribution => _distribution;
