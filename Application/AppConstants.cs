@@ -12,5 +12,7 @@ namespace Application
         public const int CANVAS_MULTIPLIER  = 3;
 
         public const uint FRAME_TIME_MS = 16;
+
+        public const int GRAVITY_SCALE_DIVIDER = 4;
     }
 }
