@@ -24,7 +24,7 @@ namespace Application.Tests
             PhysicsComponent component = new(mass, customMaxSpeed);
             component.IsFalling = true;
 
-            float expectedOffset = -(MathConstants.GravitationalAcceleration * timeSpan1);
+            float expectedOffset = -(MathConstants.GravitationalAcceleration * timeSpan1 / AppConstants.GRAVITY_SCALE_DIVIDER);
 
             // - Act
             var mo1 = component.GetMovementOffset(timeSpan1);
