@@ -1,3 +1,4 @@
+using Application.AI;
 using Application.Worlds;
 
 namespace Application
@@ -10,11 +11,14 @@ namespace Application
         // i.e. World is for levels playthrough, when "Start new game" or "Load the game"
         // ..and Game is for World + Menu + Cutscenes, etc.
 
-        private static Game? _instance = null;
-        private static readonly object _lock = new();
+        private AIDistributionManager _aiManager = new();
 
         private World? _world;
+        private Timer _timer = new(AppConstants.FRAME_TIME_MS);
         private bool _isRunning = false;
+        
+        private static Game? _instance = null;
+        private static readonly object _lock = new();
 
         public static Game Instance {
             get {
@@ -35,6 +39,7 @@ namespace Application
             _world = WorldFactory.InitialWorld;
 
             while (_isRunning) {
+                _world.LinkAIManager(_aiManager);
                 _world = UpdateWorld();
             }
             // Update MM and handle further actions (e.g. load or create world and pass ctrl)
@@ -44,12 +49,15 @@ namespace Application
             // todo: May Implement switching levels with LinkedList<WorldProxy> (one-way linking) :D 
 
             while (_world!.IsAlive) {
+                _timer.Reset();
                 _world.Update();
+                while (!_timer.FramePassed) System.Threading.Thread.Sleep(1);
             }
 
-            throw new NotImplementedException();
+            // throw new NotImplementedException("World has died.");
             
-            return _world;
+            System.Threading.Thread.Sleep(3000); // sleep for 3 seconds after "GameOver"
+            return WorldFactory.InitialWorld;
         }
     }
 }

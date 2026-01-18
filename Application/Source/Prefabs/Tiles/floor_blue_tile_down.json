@@ -1,0 +1,17 @@
+{
+  "Name": "floor_blue_tile_down.png",
+  "PreviewTexture": "floor_blue_tile_down.png",
+  "Components": [
+    {
+      "$type": "transform",
+      "X": 0,
+      "Y": 0,
+      "Width": 32,
+      "Height": 32
+    },
+    {
+      "$type": "graphics",
+      "TexturePath": "floor_blue_tile_down.png"
+    }
+  ]
+}

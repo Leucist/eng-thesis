@@ -1,0 +1,38 @@
+{
+  "Name": "MenuNinjaEnemy",
+  "PreviewTexture": "test-ninja_frame-0.png",
+  "Components": [
+    {
+      "$type": "transform",
+      "X": 0,
+      "Y": 0,
+      "Width": 32,
+      "Height": 32
+    },
+    {
+      "$type": "graphics",
+      "TexturePath": "test-ninja_frame-0.png"
+    },
+    {
+      "$type": "physics",
+      "Mass": 5,
+      "MaxSpeed": 100
+    },
+    {
+      "$type": "collision"
+    },
+    {
+      "$type": "combat",
+      "Damage": 3.5,
+      "AttackRange": 12,
+      "AttackCooldown": 12,
+      "AttackDuration": 7,
+      "Health": 15,
+      "MaxHealth": 15,
+      "HPRegenCooldown": 40
+    },
+    {
+      "$type": "ai"
+    }
+  ]
+}

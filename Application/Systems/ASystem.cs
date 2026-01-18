@@ -14,7 +14,7 @@ namespace Application.Systems
         }
 
         protected virtual List<List<Component>> GatherComponents() {
-            return _entityManager.GetComponentsOfType(_requiredComponents);
+            return _entityManager.GetAllComponentBundlesWith(_requiredComponents);
         }
 
         protected virtual Dictionary<ComponentType, Component> ParseComponents(List<Component> componentBundle) {

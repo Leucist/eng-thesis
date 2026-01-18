@@ -1,0 +1,38 @@
+{
+  "Name": "MenuNinjaPlayer",
+  "PreviewTexture": "ninja_mc_red.png",
+  "Components": [
+    {
+      "$type": "transform",
+      "X": 0,
+      "Y": 0,
+      "Width": 32,
+      "Height": 32
+    },
+    {
+      "$type": "graphics",
+      "TexturePath": "ninja_mc_red.png"
+    },
+    {
+      "$type": "input"
+    },
+    {
+      "$type": "physics",
+      "Mass": 6,
+      "MaxSpeed": 120
+    },
+    {
+      "$type": "collision"
+    },
+    {
+      "$type": "combat",
+      "Damage": 7.0,
+      "AttackRange": 16,
+      "AttackCooldown": 10,
+      "AttackDuration": 7,
+      "Health": 20,
+      "MaxHealth": 20,
+      "HPRegenCooldown": 20
+    }
+  ]
+}

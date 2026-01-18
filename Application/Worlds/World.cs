@@ -1,19 +1,44 @@
 using Application.Entities;
 using Application.Components;
 using Application.Systems;
+using Application.GraphicsUtils;
 
 using System.Text.Json;
 
 namespace Application.Worlds
 {
+    public class BoolWrapper
+    {
+        public bool Value { get; set; }
+
+        // Implicit conversion operator from BoolWrapper to bool
+        public static implicit operator bool(BoolWrapper wrapper)
+        {
+            return wrapper.Value;
+        }
+
+        // Implicit conversion operator from bool to BoolWrapper
+        public static implicit operator BoolWrapper(bool value)
+        {
+            return new BoolWrapper { Value = value };
+        }
+    }
+
     public class World
     {
         private readonly EntityManager _entityManager;
         private readonly List<ASystem> _systems;
         // private readonly Entity _player = player;
-        private bool _isAlive;
+        private BoolWrapper _isAlive;
+        private AI.AIDistributionManager? _aiManager;
 
-        public bool IsAlive  => _isAlive;
+        public void LinkAIManager(AI.AIDistributionManager aiManager) {
+            _aiManager = aiManager;
+            var cs = (CombatSystem?) _systems.FirstOrDefault(s => s.GetType() == typeof(CombatSystem));
+            cs?.LinkAIManager(_aiManager);
+        }
+
+        public bool IsAlive  => _isAlive.Value;
         // public Entity Player => _player;
 
         public World(List<List<Component>> entities, List<string> systemTypes) {
@@ -36,9 +61,20 @@ namespace Application.Worlds
 
             // todo: Not redundant if using level chain? Not yet, however~
             _isAlive = true;
+
+            // todo: Temp? linking isAlive to combat.
+            var cs = (CombatSystem?) _systems.FirstOrDefault(s => s.GetType() == typeof(CombatSystem));
+            cs?.LinkWorldLife(ref _isAlive);
         }
 
+        // * Separate method for Systems Init ?
+        // - Check if Command System, add ref isAlive via .LinkWorldLife(bool) mb or so~
+        // - * and there were other checks... hm.
+
         public void Update() {
+            // Dispatch pending window events
+            WindowManager.DispatchEvents();
+            // Update systems
             foreach (var system in _systems) {
                 system.Update();
             }

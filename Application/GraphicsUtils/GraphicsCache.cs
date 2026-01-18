@@ -1,6 +1,6 @@
 using SFML.Graphics;
 
-namespace Application
+namespace Application.GraphicsUtils
 {
     public class GraphicsCache
     {
@@ -18,13 +18,15 @@ namespace Application
 
             // TODO Probably would be a good idea to make this cache Game-wide, all in all. As the textures are same for now.
 
-            foreach (var path in Pathfinder.GetAllTexturePaths()) {
+            foreach (var path in Pathfinder.GetAllTexturePaths())
+            {
                 _texturesCache.Add(path, new Texture(path));
             }
         }
 
         public Texture GetTexture(string path) {
-            if (!_texturesCache.TryGetValue(path, out Texture? requestedTexture)) {
+            if (!_texturesCache.TryGetValue(path, out Texture? requestedTexture))
+            {
                 requestedTexture = new Texture(Pathfinder.GetFullTextureFilePath(path));
                 _texturesCache[path] = requestedTexture;
             }

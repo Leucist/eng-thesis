@@ -1,0 +1,20 @@
+{
+  "Name": "12 Floor Tiles",
+  "PreviewTexture": "long_tilegroup-12.png",
+  "Components": [
+    {
+      "$type": "transform",
+      "X": 0,
+      "Y": 0,
+      "Width": 384,
+      "Height": 32
+    },
+    {
+      "$type": "graphics",
+      "TexturePath": "long_tilegroup-12.png"
+    },
+    {
+      "$type": "collision"
+    }
+  ]
+}

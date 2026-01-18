@@ -22,7 +22,25 @@ namespace Application.Entities
             return entity;
         }
 
-        public List<List<Component>> GetComponentsOfType(List<ComponentType> types) {
+        // * Now used for collisions - having id prevent entity's self-check
+        public Dictionary<Entity, List<Component>> GetAllEntitiesWith(List<ComponentType> types) {
+            Dictionary<Entity, List<Component>> result = [];
+
+            foreach(var group in _entities) {
+                // Here we're iterating through KVP of (ComponentBitset | Dict<Entity, [components]>)
+                if (group.Key.HasAll(types)) {
+                    // If component set matches required types
+                    foreach(var entity in group.Value) {
+                        // Add each entity of this group to the result Dictionary
+                        result.Add(entity.Key, entity.Value);   // Entity ids are unique, so no double-checking here
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public List<List<Component>> GetAllComponentBundlesWith(List<ComponentType> types) {
             List<List<Component>> result = [];
 
             foreach(var group in _entities) {

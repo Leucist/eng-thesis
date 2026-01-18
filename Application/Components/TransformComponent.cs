@@ -14,14 +14,31 @@ namespace Application.Components
         public float Height => _height;
         public int Direction => _direction;
 
+        // TODO: TEMP [mv1] movement flag
+        public bool HasMoved = false;
+        
+        // * Used in collisions * 
+        // todo: (?) May place transparent colliders on the left and right of the level - and this method won't be needed
+        public void SetX(float x) => _x = x;
+        public void SetY(float y) => _y = y;
+        // public void SetCoords(float x, float y) {
+        //     _x = x;
+        //     _y = y;
+        // }
+        public void SetDirection(int direction) => _direction = direction;
+
+        public void ChangePostition(float x, float y) {
+            // Change coordinates
+            _x += x;
+            _y += y;
+        }
+
         public void Move(float x, float y) {
             // Change direction, if needed
             int directionChange = Math.Sign(x);
             if (directionChange != 0) _direction = directionChange;
 
-            // Change coordinates
-            _x += x;
-            _y += y;
+            ChangePostition(x, y);
         }
 
         public void Resize(float width, float height) {

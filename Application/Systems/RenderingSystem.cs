@@ -1,21 +1,14 @@
 using Application.Components;
 using Application.Entities;
+using Application.GraphicsUtils;
+using static Application.AppConstants;
 using SFML.Graphics;
 using SFML.System;
-using SFML.Window;
 
 namespace Application.Systems
 {
     public class RenderingSystem : ASystem
     {
-        // TODO (?) - May be moved to some app constants class or json
-        private const string TITLE = "APPLICATION";
-        private const int WIDTH             = 1920;
-        private const int HEIGHT            = 1080;
-        private const int CANVAS_WIDTH      = 384;
-        private const int CANVAS_HEIGHT     = 216;
-        private const int CANVAS_MULTIPLIER = 5;
-
         private readonly RenderWindow _renderWindow;
         private readonly RenderTexture _canvas;
         private readonly Sprite _canvasSprite;
@@ -31,18 +24,15 @@ namespace Application.Systems
                 ]
             ) 
         {
-            VideoMode videoMode = new(WIDTH, HEIGHT);
-            _renderWindow       = new(videoMode, TITLE);
+            _renderWindow = WindowManager.Window;
+            
             _canvas             = new(CANVAS_WIDTH, CANVAS_HEIGHT);
             _canvasSprite       = new(_canvas.Texture);
             _canvasSprite.Scale = new Vector2f(CANVAS_MULTIPLIER, CANVAS_MULTIPLIER);
-
-            // _graphicsCache = new();
         }
 
         public override void Update() {
             // TODO: Update rendering so only the modified parts get redrawn, not the whole canvas - IF not built-in already
-            _renderWindow.DispatchEvents();
             // Clearing the canvas before redrawing entities
             _canvas.Clear();
 
@@ -63,12 +53,31 @@ namespace Application.Systems
             // Update the GC position and orientation according to the TC
             Vector2f sfmlPosition   = new(transformComponent.X, transformComponent.Y);
             Vector2f sfmlDirection  = new(transformComponent.Direction, 1); // Direction states whether the sprite has to be reflected
+
+            // To avoid redundant calls, just store the reference
+            Sprite sprite = graphicsComponent.Sprite;
             
-            graphicsComponent.Sprite.Position   = sfmlPosition;
-            graphicsComponent.Sprite.Scale      = sfmlDirection;
+            // Correction for proper sprite reflection
+            if (transformComponent.Direction < 0) sfmlPosition.X += sprite.GetLocalBounds().Width;
+
+            sprite.Position = sfmlPosition;
+            sprite.Scale    = sfmlDirection;
             
             // Draw the entity on the canvas
             _canvas.Draw(graphicsComponent.Sprite);
+
+
+            // * Enable HitBox highlighting
+            // // Create a rectangle for the perimeter
+            // var outline = new RectangleShape();
+            // outline.Size = new Vector2f(sprite.GetLocalBounds().Width, sprite.GetLocalBounds().Height);
+            // outline.Position = new Vector2f(transformComponent.X, transformComponent.Y);
+            // outline.FillColor = Color.Transparent;  // Transparent background
+            // outline.OutlineColor = Color.Yellow;    // Outline color
+            // outline.OutlineThickness = 1;           // Outline thickness
+            // // Display on the canvas
+            // _canvas.Draw(outline);
+            // * - - -
         }
     }
 }

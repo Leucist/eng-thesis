@@ -19,6 +19,11 @@ namespace Application.Components
         private ForceVector ResultingForce  => CountResultingForce();
         private ForceVector Acceleration    => CountAcceleration();
 
+        // * For JSON (de-)serialization
+        public int Mass => _mass;
+        public int MaxSpeed => _maxSpeed;
+        public ForceVector AppliedForce => _appliedForce;
+
         public PhysicsComponent(int mass, int maxSpeed) : base(ComponentType.Physics) {
             _mass = mass >= 0 ? mass : throw new ArgumentOutOfRangeException(nameof(mass), "Mass value can not be negative.");
             _maxSpeed = maxSpeed;
@@ -33,7 +38,8 @@ namespace Application.Components
 
         private ForceVector GetWeight() {
             if (_massWasChanged) {
-                _weight.Value = (int) (_mass * MathConstants.GravitationalAcceleration);    // "P = mg"
+                // "P = mg" decreased
+                _weight.Value = (int) (_mass * MathConstants.GravitationalAcceleration) / AppConstants.GRAVITY_SCALE_DIVIDER;
                 _massWasChanged = false;
             }
             return _weight;

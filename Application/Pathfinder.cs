@@ -2,6 +2,9 @@ namespace Application
 {
     public static class Pathfinder
     {
+        // To cache the Solution path // todo? may be expanded to all the directory paths 
+        private static string? _solutionDirectory;
+
         public static string FindSolutionDirectory()
         {
             // Current directory of the executing process
@@ -24,13 +27,19 @@ namespace Application
             throw new DirectoryNotFoundException("Solution root was not found.");
         }
 
-        public static string GetSourceFolder() => Path.Combine(FindSolutionDirectory(), "Application", "Source");
+        public static string GetSolutionDirectory() {
+            _solutionDirectory ??= FindSolutionDirectory();
+            return _solutionDirectory;
+        }
+
+        public static string GetSourceFolder() => Path.Combine(GetSolutionDirectory(), "Application", "Source");
 
         public static string GetAudioFolder() => Path.Combine(GetSourceFolder(), "Audio");
 
         public static string GetGraphicsFolder() => Path.Combine(GetSourceFolder(), "Graphics");
 
-        public static string GetTexturesFolder() => Path.Combine(GetGraphicsFolder(), "Textures");
+        public static string GetTexturesFolder()        => Path.Combine(GetGraphicsFolder(), "Textures");
+        public static string GetBackgroundDirectory()   => Path.Combine(GetGraphicsFolder(), "Backgrounds");
 
         public static string GetFullTextureFilePath(string pathToImage) => Path.Combine(GetTexturesFolder(), pathToImage);
 
@@ -56,8 +65,8 @@ namespace Application
             string folder   = Path.Combine(GetSourceFolder(), folderName);
             string filePath = Path.Combine(folder, $"{name}.json");
 
-            if (!File.Exists(filePath))
-                throw new FileNotFoundException($"World file not found: {filePath}");
+            // if (!File.Exists(filePath))  // * Throwing exceptions seems not that significant here, for simplicity comment for now
+            //     throw new FileNotFoundException($"World file not found: {filePath}");
 
             return filePath;
         }
@@ -65,8 +74,13 @@ namespace Application
         public static string GetWorldTemplatePath(string name) => GetWorldPath(name, "Worlds");
         public static string GetWorldSavePath(string name) => GetWorldPath(name, "Saves");
 
-        private static string GetPrefabPath() => Path.Combine(GetSourceFolder(), "Prefabs");
-        public static string GetTilePrefabPath(string name) => Path.Combine(GetPrefabPath(), "Tiles", $"{name}.json");
-        public static string GetCharacterPrefabPath(string name) => Path.Combine(GetPrefabPath(), "Characters", $"{name}.json");
+        // * Prefabs *
+        private static string GetPrefabsFolder() => Path.Combine(GetSourceFolder(), "Prefabs");
+
+        public static string GetTilePrefabsDirectory()          => Path.Combine(GetPrefabsFolder(), "Tiles");
+        public static string GetCharacterPrefabsDirectory()     => Path.Combine(GetPrefabsFolder(), "Characters");
+
+        public static string GetTilePrefabPath(string name) => Path.Combine(GetTilePrefabsDirectory(), $"{name}.json");
+        public static string GetCharacterPrefabPath(string name) => Path.Combine(GetCharacterPrefabsDirectory(), $"{name}.json");
     }
 }

@@ -3,7 +3,7 @@ using Application.AppMath;
 
 namespace Application.Tests
 {
-    [Collection("UsingMathCache")]  // trying "Collection" for sequential performing of the tests, as MathCache is not explicitly thread-safe at the moment
+    [Collection("UsingMathCache")]  // Using "Collection" for sequential performing of the tests, as MathCache is not explicitly thread-safe at the moment
     public class PhysicsComponentTests
     {
         [Theory]
@@ -24,7 +24,7 @@ namespace Application.Tests
             PhysicsComponent component = new(mass, customMaxSpeed);
             component.IsFalling = true;
 
-            float expectedOffset = -(MathConstants.GravitationalAcceleration * timeSpan1);
+            float expectedOffset = -(MathConstants.GravitationalAcceleration * timeSpan1 / AppConstants.GRAVITY_SCALE_DIVIDER);
 
             // - Act
             var mo1 = component.GetMovementOffset(timeSpan1);
@@ -63,7 +63,7 @@ namespace Application.Tests
             int mass = 10;
             int maxSpeed = 100;
             PhysicsComponent physicsComponent = new (mass, maxSpeed);
-            ForceVector appliedForce = new (50, 0);   // Force directed to the right
+            ForceVector appliedForce = new (50, MathConstants.RadiansRightDirection);   // Force directed to the right
             int deltaTime = 1;
             float instantSpeed = appliedForce.Value / mass;
 
@@ -83,7 +83,7 @@ namespace Application.Tests
             int mass = 10;
             int maxSpeed = 100;
             PhysicsComponent physicsComponent = new (mass, maxSpeed);
-            ForceVector appliedForce = new (20, 0);
+            ForceVector appliedForce = new (20, MathConstants.RadiansRightDirection);
             int deltaTime = 1;
 
             // - Act
@@ -105,7 +105,7 @@ namespace Application.Tests
             int mass = 10;
             int maxSpeed = 100;
             PhysicsComponent physicsComponent = new (mass, maxSpeed);
-            ForceVector appliedForce = new (5000, 0);
+            ForceVector appliedForce = new (5000, MathConstants.RadiansRightDirection);
             int deltaTime = 1;
             int instantSpeed = appliedForce.Value / mass;
 
@@ -116,7 +116,7 @@ namespace Application.Tests
             // - Assert
             Assert.True(instantSpeed > maxSpeed, "[Test Requirement] Applied force should be enough to potentially make instant speed higher than the 'maxSpeed'.");
             Assert.True(mo1.X < instantSpeed, "Actual velocity should be lower than it potentially could be based on formula.");
-            Assert.Equal(maxSpeed, mo1.X);   // as velovity would be reduced to match the max allowed value
+            Assert.Equal(maxSpeed, mo1.X);   // as velocity would be reduced to match the max allowed value
         }
     }
 }
